@@ -1,8 +1,8 @@
 #THINGSdb
 
-中国语言编程器/n
+中国语言编程器/r/n
 
-主要组件/n
+主要组件
 THINGSdb。    负责数据存取
 SDP解释器。   负责sdp解析执行
 Stanford NLP。负责自然语言解析（他社）
