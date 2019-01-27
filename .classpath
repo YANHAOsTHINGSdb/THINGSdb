@@ -13,28 +13,26 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+	<classpathentry exported="true" kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/haoyan/Desktop/history/20190110/SpringRestfulWebServicesCRUDExample/commons-collections4-4.2.jar"/>
-	<classpathentry kind="lib" path="/Users/haoyan/Desktop/history/20190110/SpringRestfulWebServicesCRUDExample/commons-lang3-3.8.jar"/>
-	<classpathentry kind="lib" path="/Users/haoyan/Desktop/history/20190110/SpringRestfulWebServicesCRUDExample/jackson-annotations-2.6.0.jar"/>
-	<classpathentry kind="lib" path="/Users/haoyan/Desktop/history/20190110/SpringRestfulWebServicesCRUDExample/jackson-core-2.6.1.jar"/>
-	<classpathentry kind="lib" path="/Users/haoyan/Desktop/history/20190110/SpringRestfulWebServicesCRUDExample/jackson-databind-2.6.1.jar"/>
-	<classpathentry kind="lib" path="/Users/haoyan/Desktop/history/20190110/SpringRestfulWebServicesCRUDExample/jackson-databind-java-optional-2.6.1.jar"/>
-	<classpathentry kind="lib" path="/Users/haoyan/Desktop/history/20190110/SpringRestfulWebServicesCRUDExample/js-14.jar"/>
-	<classpathentry kind="lib" path="/Users/haoyan/Desktop/history/20190110/SpringRestfulWebServicesCRUDExample/js.jar"/>
-	<classpathentry kind="lib" path="/Users/haoyan/Desktop/history/20190110/SpringRestfulWebServicesCRUDExample/lombok.jar"/>
-	<classpathentry kind="lib" path="/Users/haoyan/Desktop/history/20190110/SpringRestfulWebServicesCRUDExample/org.mozilla.javascript-1.7.2.jar"/>
-	<classpathentry kind="lib" path="/Users/haoyan/Desktop/stanford_nlp/stanford-chinese-corenlp-2018-10-05-models.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/stanford-corenlp"/>
+	<classpathentry kind="lib" path="/Users/haoyan/Desktop/THINGSdb/commons-collections4-4.2.jar"/>
+	<classpathentry kind="lib" path="/Users/haoyan/Desktop/THINGSdb/commons-lang3-3.8.jar"/>
+	<classpathentry kind="lib" path="/Users/haoyan/Desktop/THINGSdb/jackson-annotations-2.6.0.jar"/>
+	<classpathentry kind="lib" path="/Users/haoyan/Desktop/THINGSdb/jackson-core-2.6.1.jar"/>
+	<classpathentry kind="lib" path="/Users/haoyan/Desktop/THINGSdb/jackson-databind-2.6.1.jar"/>
+	<classpathentry kind="lib" path="/Users/haoyan/Desktop/THINGSdb/jackson-databind-java-optional-2.6.1.jar"/>
+	<classpathentry kind="lib" path="/Users/haoyan/Desktop/THINGSdb/js-14.jar"/>
+	<classpathentry kind="lib" path="/Users/haoyan/Desktop/THINGSdb/js.jar"/>
+	<classpathentry kind="lib" path="/Users/haoyan/Desktop/THINGSdb/lombok.jar"/>
+	<classpathentry kind="lib" path="/Users/haoyan/Desktop/THINGSdb/org.mozilla.javascript-1.7.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

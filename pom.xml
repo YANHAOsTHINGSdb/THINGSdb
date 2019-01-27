@@ -86,11 +86,11 @@
 
 <!-- NLP工具导入 具体参见stanford-corenlp 的文档-->
 <!-- 改用自定义的Jar包 -->
-<!-- <dependency>
+<dependency>
   <groupId>edu.stanford.nlp</groupId>
   <artifactId>stanford-corenlp</artifactId>
   <version>3.9.2</version>
-</dependency> -->
+</dependency>
 
 
 <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
