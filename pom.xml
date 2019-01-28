@@ -108,7 +108,7 @@
 
 	</dependencies>
 	<build>
-		<finalName>SpringRestfulWebServicesCRUDExample</finalName>
+		<finalName>THINGSdb</finalName>
 
 		<plugins>
 			<plugin>

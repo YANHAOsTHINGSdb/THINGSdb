@@ -39,5 +39,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Users/haoyan/Desktop/stanford_nlp/stanford-chinese-corenlp-2018-10-05-models.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
