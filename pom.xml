@@ -1,12 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
+ <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.arpit.java2blog</groupId>
-	<artifactId>SpringRestfulWebServicesCRUDExample</artifactId>
+	<artifactId>THINGSdb</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>SpringRestfulWebServicesCRUDExample Maven Webapp</name>
+	<name>THINGSdb Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<description>THINGSdb java framework</description>
 	<properties>
