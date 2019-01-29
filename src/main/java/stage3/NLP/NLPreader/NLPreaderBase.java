@@ -7,15 +7,17 @@ public class NLPreaderBase {
 	Integer iLoc;
 	String sChar;
 
-	void parse(Node father, String s累计读入文本) {
-		if (StringUtils.isEmpty(s累计读入文本)) {
-			return;
+	Node parse(Node father, String s累计读入文本) {
+		if (StringUtils.isEmpty(sParse对象)) {
+			return father;
 		}
 		if (iLoc >= sParse对象.length()) {
 			sChar = null;
-			return;
+			return father;
 		}
 		sChar = sParse对象.substring(iLoc, iLoc + 1);
 		iLoc++;
+
+		return father;
 	}
 }

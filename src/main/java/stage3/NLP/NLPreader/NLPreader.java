@@ -165,7 +165,7 @@ import lombok.Data;
 @Data
 public class NLPreader extends NLPreaderBase {
 
-	private Node node;
+	private Node nodeResult;
 
 	/**
 	 *
@@ -181,22 +181,22 @@ public class NLPreader extends NLPreaderBase {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String sParse对象 = "(ROOT (IP (ADVP (AD 自然)) (NP (NN 语言)) (VP (VP (VC 是) (NP (DNP (NP (NN 人类) (NN 思维) (CC 与) (NN 交流)) (DEG 的)) (ADJP (JJ 主要)) (NP (NN 工具)))) (PU ，) (VP (VC 是) (NP (DNP (NP (NN 人类) (NN 智慧)) (DEG 的)) (NP (NN 结晶))))) (PU 。)))";
-
+		String sParse对象 = "(ROOT (IP (ADVP (AD 自然)) (NP (NN 语言)) (VP (VP (VC 是) (NP(DNP(NP (NN 人类) (NN 思维) (CC 与) (NN 交流)) (DEG 的))(ADJP (JJ 主要)) (NP (NN 工具))))(PU ，) (VP (VC 是) (NP (DNP (NP (NN 人类) (NN 智慧)) (DEG 的)) (NP (NN 结晶))))) (PU 。)))";
+		sParse对象 = sParse对象.replace(" (", "(");
 		NLPreader nlpReader = new NLPreader(sParse对象);
-		nlpReader.node = new Node();
-		nlpReader.parse(nlpReader.node, null);
-
+		nlpReader.nodeResult = new Node();
+		nlpReader.parse(nlpReader.nodeResult, null);
+		nlpReader.nodeResult.print("", true);
 	}
 
 /**
  *
  */
-	void parse(Node father, String s累计读入文本) {
+	Node parse(Node father, String s累计读入文本) {
 
 		super.parse(father, s累计读入文本);
 		if (StringUtils.isEmpty(sChar))
-			return; // 已经到最后，退出
+			return father; // 已经到最后，退出
 		Node node = father;
 
 		switch (sChar) {
@@ -205,11 +205,11 @@ public class NLPreader extends NLPreaderBase {
 			s累计读入文本 = null;
 			break;
 		case ")":
-			node = backToFather(father, s累计读入文本);
+			node = backToFatherNode(father, s累计读入文本);
 			s累计读入文本 = null;
 			break;
 		case " ":
-			node = addToNewNode(father, s累计读入文本);
+			node = addToNewNode(father, s累计读入文本, sChar);
 			s累计读入文本 = null;
 			break;
 		default:
@@ -218,25 +218,47 @@ public class NLPreader extends NLPreaderBase {
 			s累计读入文本 = s累计读入文本 == null ? sChar : s累计读入文本 + sChar;
 		}
 
-		if (node == null)
-			return;
+		if (node == null) {
+			if(StringUtils.equals(father.sTYPE, "ROOT")) {
+				this.nodeResult = father;
+			}
+			return null;
+		}
 
-		parse(node, s累计读入文本);
+		return parse(node, s累计读入文本);
 
 	}
  /**
   *
   * @param father
   * @param s累计读入文本
+ * @param sChar
   * @return
   */
-	private Node addToNewNode(Node father, String s累计读入文本) {
+	private Node addToNewNode(Node father, String s累计读入文本, String sChar) {
 		if (father.isEmpty()) {
 			return null;
 		}
+
+		super.parse(father, s累计读入文本);
 		father.sVar = s累计读入文本;
 
-		return father;
+		if(StringUtils.equals(sChar, " ")) {
+			Node nodeForVar = createNewNode(father, s累计读入文本, null);
+			s累计读入文本 = this.sChar;
+			return addToNewNode(nodeForVar, s累计读入文本, null).fatherNode;
+		}
+
+		switch(this.sChar) {
+		case ")" :
+			father.sVar = s累计读入文本;
+			s累计读入文本 = null;
+			return father;
+		default:
+			s累计读入文本 = s累计读入文本 == null ? sChar : s累计读入文本 + sChar;
+		}
+
+		return addToNewNode(father, s累计读入文本, null);
 	}
 /**
  *
@@ -247,13 +269,14 @@ public class NLPreader extends NLPreaderBase {
  */
 	private Node createNewNode(Node father, String s累计读入文本, String sChar) {
 
-		if (father.isEmpty() && StringUtils.isEmpty(s累计读入文本) && !StringUtils.isEmpty(sChar)) {
+		if (father.isEmpty() && StringUtils.isEmpty(s累计读入文本) && ! StringUtils.isEmpty(sChar)) {
 			if (sChar.equals("(")) {
-				parse(father, s累计读入文本);
-				return father;
+				return parse(father, s累计读入文本);
 			}
 		}
-
+		if(StringUtils.isEmpty(s累计读入文本)) {
+			return father;
+		}
 		Node node = new Node();
 		node.sTYPE = s累计读入文本;
 		if (father.isEmpty()) {
@@ -270,7 +293,7 @@ public class NLPreader extends NLPreaderBase {
  * @param s累计读入文本
  * @return
  */
-	private Node backToFather(Node father, String s累计读入文本) {
+	private Node backToFatherNode(Node father, String s累计读入文本) {
 
 		if (father.isEmpty()) {
 			return null;
@@ -280,6 +303,7 @@ public class NLPreader extends NLPreaderBase {
 		}
 
 		if (father.fatherNode != null) {
+
 			return father.fatherNode;
 		}
 

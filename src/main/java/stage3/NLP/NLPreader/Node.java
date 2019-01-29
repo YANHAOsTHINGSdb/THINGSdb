@@ -38,4 +38,15 @@ public class Node {
 
     	return true;
     }
+
+    public void print(String prefix, boolean isTail) {
+        System.out.println(prefix + (isTail ? "└── " : "├── ") + sTYPE);
+        for (int i = 0; i < sonNodeList.size() - 1; i++) {
+        	sonNodeList.get(i).print(prefix + (isTail ? "    " : "│   "), false);
+        }
+        if (sonNodeList.size() > 0) {
+        	sonNodeList.get(sonNodeList.size() - 1)
+                    .print(prefix + (isTail ?"    " : "│   "), true);
+        }
+    }
 }
