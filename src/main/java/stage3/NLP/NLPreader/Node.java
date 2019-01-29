@@ -39,6 +39,12 @@ public class Node {
     	return true;
     }
 
+    /**
+     * 感谢
+     * http://stackoverflow.com/questions/4965335/how-to-print-binary-tree-duagram
+     * @param prefix
+     * @param isTail
+     */
     public void print(String prefix, boolean isTail) {
         System.out.println(prefix + (isTail ? "└── " : "├── ") + sTYPE);
         for (int i = 0; i < sonNodeList.size() - 1; i++) {

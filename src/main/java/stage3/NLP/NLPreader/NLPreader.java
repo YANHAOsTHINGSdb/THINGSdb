@@ -4,6 +4,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import lombok.Data;
 
+/**
+ * 【总结】
+ * =======================================
+ * 处理的关键是，如何处理括号与括号之间的关系。
+ *
+ */
 
 /** ------------UI 概要设计-----------------
  *
@@ -183,9 +189,10 @@ public class NLPreader extends NLPreaderBase {
 	public static void main(String[] args) {
 		String sParse对象 = "(ROOT (IP (ADVP (AD 自然)) (NP (NN 语言)) (VP (VP (VC 是) (NP(DNP(NP (NN 人类) (NN 思维) (CC 与) (NN 交流)) (DEG 的))(ADJP (JJ 主要)) (NP (NN 工具))))(PU ，) (VP (VC 是) (NP (DNP (NP (NN 人类) (NN 智慧)) (DEG 的)) (NP (NN 结晶))))) (PU 。)))";
 		sParse对象 = sParse对象.replace(" (", "(");
-		NLPreader nlpReader = new NLPreader(sParse对象);
+		NLPreader nlpReader = new NLPreader(sParse对象); // 这么写是为了防止使用者忘记设置解析对象
 		nlpReader.nodeResult = new Node();
 		nlpReader.parse(nlpReader.nodeResult, null);
+		// 测试输出
 		nlpReader.nodeResult.print("", true);
 	}
 
@@ -222,6 +229,7 @@ public class NLPreader extends NLPreaderBase {
 			if(StringUtils.equals(father.sTYPE, "ROOT")) {
 				this.nodeResult = father;
 			}
+			// 回到原点
 			return null;
 		}
 
@@ -243,18 +251,26 @@ public class NLPreader extends NLPreaderBase {
 		super.parse(father, s累计读入文本);
 		father.sVar = s累计读入文本;
 
+		// 原则上sChar都为空的，只有在第一次进来才会带进来值
 		if(StringUtils.equals(sChar, " ")) {
 			Node nodeForVar = createNewNode(father, s累计读入文本, null);
 			s累计读入文本 = this.sChar;
+			// 递归：在此向下读，直到完了为止
+			//      注，当你读到第一个【)】时，就意味着到头了，
+			//      此时应该返回你的爸爸
 			return addToNewNode(nodeForVar, s累计读入文本, null).fatherNode;
 		}
 
+		// 只有递归的时候才会到此
 		switch(this.sChar) {
 		case ")" :
 			father.sVar = s累计读入文本;
 			s累计读入文本 = null;
+			// 到此为止了
 			return father;
 		default:
+			// 如果每到头
+			// 就继续累计吧
 			s累计读入文本 = s累计读入文本 == null ? sChar : s累计读入文本 + sChar;
 		}
 
@@ -268,17 +284,27 @@ public class NLPreader extends NLPreaderBase {
  * @return
  */
 	private Node createNewNode(Node father, String s累计读入文本, String sChar) {
-
+		// 最初时，回到这里
 		if (father.isEmpty() && StringUtils.isEmpty(s累计读入文本) && ! StringUtils.isEmpty(sChar)) {
 			if (sChar.equals("(")) {
 				return parse(father, s累计读入文本);
 			}
 		}
+
+		// 若果不是第一次，到这里
 		if(StringUtils.isEmpty(s累计读入文本)) {
+			// IP(  (  )  (  )  )
+			// -----------⬆-----
+			// 专门真这个箭头这个括号做的对应
 			return father;
 		}
+
+		// 完成对一个节点的建立
 		Node node = new Node();
 		node.sTYPE = s累计读入文本;
+
+		// 建立父子关系
+		// 怎么证明这个father是空的
 		if (father.isEmpty()) {
 			father = node;
 		} else {
@@ -287,7 +313,10 @@ public class NLPreader extends NLPreaderBase {
 		}
 		return node;
 	}
+
 /**
+ *
+ *
  *
  * @param father
  * @param s累计读入文本
