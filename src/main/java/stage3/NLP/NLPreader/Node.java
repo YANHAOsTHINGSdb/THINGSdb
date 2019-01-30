@@ -5,9 +5,7 @@ import java.util.List;
 
 import org.springframework.util.CollectionUtils;
 
-import lombok.Data;
-
-@Data
+//@Data
 public class Node {
 
 	String sTYPE;

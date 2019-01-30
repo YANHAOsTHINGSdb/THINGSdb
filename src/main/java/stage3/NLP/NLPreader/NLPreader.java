@@ -178,7 +178,7 @@ public class NLPreader extends NLPreaderBase {
 	 * @param sParse对象
 	 */
 	public NLPreader(String sParse对象) {
-		super.sParse对象 = sParse对象;
+		super.sParse对象 =  sParse对象 ;
 		super.iLoc = 0;
 	}
 
@@ -192,8 +192,11 @@ public class NLPreader extends NLPreaderBase {
 		NLPreader nlpReader = new NLPreader(sParse对象); // 这么写是为了防止使用者忘记设置解析对象
 		nlpReader.nodeResult = new Node();
 		nlpReader.parse(nlpReader.nodeResult, null);
-		// 测试输出
 		nlpReader.nodeResult.print("", true);
+		//=====================================
+		NLPwhat nlpWhat = new NLPwhat();
+		nlpWhat.parse(nlpWhat, nlpReader.nodeResult);
+		nlpWhat.print("", true);
 	}
 
 /**
@@ -240,19 +243,19 @@ public class NLPreader extends NLPreaderBase {
   *
   * @param father
   * @param s累计读入文本
- * @param sChar
+  * @param sChar
   * @return
   */
-	private Node addToNewNode(Node father, String s累计读入文本, String sChar) {
+	private Node addToNewNode(Node father, String s累计读入文本, String sParamChar) {
 		if (father.isEmpty()) {
 			return null;
 		}
 
 		super.parse(father, s累计读入文本);
-		father.sVar = s累计读入文本;
+		// father.sVar = s累计读入文本;
 
 		// 原则上sChar都为空的，只有在第一次进来才会带进来值
-		if(StringUtils.equals(sChar, " ")) {
+		if(StringUtils.equals(sParamChar, " ")) {
 			Node nodeForVar = createNewNode(father, s累计读入文本, null);
 			s累计读入文本 = this.sChar;
 			// 递归：在此向下读，直到完了为止
@@ -271,7 +274,7 @@ public class NLPreader extends NLPreaderBase {
 		default:
 			// 如果每到头
 			// 就继续累计吧
-			s累计读入文本 = s累计读入文本 == null ? sChar : s累计读入文本 + sChar;
+			s累计读入文本 = s累计读入文本 == null ? this.sChar : s累计读入文本 + this.sChar;
 		}
 
 		return addToNewNode(father, s累计读入文本, null);
