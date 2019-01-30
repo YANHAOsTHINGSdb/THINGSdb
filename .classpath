@@ -34,5 +34,6 @@
 	<classpathentry kind="lib" path="/Users/haoyan/Desktop/THINGSdb/js.jar"/>
 	<classpathentry kind="lib" path="/Users/haoyan/Desktop/THINGSdb/lombok.jar"/>
 	<classpathentry kind="lib" path="/Users/haoyan/Desktop/THINGSdb/org.mozilla.javascript-1.7.2.jar"/>
+	<classpathentry kind="lib" path="/Users/haoyan/Downloads/stanford-chinese-corenlp-2018-10-05-models.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
