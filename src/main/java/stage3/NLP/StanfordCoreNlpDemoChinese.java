@@ -53,13 +53,9 @@ public class StanfordCoreNlpDemoChinese {
 		if (args.length > 0) {
 			document = new Annotation(IOUtils.slurpFileNoExceptions(args[0]));
 		} else {
-<<<<<<< HEAD
 //			document = new Annotation("克林顿说，华盛顿将逐步落实对韩国的经济援助。金大中对克林顿的讲话报以掌声：克林顿总统在会谈中重申，他坚定地支持韩国摆脱经济危机。");
 			document = new Annotation("自然语言是人类思维与交流的主要工具，是人类智慧的结晶。");
-=======
-			// document = new Annotation("克林顿说，华盛顿将逐步落实对韩国的经济援助。金大中对克林顿的讲话报以掌声：克林顿总统在会谈中重申，他坚定地支持韩国摆脱经济危机。");
-			document = new Annotation("自然语言是人类思维与交流的主要工具，是人类智慧的结晶");
->>>>>>> b31a4aa91e56d94fecc1a5b70c16fedbfdd3bb18
+
 		}
 
 		pipeline.annotate(document);

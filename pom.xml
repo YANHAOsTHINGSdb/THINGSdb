@@ -3,11 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.arpit.java2blog</groupId>
-<<<<<<< HEAD
-	<artifactId>THIBNGSdb</artifactId>
-=======
 	<artifactId>THINGSdb</artifactId>
->>>>>>> b31a4aa91e56d94fecc1a5b70c16fedbfdd3bb18
+
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>THINGSdb Maven Webapp</name>
