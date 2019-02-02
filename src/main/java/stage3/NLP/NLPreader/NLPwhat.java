@@ -259,7 +259,7 @@ public class NLPwhat {
 		}
 		Node node =  new Node();
 		if(countNN == 2) {
-			what.太子 = sonNodeList.get(0).sVar;     // 后一个NN 是主上
+			what.太子 = sonNodeList.get(1).sVar;     // 后一个NN 是主上
 			node.sTYPE = "NP";
 			node.sonNodeList = new ArrayList();
 			node.sonNodeList.add(sonNodeList.get(0));// 前一个NN 是辅臣
@@ -368,7 +368,7 @@ public class NLPwhat {
 
     public void print(String prefix, boolean isTail) {
         System.out.println(prefix + (isTail ? "└── " : "├── ") + 太子);
-        if(nlpVerb != null) nlpVerb.print(prefix, isTail);
+
         if(listWhat == null ) return ;
         for (int i = 0; i < listWhat.size() - 1; i++) {
         	listWhat.get(i).print(prefix + (isTail ? "    " : "│   "), false);
@@ -377,6 +377,8 @@ public class NLPwhat {
         	listWhat.get(listWhat.size() - 1)
                     .print(prefix + (isTail ?"    " : "│   "), true);
         }
+
+        if(nlpVerb != null) nlpVerb.print(prefix, isTail);
     }
 
 }
