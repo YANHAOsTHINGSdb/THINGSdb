@@ -114,3 +114,6 @@
       
       启动手顺
       redis-server
+      
+      关于Redis
+      参考https://redis.io/topics/quickstart
