@@ -19,8 +19,8 @@ import stage3.log.MyLogger;
 import sun.misc.Cleaner;
 
 public class 文件記録 {
-	String sCallPath = null;
-	MyLogger myLogger = new MyLogger();
+	static String sCallPath = null;
+	static MyLogger myLogger = new MyLogger();
 
 	public 文件記録(String sCallPath) {
 		this.sCallPath = sCallPath;
@@ -108,7 +108,7 @@ public class 文件記録 {
 	 * @param s対象文件全路径
 	 * @return
 	 */
-	public Long 取得文件SIZE_by文件全路径(String s対象文件全路径) {
+	public static Long 取得文件SIZE_by文件全路径(String s対象文件全路径) {
 
 		myLogger.printCallMessage(sCallPath,"文件記録.取得文件SIZE_by文件全路径( 対象文件全路径="+ s対象文件全路径+")" );
 
@@ -163,7 +163,7 @@ public class 文件記録 {
 	 * @param s書込内容
 	 * @param 文件全路径
 	 */
-	public void 写入文件_by写入内容and文件全路径(String s写入内容, String 文件全路径) {
+	public static void 写入文件_by写入内容and文件全路径(String s写入内容, String 文件全路径) {
 
 		myLogger.printCallMessage(sCallPath,"文件記録.写入文件_by写入内容and文件全路径( 文件全路径="+ 文件全路径 +", 写入内容="+ s写入内容+")");
 
