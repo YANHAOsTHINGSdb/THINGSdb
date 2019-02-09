@@ -22,7 +22,7 @@ import stage3.listening.ThinkAndProgrammer;
 import stage3.things.multiConditionCalc.CRUDer;
 
 @RestController
-public class CountryController {
+public class THINGSdbController {
 
 	Relation relation;
 

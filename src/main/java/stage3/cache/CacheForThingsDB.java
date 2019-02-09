@@ -97,7 +97,7 @@ public class CacheForThingsDB {
 	private static CacheObject 取得CACHE的Value_byKey(String key) {
 
 		String sResult=cache.get("default", key).getValue()==null?"null":cache.get("default", key).getValue().toString();
-		System.out.println("取得CACHE的Value_byKey key="+key+"      value="+sResult);
+//		System.out.println("取得CACHE的Value_byKey key="+key+"      value="+sResult);
 		return cache.get("default", key);
 	}
 
@@ -113,7 +113,7 @@ public class CacheForThingsDB {
 
 		cache.set("default", key, value);
 		String sResult=cache.get("default", key).getValue()==null?"null":cache.get("default", key).getValue().toString();
-		System.out.println("设置CACHE key="+ key +"      value="+sResult);
+//		System.out.println("设置CACHE key="+ key +"      value="+sResult);
 	}
 
 	/**

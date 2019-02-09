@@ -48,7 +48,7 @@ public class 文件記録 {
 //	  }
 
 
-	public int 取得単位記録固定長度_by類型(String s類型) {
+	public static int 取得単位記録固定長度_by類型(String s類型) {
 
 		myLogger.printCallMessage(sCallPath,"文件記録.取得単位記録固定長度_by類型( 類型="+ s類型 +")");
 		/**
@@ -494,17 +494,20 @@ public class 文件記録 {
         if(l開始地址 >= len){
         	return sResult;
         }
-//if(l開始地址 == 20 && StringUtils.equals("F:\\things_db\\0000000001\\Data_index.data", s対象文件全路径)){
-//	l開始地址 = 20;
-//}
+
         RandomAccessFile randomAccessFile = null;
         FileChannel chan = null;
         try {
 //            MappedByteBuffer mappedByteBuffer = new RandomAccessFile(file, "r")
 //                    .getChannel().map(FileChannel.MapMode.READ_ONLY, 0,
 //                    		len);// 读取大文件
+
+        	// 创建从中读取和向其中写入（可选）的随机访问文件流，
+        	// 该文件由 File 参数指定。将创建一个新的 FileDescriptor 对象来表示此文件的连接。
         	randomAccessFile = new RandomAccessFile(file, "r");
         	chan = randomAccessFile.getChannel();
+        	// 映射的字节缓冲区是通过 FileChannel.map 方法创建的。
+        	// 此类用特定于内存映射文件区域的操作扩展 ByteBuffer 类。
             MappedByteBuffer mappedByteBuffer = chan.map(FileChannel.MapMode.READ_ONLY, 0, len);
 
             int i=0;
@@ -514,6 +517,9 @@ public class 文件記録 {
             }
             sResult = new String(ds);
 
+            // 回收缓冲区
+            // 每次都会回收缓冲区，虽然更加安全了，但也大大降低了速度。
+            // 需要一个回收的方案
             Cleaner cleaner = ((sun.nio.ch.DirectBuffer) mappedByteBuffer).cleaner();
             if(cleaner != null) {
             	cleaner.clean();
@@ -524,7 +530,7 @@ public class 文件記録 {
         	try {
 				if(chan != null) {chan.close();}
 				if(randomAccessFile != null) {randomAccessFile.close();}
-				System.out.println("File Closed");
+//				System.out.println("File Closed");
 			} catch (IOException e) {
 				System.out.println("我擦，尝试关闭文件时，出了点问题！");
 				e.printStackTrace();
