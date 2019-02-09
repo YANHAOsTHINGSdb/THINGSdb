@@ -124,5 +124,9 @@
       启动手顺
       redis-server
       
+      如何关掉redis
+      ps -u my_account -o pid,rss,command | grep redis
+      kill -9 the_pid
+      
       关于Redis
       参考https://redis.io/topics/quickstart
