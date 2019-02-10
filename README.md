@@ -119,7 +119,10 @@
     4,J2Cache
       
       安装手顺
-      （略，回头追加预定）
+      https://gitee.com/ld/J2Cache
+      
+      安装Redis
+      brew install redis
       
       启动手顺
       redis-server
