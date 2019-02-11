@@ -1,4 +1,4 @@
-package stage3.things.file.io;
+package stage3.things.file.io.impl;
 
 public class Res extends java.util.ListResourceBundle {
     static final Object[][] contents = new String[][]{

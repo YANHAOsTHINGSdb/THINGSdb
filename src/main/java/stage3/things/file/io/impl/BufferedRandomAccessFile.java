@@ -1,10 +1,12 @@
-package stage3.things.file.io;
+package stage3.things.file.io.impl;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ResourceBundle;
+
+import stage3.things.file.io.FileIO;
 
 /**
  * <p>Title: BufferedRandomAccessFile</p>
@@ -15,7 +17,7 @@ import java.util.ResourceBundle;
  * @version 1.0, 2002/10/12
  */
 
-public class BufferedRandomAccessFile extends RandomAccessFile {
+public class BufferedRandomAccessFile extends RandomAccessFile  implements FileIO{
 
     static ResourceBundle res = ResourceBundle.getBundle("stage3.things.file.io.Res");
     private static final int DEFAULT_BUFFER_BIT_LEN = 10;
@@ -310,4 +312,16 @@ public class BufferedRandomAccessFile extends RandomAccessFile {
                            + (double)(System.currentTimeMillis()-start) / 1000
                            + "(s)");
     }
+
+	@Override
+	public void write(String s写入内容, String 文件全路径) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	@Override
+	public String read(String s対象文件全路径, long l開始地址, long i単位記録長度) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
 }

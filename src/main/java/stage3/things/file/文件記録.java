@@ -7,6 +7,8 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +21,8 @@ import net.oschina.j2cache.CacheObject;
 import net.oschina.j2cache.NullObject;
 import stage3.cache.CacheForThingsDB;
 import stage3.log.MyLogger;
-import sun.misc.Cleaner;
+import stage3.things.file.io.FileIO;
+import stage3.things.file.io.impl.MappedByteBufferExample;
 
 public class 文件記録 {
 	static String sCallPath = null;
@@ -215,11 +218,12 @@ public class 文件記録 {
      */
     public static final Boolean existsFile(String _path) {
 
-        // 親フォルダ取得
-        File file_ = new File(_path);
-
-        // ファイル存在チェック
-        return file_.exists() && file_.isFile();
+//        // 親フォルダ取得
+//        File file_ = new File(_path);
+//
+//        // ファイル存在チェック
+//        return file_.exists() && file_.isFile();
+    	return Files.exists(Paths.get(_path));
 
     }
 
@@ -244,56 +248,36 @@ public class 文件記録 {
 		return bool;
     }
 
-	private void 追加索引記録_by類型and文件全路径and追加内容(String s類型, String s文件全路径, String s追加内容) {
-
-
-		myLogger.printCallMessage(sCallPath,"文件記録.取得索引開始地址_by類型and数据ID( 文件全路径="+ s文件全路径 +", 類型="+ s類型+", 追加内容="+ s追加内容+")");
-
-		String s索引内容 = null;
-		String s文件全路径_索引文件 = null;
-
-		switch (s類型) {
-
-//		case "采番ID文件_索引文件":
-//			s索引内容 = "";
-//			s文件全路径_索引文件 = "";
+//	private void 追加索引記録_by類型and文件全路径and追加内容(String s類型, String s文件全路径, String s追加内容) {
+//
+//
+//		myLogger.printCallMessage(sCallPath,"文件記録.取得索引開始地址_by類型and数据ID( 文件全路径="+ s文件全路径 +", 類型="+ s類型+", 追加内容="+ s追加内容+")");
+//
+//		String s索引内容 = null;
+//		String s文件全路径_索引文件 = null;
+//
+//		switch (s類型) {
+//
+//		case "実体数据索引文件":
+//		case "実体数据文件":
+//
+//			//s索引内容 =【开始地址】【终止地址】;
+//			//String s文件開始地址 = 取得文件開始地址_by文件全路径(s文件全路径);
+//			Long l文件SIZE = 取得文件SIZE_by文件全路径(s文件全路径);
+//			Long l开始地址 = l文件SIZE ;
+//			Long l終了地址 = l开始地址 + s追加内容.length();
+//			s索引内容 = l开始地址 + "" + l終了地址;
+//			s文件全路径_索引文件 = s文件全路径;
 //			break;
-//		case "顧客词条id一覧表_索引文件":
-//			s索引内容 = "";
-//			s文件全路径_索引文件 = "";
-//			break;
-//		case "顧客数据id一覧表_索引文件":
-//			s索引内容 = "";
-//			s文件全路径_索引文件 = "";
-//			break;
-//		case "顧客id数据一覧表_索引文件":
-//			s索引内容 = "";
-//			s文件全路径_索引文件 = "";
-//			break;
-//		case "業者词条id一覧表_索引文件":
-//			s索引内容 = "";
-//			s文件全路径_索引文件 = "";
-//			break;
-		case "実体数据索引文件":
-		case "実体数据文件":
-
-			//s索引内容 =【开始地址】【终止地址】;
-			//String s文件開始地址 = 取得文件開始地址_by文件全路径(s文件全路径);
-			Long l文件SIZE = 取得文件SIZE_by文件全路径(s文件全路径);
-			Long l开始地址 = l文件SIZE ;
-			Long l終了地址 = l开始地址 + s追加内容.length();
-			s索引内容 = l开始地址 + "" + l終了地址;
-			s文件全路径_索引文件 = s文件全路径;
-			break;
-
-		}
-		String org_sCallPath = new String(sCallPath);
-		sCallPath += "追加索引記録_by類型and文件全路径and追加内容";
-
-		写入文件_by写入内容and文件全路径(s索引内容,s文件全路径_索引文件);
-
-		sCallPath = org_sCallPath;
-	}
+//
+//		}
+//		String org_sCallPath = new String(sCallPath);
+//		sCallPath += "追加索引記録_by類型and文件全路径and追加内容";
+//
+//		写入文件_by写入内容and文件全路径(s索引内容,s文件全路径_索引文件);
+//
+//		sCallPath = org_sCallPath;
+//	}
 
 
 	public String 取得索引開始地址_by類型and数据ID(String s類型, String s数据采番id) {
@@ -436,7 +420,7 @@ public class 文件記録 {
 				e.printStackTrace();
 			}
 		}
-		return Long.parseLong(s索引内容.substring(0, 取得単位記録固定長度_by類型("索引地址")).trim());
+		return Long.parseLong(StringUtils.substring(s索引内容,0, 取得単位記録固定長度_by類型("索引地址")).trim());
 	}
 
 	public long 取得終了地址_by索引内容(String s索引内容){
@@ -457,7 +441,7 @@ public class 文件記録 {
 				e.printStackTrace();
 			}
 		}
-		return Long.parseLong(s索引内容.substring(取得単位記録固定長度_by類型("索引地址"), s索引内容.length()));
+		return Long.parseLong(StringUtils.substring(s索引内容, 取得単位記録固定長度_by類型("索引地址"), s索引内容.length()));
 	}
 
 	/**
@@ -484,71 +468,11 @@ public class 文件記録 {
 
 		myLogger.printCallMessage(sCallPath,"文件記録.取得対象文件内容_by文件全路径and開始地址and単位記録長度( 対象文件全路径="+ s対象文件全路径+", 開始地址="+ l開始地址+", 単位記録長度="+ i単位記録長度+")");
 
-        // 文件不存在的话还是先退出吧
-        if (!existsFile(s対象文件全路径)) {
-            return null;
-        }
+		FileIO fileIo = new MappedByteBufferExample();
+		// FileIO fileIo = new MappedByteBufferExampleOld();
+		String sResult = fileIo.read(s対象文件全路径, l開始地址, i単位記録長度);
 
-        // 如果i単位記録長度是【0】还是先退出吧
-        if (i単位記録長度 ==0L) {
-            return null;
-        }
-        File file = new File(s対象文件全路径);
-        long len = file.length();
-        byte[] ds = new byte[(int) i単位記録長度];
-        String sResult = null;
 
-        //补丁20180803
-        if(l開始地址 < 0){
-        	l開始地址 = 0;
-        }
-
-        if(l開始地址 >= len){
-        	return sResult;
-        }
-
-        RandomAccessFile randomAccessFile = null;
-        FileChannel chan = null;
-        try {
-//            MappedByteBuffer mappedByteBuffer = new RandomAccessFile(file, "r")
-//                    .getChannel().map(FileChannel.MapMode.READ_ONLY, 0,
-//                    		len);// 读取大文件
-
-        	// 创建从中读取和向其中写入（可选）的随机访问文件流，
-        	// 该文件由 File 参数指定。将创建一个新的 FileDescriptor 对象来表示此文件的连接。
-        	randomAccessFile = new RandomAccessFile(file, "r");
-        	chan = randomAccessFile.getChannel();
-        	// 映射的字节缓冲区是通过 FileChannel.map 方法创建的。
-        	// 此类用特定于内存映射文件区域的操作扩展 ByteBuffer 类。
-            MappedByteBuffer mappedByteBuffer = chan.map(FileChannel.MapMode.READ_ONLY, 0, len);
-
-            int i=0;
-            for (long offset = l開始地址; offset < l開始地址 + i単位記録長度 && offset<len; offset++,i++){
-            	byte b = mappedByteBuffer.get((int)offset);
-            	ds[i] = b;
-            }
-            sResult = new String(ds);
-
-            // 回收缓冲区
-            // 每次都会回收缓冲区，虽然更加安全了，但也大大降低了速度。
-            // 需要一个回收的方案
-            Cleaner cleaner = ((sun.nio.ch.DirectBuffer) mappedByteBuffer).cleaner();
-            if(cleaner != null) {
-            	cleaner.clean();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-        	try {
-				if(chan != null) {chan.close();}
-				if(randomAccessFile != null) {randomAccessFile.close();}
-//				System.out.println("File Closed");
-			} catch (IOException e) {
-				System.out.println("我擦，尝试关闭文件时，出了点问题！");
-				e.printStackTrace();
-			}
-
-        }
 		// 缓存机制
 		CacheForThingsDB.设置Cache的Value_by函数名_param(sResult,
 				s函数方法名, s対象文件全路径, l開始地址+"", i単位記録長度+"");
@@ -556,6 +480,19 @@ public class 文件記録 {
 	}
 
 	public List<String> 取得全IDList_by文件全路径and単位記録長度(String s対象文件全路径, String s単位記録長度){
+
+		// 缓存机制
+		String s函数方法名 = "文件记录.取得対象文件内容_by文件全路径and開始地址and単位記録長度"; // 用来统一函数名，避免出错
+		try {
+			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
+					new String[] {s対象文件全路径, s単位記録長度});
+			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			}else {
+				return (List<String>) o结果.getValue();
+			}
+		}catch(Throwable e) {
+			System.out.println(e.getMessage());
+		}
 
 		List<String> s全IDList = new ArrayList();
 		Long fileSize = 取得文件SIZE_by文件全路径(s対象文件全路径);
@@ -567,6 +504,10 @@ public class 文件記録 {
 				s全IDList.add(sID);
 			}
 		}
+
+		// 缓存机制
+		CacheForThingsDB.设置Cache的Value_by函数名_param(s全IDList,
+				s函数方法名, s対象文件全路径, s単位記録長度);
 		return s全IDList;
 
 	}
