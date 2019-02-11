@@ -147,17 +147,20 @@ public class 詞条 extends DTO {
 			缺一个【顧客数据id】
 			取得该文件的全部记录
 		 */
-	try {
-		CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(
-				s函数方法名,
-				new String[] {s顧客詞条id,s業者詞条id,s業者数据id});
-		if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
-		}else {
-			return (List<String>) o结果.getValue();
+		// 缓存机制
+		try {
+			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(
+					s函数方法名,
+					new String[] {s顧客詞条id,s業者詞条id,s業者数据id});
+			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			}else {
+				return (List<String>) o结果.getValue();
+			}
+		}catch(Throwable e) {
+			System.out.println(e.getMessage());
 		}
-	}catch(Throwable e) {
-		System.out.println(e.getMessage());
-	}
+
+		// 就是指定文件下的所有文件内容
 		List<String> 数据采番idList = new ArrayList<String>();
 		// 遍历路径下的所有文件
 		文件全路径 o文件全路径 = new 文件全路径();
@@ -281,16 +284,19 @@ public class 詞条 extends DTO {
 		String s函数方法名 = "詞条.検索数据採番ID_by詞条IDand実体数据_模糊検索"; // 用来统一函数名，避免出错
 		myLogger.printCallMessage(sCallPath, s函数方法名 + "( 詞条ID="+ s詞条id+", "
 				+ "実体数据="+ s実体数据param+")");
-try {
-		CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
-				new String[] {s詞条id,s実体数据param});
-		if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
-		}else {
-			return (List<Map>) o结果.getValue();
+
+		// 缓存机制
+		try {
+			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
+					new String[] {s詞条id,s実体数据param});
+			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			}else {
+				return (List<Map>) o结果.getValue();
+			}
+		}catch(Throwable e) {
+			System.out.println(e.getMessage());
 		}
-	}catch(Throwable e) {
-		System.out.println(e.getMessage());
-	}
+
 		List<Map> 数据採番IDList = new ArrayList<Map>();
 
 		文件全路径 o文件全路径 = new 文件全路径();
@@ -401,16 +407,19 @@ try {
 		String s函数方法名 = "詞条.取得実体数据_by詞条IDand数据採番ID"; // 用来统一函数名，避免出错
 		myLogger.printCallMessage(sCallPath, s函数方法名 + "( 詞条ID="+ s詞条id+", "
 				+ "数据採番ID="+ s数据採番id+")");
-try {
-		CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
-				new String[] {s詞条id,s数据採番id});
-		if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
-		}else {
-			return (String) o结果.getValue();
+
+		// 缓存机制
+		try {
+			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
+					new String[] {s詞条id,s数据採番id});
+			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			}else {
+				return (String) o结果.getValue();
+			}
+		}catch(Throwable e) {
+			System.out.println(e.getMessage());
 		}
-	}catch(Throwable e) {
-		System.out.println(e.getMessage());
-	}
+
 		文件全路径 o文件全路径 = new 文件全路径();
 		文件記録 o文件記録 = new 文件記録(sCallPath + s函数方法名);
 
@@ -429,6 +438,7 @@ try {
 		String s実体数据 = o文件記録.取得対象文件内容_by文件全路径and開始地址and単位記録長度(s実体数据文件全路径, l開始地址,
 				(int)(l終了地址 - l開始地址));
 
+		// 缓存机制
 		CacheForThingsDB.设置Cache的Value_by函数名_param(s実体数据,
 				s函数方法名, s詞条id, s数据採番id);
 		return s実体数据;
