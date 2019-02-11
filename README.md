@@ -119,10 +119,17 @@
     4,J2Cache
       
       安装手顺
-      （略，回头追加预定）
+      https://gitee.com/ld/J2Cache
+      
+      安装Redis
+      brew install redis
       
       启动手顺
       redis-server
+      
+      如何关掉redis
+      ps -u my_account -o pid,rss,command | grep redis
+      kill -9 the_pid
       
       关于Redis
       参考https://redis.io/topics/quickstart
