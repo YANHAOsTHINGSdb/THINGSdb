@@ -37,7 +37,7 @@ public class 詞条 extends DTO {
 	}
 
 	// 为了节省计算速度，将本次已处理的词条记录在Map里，方便以后调用
-	Map<String, String> 詞条Map = new HashMap<String, String>();
+	static Map<String, String> 詞条Map = new HashMap<String, String>();
 
 	/**
 	 *
@@ -50,17 +50,19 @@ public class 詞条 extends DTO {
 		String s函数方法名 = "詞条.検索顧客詞条数据採番idList_by業者詞条IDand業者実体数据and顧客詞条名"; // 用来统一函数名，避免出错
 		myLogger.printCallMessage(sCallPath, s函数方法名 + "( 業者詞条id="+ s業者詞条id+", "
 				+ "顧客名="+ s顧客詞条名+")");
-	try {
-		CacheObject o结果 = (CacheObject) CacheForThingsDB.
-				取得Cache的Value_by函数名_param(s函数方法名,
-				new String[] {s業者詞条id,s業者実体数据,s顧客詞条名});
-		if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
-		}else {
-			return (List<String>) o结果.getValue();
+
+		// 缓存机制
+		try {
+			CacheObject o结果 = (CacheObject) CacheForThingsDB.
+					取得Cache的Value_by函数名_param(s函数方法名,
+					new String[] {s業者詞条id,s業者実体数据,s顧客詞条名});
+			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			}else {
+				return (List<String>) o结果.getValue();
+			}
+		}catch(Throwable e) {
+			System.out.println(e.getMessage());
 		}
-	}catch(Throwable e) {
-		System.out.println(e.getMessage());
-	}
 		/**
 			例如，取得年龄词条的保存方式。
 			詞条id=0000000001		顧客詞条id
@@ -593,16 +595,18 @@ try {
 		if(StringUtils.isEmpty(s詞条名)){
 			return null;
 		}
-try {
-		CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
-				new String[] {s詞条名});
-		if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
-		}else {
-			return (String) o结果.getValue();
+
+		// 缓存机制
+		try {
+			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
+					new String[] {s詞条名});
+			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			}else {
+				return (String) o结果.getValue();
+			}
+		}catch(Throwable e) {
+			System.out.println(e.getMessage());
 		}
-	}catch(Throwable e) {
-		System.out.println(e.getMessage());
-	}
 //		// String s詞条id= 取得詞条顧客ID_by詞条IDand実体数据("0000000002", s詞条名);
 //		顧客 o顧客 = new 顧客(sCallPath + "取得詞条ID_by詞条名");
 
@@ -619,7 +623,9 @@ try {
 
 		}
 
-		// 如果在詞条Map中存在，就直接返回。
+		/*=================================
+		 *  如果在詞条Map中存在，就直接返回。
+		 =================================*/
 		for (Map.Entry<String, String> entry今 : 詞条Map.entrySet()) {
 			if(entry今.getValue().equals(s詞条名)){
 				CacheForThingsDB.设置Cache的Value_by函数名_param(entry今.getKey(),
@@ -653,13 +659,11 @@ try {
 
 		ID id = new ID(sCallPath + "追加詞条_by詞条名");
 
-		//String s詞条ID = id.採番_by対象文件全路径and種類(s採番文件全路径, s種類);
-		//
-		//String s実体数据文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID("実体数据文件", Arrays.asList("0000000001"));
-		//
-		//o文件記録.追加記録_by類型and追加内容and文件全路径("実体数据文件", s詞条名, s実体数据文件全路径);
-
 		String s数据採番ID =id.採番_by詞条名and実体数据("詞条", s詞条名);
+
+		// 缓存机制
+		String s函数方法名 = "詞条.取得詞条ID_by詞条名"; // 用来统一函数名，避免出错
+		CacheForThingsDB.设置Cache的Value_by函数名_param(s詞条名, s函数方法名);
 
 		return s数据採番ID;
 
@@ -824,6 +828,12 @@ try {
 			業者 o業者 = new 業者(sCallPath + "追加記録_by対象数据and已処理数据");
 			o業者.追加業者関係_by主体数据and業者数据(顧客数据, 主体数据);
 		}
+
+		// 缓存机制
+		String s函数方法名 = "詞条.取得実体数据_by詞条IDand数据採番ID"; // 用来统一函数名，避免出错
+		CacheForThingsDB.设置Cache的Value_by函数名_param(s実体数据,
+				s函数方法名, s詞条id, s数据採番id);
+
 		return new 数据DTO(s詞条id, s数据採番id);
 
 	}
