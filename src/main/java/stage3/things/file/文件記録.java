@@ -32,28 +32,6 @@ public class 文件記録 {
 		this.sCallPath = sCallPath;
 	}
 
-//	private static Logger LOGGER = null;
-//	  static {
-//	      Logger mainLogger = Logger.getLogger("com.logicbig");
-//	      mainLogger.setUseParentHandlers(false);
-//	      ConsoleHandler handler = new ConsoleHandler();
-//	      handler.setFormatter(new SimpleFormatter() {
-//	          private static final String format = "[%1$tF %1$tT] [%2$-7s] %3$s %n";
-//
-//	          @Override
-//	          public synchronized String format(LogRecord lr) {
-//	              return String.format(format,
-//	                      new Date(lr.getMillis()),
-//	                      lr.getLevel().getLocalizedName(),
-//	                      lr.getMessage()
-//	              );
-//	          }
-//	      });
-//	      mainLogger.addHandler(handler);
-//	      LOGGER = Logger.getLogger(文件記録.class.getName());
-//	  }
-
-
 	public static int 取得単位記録固定長度_by類型(String s類型) {
 
 		myLogger.printCallMessage(sCallPath,"文件記録.取得単位記録固定長度_by類型( 類型="+ s類型 +")");
