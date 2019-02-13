@@ -19,7 +19,7 @@ import stage3.things.file.io.FileIO;
 
 public class BufferedRandomAccessFile extends RandomAccessFile  implements FileIO{
 
-    static ResourceBundle res = ResourceBundle.getBundle("stage3.things.file.io.Res");
+    static ResourceBundle res = ResourceBundle.getBundle("stage3.things.file.io.impl.Res");
     private static final int DEFAULT_BUFFER_BIT_LEN = 10;
     private static final int DEFAULT_BUFFER_SIZE = 1 << DEFAULT_BUFFER_BIT_LEN;
 
