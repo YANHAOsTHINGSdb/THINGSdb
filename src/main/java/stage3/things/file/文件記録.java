@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -193,9 +194,11 @@ public class 文件記録 {
         }
 
 		// 缓存机制
-		String s函数方法名 = "文件记录.取得対象文件内容_by文件全路径and開始地址and単位記録長度"; // 用来统一函数名，避免出错
-		CacheForThingsDB.设置Cache的Value_by函数名_param(s写入内容,
-				s函数方法名, 文件全路径, i開始地址+"", s写入内容.getBytes().length+"");
+		if(! StringUtils.isEmpty(s写入内容)) {
+			String s函数方法名 = "文件记录.取得対象文件内容_by文件全路径and開始地址and単位記録長度"; // 用来统一函数名，避免出错
+			CacheForThingsDB.设置Cache的Value_by函数名_param(s写入内容,
+					s函数方法名, 文件全路径, i開始地址+"", s写入内容.getBytes().length+"");
+		}
 	}
 
     /**
@@ -432,15 +435,17 @@ public class 文件記録 {
 		}
 
 		myLogger.printCallMessage(sCallPath,"文件記録.取得対象文件内容_by文件全路径and開始地址and単位記録長度( 対象文件全路径="+ s対象文件全路径+", 開始地址="+ l開始地址+", 単位記録長度="+ i単位記録長度+")");
-
+		// FileIO fileIo = new DirectByteBufferExample();
 		FileIO fileIo = new MappedByteBufferExample();
 		// FileIO fileIo = new MappedByteBufferExampleOld();
 		String sResult = fileIo.read(s対象文件全路径, l開始地址, i単位記録長度);
 
 
 		// 缓存机制
-		CacheForThingsDB.设置Cache的Value_by函数名_param(sResult,
+		if( ! StringUtils.isEmpty(sResult)) {
+			CacheForThingsDB.设置Cache的Value_by函数名_param(sResult,
 				s函数方法名, s対象文件全路径, l開始地址+"", i単位記録長度+"");
+		}
         return sResult;
 	}
 
@@ -471,9 +476,10 @@ public class 文件記録 {
 		}
 
 		// 缓存机制
-		CacheForThingsDB.设置Cache的Value_by函数名_param(s全IDList,
-				s函数方法名, s対象文件全路径, s単位記録長度);
+		if(! CollectionUtils.isEmpty(s全IDList)) {
+			CacheForThingsDB.设置Cache的Value_by函数名_param(s全IDList,
+					s函数方法名, s対象文件全路径, s単位記録長度);
+		}
 		return s全IDList;
-
 	}
 }

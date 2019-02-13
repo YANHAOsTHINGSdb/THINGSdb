@@ -122,8 +122,10 @@ public class 詞条 extends DTO {
 //
 //			s結果List.add(s実体数据);
 //		}
-		CacheForThingsDB.设置Cache的Value_by函数名_param(s数据採番idList,
-				s函数方法名, s業者詞条id, s業者実体数据, s顧客詞条名);
+		if(! CollectionUtils.isEmpty(s数据採番idList)) {
+			CacheForThingsDB.设置Cache的Value_by函数名_param(s数据採番idList,
+					s函数方法名, s業者詞条id, s業者実体数据, s顧客詞条名);
+		}
 		return s数据採番idList;
 	}
 
@@ -199,9 +201,12 @@ public class 詞条 extends DTO {
 			}
 		}
 
-		CacheForThingsDB.设置Cache的Value_by函数名_param(数据采番idList,
+		// 缓存机制
+		if(! CollectionUtils.isEmpty(数据采番idList)) {
+			CacheForThingsDB.设置Cache的Value_by函数名_param(数据采番idList,
 				s函数方法名, s顧客詞条id,  s業者詞条id,
 				 s業者数据id);
+		}
 		return 数据采番idList;
 	}
 
@@ -259,8 +264,11 @@ public class 詞条 extends DTO {
 
 			s結果List.add(s実体数据);
 		}
-		CacheForThingsDB.设置Cache的Value_by函数名_param(s結果List,
+		// 缓存机制
+		if(! CollectionUtils.isEmpty(s結果List)) {
+			CacheForThingsDB.设置Cache的Value_by函数名_param(s結果List,
 				s函数方法名, s顧客詞条ID,  s顧客数据ID,  s本詞条ID);
+		}
 		return s結果List;
 	}
 
@@ -336,8 +344,11 @@ public class 詞条 extends DTO {
 			}
 		}
 
-		CacheForThingsDB.设置Cache的Value_by函数名_param(数据採番IDList,
+		// 缓存机制
+		if(! CollectionUtils.isEmpty(数据採番IDList)) {
+			CacheForThingsDB.设置Cache的Value_by函数名_param(数据採番IDList,
 				s函数方法名, s詞条id, s実体数据param);
+		}
 		return 数据採番IDList;
 
 	}
@@ -348,16 +359,17 @@ public class 詞条 extends DTO {
 		String s函数方法名 = "詞条.検索数据採番ID_by詞条IDand実体数据_区間検索"; // 用来统一函数名，避免出错
 		myLogger.printCallMessage(sCallPath, s函数方法名 + "( 詞条ID="+ s詞条id+", "
 				+ "開始値="+ s開始値 + ", 開始値="+ s終了値+")");
-try {
-		CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
-				new String[] {s詞条id,s開始値,s終了値,s期間Format});
-		if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
-		}else {
-			return (List<Map>) o结果.getValue();
+
+		try {
+				CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
+						new String[] {s詞条id,s開始値,s終了値,s期間Format});
+				if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+				}else {
+					return (List<Map>) o结果.getValue();
+				}
+		}catch(Throwable e) {
+			System.out.println(e.getMessage());
 		}
-}catch(Throwable e) {
-	System.out.println(e.getMessage());
-}
 		List<Map> 数据採番IDList = new ArrayList<Map>();
 
 		文件全路径 o文件全路径 = new 文件全路径();
@@ -392,9 +404,12 @@ try {
 			}
 		}
 
-		CacheForThingsDB.设置Cache的Value_by函数名_param(数据採番IDList,
+		// 缓存机制
+		if(! CollectionUtils.isEmpty(数据採番IDList)) {
+			CacheForThingsDB.设置Cache的Value_by函数名_param(数据採番IDList,
 				s函数方法名, s詞条id, s開始値, s終了値,
 				s期間Format);
+		}
 		return 数据採番IDList;
 	}
 
@@ -441,8 +456,10 @@ try {
 				(int)(l終了地址 - l開始地址));
 
 		// 缓存机制
-		CacheForThingsDB.设置Cache的Value_by函数名_param(s実体数据,
+		if(! StringUtils.isEmpty(s実体数据)) {
+			CacheForThingsDB.设置Cache的Value_by函数名_param(s実体数据,
 				s函数方法名, s詞条id, s数据採番id);
+		}
 		return s実体数据;
 	}
 
@@ -475,17 +492,17 @@ try {
 			缺一个【顧客数据id】
 			取得该文件的全部记录
 		 */
-try {
-		CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(
-				s函数方法名,
-				new String[] {s本詞条id,s顧客詞条id,s顧客数据id});
-		if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
-		}else {
-			return (List<String>) o结果.getValue();
+		try {
+			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(
+					s函数方法名,
+					new String[] {s本詞条id,s顧客詞条id,s顧客数据id});
+			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			}else {
+				return (List<String>) o结果.getValue();
+			}
+		}catch(Throwable e) {
+			System.out.println(e.getMessage());
 		}
-	}catch(Throwable e) {
-		System.out.println(e.getMessage());
-	}
 		文件全路径 o文件全路径 = new 文件全路径();
 		文件記録 o文件記録 = new 文件記録(sCallPath + s函数方法名);
 		String s類型 = "顧客id数据一覧表";
@@ -507,9 +524,12 @@ try {
 
 		}
 
-		CacheForThingsDB.设置Cache的Value_by函数名_param(数据采番idList,
+		// 缓存机制
+		if(! CollectionUtils.isEmpty(数据采番idList)) {
+			CacheForThingsDB.设置Cache的Value_by函数名_param(数据采番idList,
 				s函数方法名, s本詞条id, s顧客詞条id,
 				s顧客数据id);
+		}
 		return 数据采番idList;
 
 	}
@@ -520,16 +540,17 @@ try {
 		if(null == s詞条名){
 			return null;
 		}
-try {
-		CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
-				new String[] {s詞条名});
-		if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
-		}else {
-			return (String) o结果.getValue();
+
+		try {
+				CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
+						new String[] {s詞条名});
+				if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+				}else {
+					return (String) o结果.getValue();
+				}
+		}catch(Throwable e) {
+			System.out.println(e.getMessage());
 		}
-}catch(Throwable e) {
-	System.out.println(e.getMessage());
-}
 		// String s詞条id= 取得詞条顧客ID_by詞条IDand実体数据("0000000002", s詞条名);
 		顧客 o顧客 = new 顧客(sCallPath + s函数方法名);
 
@@ -547,13 +568,19 @@ try {
 
 			sCallPath = org_sCallPath;
 			// FORLOG_END
-			CacheForThingsDB.设置Cache的Value_by函数名_param(sResult,
+
+			// 缓存机制
+			if(! StringUtils.isEmpty(sResult)) {
+				CacheForThingsDB.设置Cache的Value_by函数名_param(sResult,
 					s函数方法名, s詞条名);
+			}
 			return sResult;
 		}
-
-		CacheForThingsDB.设置Cache的Value_by函数名_param(数据DTOList.get(0).get数据ID(),
+		// 缓存机制
+		if(! StringUtils.isEmpty(数据DTOList.get(0).get数据ID())) {
+			CacheForThingsDB.设置Cache的Value_by函数名_param(数据DTOList.get(0).get数据ID(),
 				s函数方法名, s詞条名);
+		}
 		return 数据DTOList.get(0).get数据ID();
 	}
 	/**
@@ -634,8 +661,11 @@ try {
 			}
 		}
 		String s詞条ID = 取得詞条ID_by詞条名_Primeval(s詞条名);
-		CacheForThingsDB.设置Cache的Value_by函数名_param(s詞条ID,
+		// 缓存机制
+		if(! StringUtils.isEmpty(s詞条ID)) {
+			CacheForThingsDB.设置Cache的Value_by函数名_param(s詞条ID,
 				s函数方法名, s詞条名);
+		}
 		return s詞条ID;
 	}
 
@@ -662,8 +692,10 @@ try {
 		String s数据採番ID =id.採番_by詞条名and実体数据("詞条", s詞条名);
 
 		// 缓存机制
-		String s函数方法名 = "詞条.取得詞条ID_by詞条名"; // 用来统一函数名，避免出错
-		CacheForThingsDB.设置Cache的Value_by函数名_param(s詞条名, s函数方法名);
+		if(! StringUtils.isEmpty(s数据採番ID)) {
+			String s函数方法名 = "詞条.取得詞条ID_by詞条名"; // 用来统一函数名，避免出错
+			CacheForThingsDB.设置Cache的Value_by函数名_param(s数据採番ID, s函数方法名, s詞条名);
+		}
 
 		return s数据採番ID;
 
@@ -830,10 +862,11 @@ try {
 		}
 
 		// 缓存机制
-		String s函数方法名 = "詞条.取得実体数据_by詞条IDand数据採番ID"; // 用来统一函数名，避免出错
-		CacheForThingsDB.设置Cache的Value_by函数名_param(s実体数据,
-				s函数方法名, s詞条id, s数据採番id);
-
+		if(! StringUtils.isEmpty(s実体数据)) {
+			String s函数方法名 = "詞条.取得実体数据_by詞条IDand数据採番ID"; // 用来统一函数名，避免出错
+			CacheForThingsDB.设置Cache的Value_by函数名_param(s実体数据,
+					s函数方法名, s詞条id, s数据採番id);
+		}
 		return new 数据DTO(s詞条id, s数据採番id);
 
 	}

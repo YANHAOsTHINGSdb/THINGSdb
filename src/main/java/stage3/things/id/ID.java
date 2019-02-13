@@ -148,16 +148,17 @@ public class ID {
 
 		String s函数方法名 = "ID.検索数据采番ID_by詞条IDand実体数据"; // 用来统一函数名，避免出错
 		myLogger.printCallMessage(sCallPath, s函数方法名 + "( 詞条ID="+ s詞条ID+", 実体数据="+ s実体数据_param+")");
-	try {
-		CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
-				new String[] {s詞条ID, s実体数据_param});
-		if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
-		}else {
-			return (List<String>) o结果.getValue();
+
+		try {
+			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
+					new String[] {s詞条ID, s実体数据_param});
+			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			}else {
+				return (List<String>) o结果.getValue();
+			}
+		}catch(Throwable e) {
+			System.out.println(e.getMessage());
 		}
-	}catch(Throwable e) {
-		System.out.println(e.getMessage());
-	}
 		List<String> 数据采番ID_List = new ArrayList();
 
 		文件全路径 o文件全路径 = new 文件全路径();
@@ -188,8 +189,11 @@ public class ID {
 		}
 		List<String> l结果 = CollectionUtils.isEmpty(数据采番ID_List)? null:数据采番ID_List;
 
-		CacheForThingsDB.设置Cache的Value_by函数名_param(l结果,
+		// 缓存机制
+		if(! CollectionUtils.isEmpty(l结果)) {
+			CacheForThingsDB.设置Cache的Value_by函数名_param(l结果,
 				s函数方法名, s詞条ID, s実体数据_param);
+		}
 		return l结果;
 
 	}
