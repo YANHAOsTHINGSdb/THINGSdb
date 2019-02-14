@@ -438,6 +438,7 @@ public class 文件記録 {
 		// FileIO fileIo = new DirectByteBufferExample();
 		FileIO fileIo = new MappedByteBufferExample();
 		// FileIO fileIo = new MappedByteBufferExampleOld();
+		
 		String sResult = fileIo.read(s対象文件全路径, l開始地址, i単位記録長度);
 
 

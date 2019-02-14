@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import net.oschina.j2cache.CacheObject;
 import net.oschina.j2cache.NullObject;
@@ -65,12 +65,12 @@ public class ID {
 		String s詞条id = o詞条.取得詞条ID_by詞条名(s詞条名);
 		String s類型 = "采番ID文件";
 
-		/**
+		/**=====================
 		 * 如果 已经存在同值的数据，那就干脆用同值的ID吧 19-01-06
-		 */
+		 =======================*/
 		ID idObject = new ID(sCallPath + "採番_by詞条名and実体数据");
 		List<String> s既存数据采番ID = idObject.検索数据采番ID_by詞条IDand実体数据(s詞条id, s実体数据);
-		if(! CollectionUtils.isEmpty(s既存数据采番ID)) {
+		if( ! CollectionUtils.isEmpty(s既存数据采番ID)) {
 			return s既存数据采番ID.get(0);
 		}
 
@@ -86,11 +86,13 @@ public class ID {
 		sCallPath = org_sCallPath;
 		// FORLOG_END
 
+		//=========================
 		// 数据的开始的地址，要 在 写入前就采好 added 20180622
+		//=========================
 		String s開始地址 = o文件記録.取得実体数据開始地址_by類型ands詞条ID("実体数据文件", s詞条id);
 
 		// 如果实体数据不为空
-		if ( !StringUtils.isEmpty(s実体数据)) {
+		if ( ! StringUtils.isEmpty(s実体数据)) {
 
 			// 则在实体数据文件中追加记录
 			// （不要忘记索引文件）
@@ -105,15 +107,18 @@ public class ID {
 			// 取得开始地址
 
 		}
-
+		//=========================
 		// 设置要追加的索引文件的内容
 		// 取得索引文件全路径
+		//=========================
 
 		s類型 = "実体数据索引文件";
 		String s索引文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(s類型, Arrays.asList(s詞条id, s数据采番ID));
+		//=========================
 		// 索引的值是根据采番id取得的。具体方法是。每条索引记录都是固定长度的。它的开始地址就是（采番id-1）*固定长度
 		// 追加记录的时候。你只需要把整理好的索引追加内容追加写入即可
 		// 取得记录的时候，计算好开始地址和长度。直接取得即可
+		//=========================
 
 		// 关于索引内容。采番id的长度是固定的；至于开始地址的位置。需要事先给定每条地址的最大宽度。余下不足的补零。
 		Long l終了地址 = Long.parseLong(s開始地址) + (s実体数据 != null ? s実体数据.getBytes().length:0);
@@ -131,6 +136,18 @@ public class ID {
 
 		o文件記録.追加記録_by類型and追加内容and文件全路径(s類型, s追加索引内容, s索引文件全路径);
 
+		String s函数方法名 = "詞条.取得実体数据_by詞条IDand数据採番ID"; // 用来统一函数名，避免出错
+		// 缓存机制
+		if( ! StringUtils.isEmpty(s数据采番ID)) {
+			CacheForThingsDB.设置Cache的Value_by函数名_param(s実体数据,
+				s函数方法名, s詞条id, s数据采番ID);
+		}
+		s函数方法名 = "ID.検索数据采番ID_by詞条IDand実体数据"; // 用来统一函数名，避免出错
+		// 缓存机制
+		if( ! StringUtils.isEmpty(s数据采番ID)) {
+			CacheForThingsDB.设置Cache的Value_by函数名_param(Arrays.asList(s数据采番ID),
+				s函数方法名, s詞条id, s実体数据);
+		}
 
 		return s数据采番ID;
 	}
@@ -152,7 +169,7 @@ public class ID {
 		try {
 			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
 					new String[] {s詞条ID, s実体数据_param});
-			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			if ( o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
 			}else {
 				return (List<String>) o结果.getValue();
 			}
@@ -171,17 +188,16 @@ public class ID {
 		int i単位記録长度_采番ID = o文件記録.取得単位記録固定長度_by類型("采番ID文件");
 		int 単位記録长度_実体数据索引 = o文件記録.取得単位記録固定長度_by類型("実体数据索引文件");
 		//for (int i当前采番id = 0; i当前采番id * i単位記録长度_采番ID < l采番ID文件Size; i当前采番id++) {
-		for (int i当前采番id = 1; i当前采番id * i単位記録长度_采番ID <= l采番ID文件Size; i当前采番id++) {
+		for ( int i当前采番id = 1; i当前采番id * i単位記録长度_采番ID <= l采番ID文件Size; i当前采番id++) {
 
 			詞条 o詞条 = new 詞条(sCallPath +"取得数据采番ID_by詞条IDand実体数据");
 			Object s実体数据 = o詞条.取得実体数据_by詞条IDand数据採番ID(s詞条ID, i当前采番id+"");
 
-			if(StringUtils.isEmpty(s実体数据_param)) {
+			if( StringUtils.isEmpty(s実体数据_param)) {
 				// 如果入力的【s実体数据_param】为空。那么就是无条件查询，那么就全部取出
 				//数据采番ID_List.add(o文件記録.做成文件記録_by類型and記録内容("采番ID文件",i当前采番id +1+ ""));
 				数据采番ID_List.add(o文件記録.做成文件記録_by類型and記録内容("采番ID文件",i当前采番id + ""));
-			}else
-			if (!StringUtils.isEmpty(s実体数据) && s実体数据_param.equals(s実体数据)) {
+			}else if ( StringUtils.equals(s実体数据_param, (String)s実体数据)) {
 				//数据采番ID_List.add(o文件記録.做成文件記録_by類型and記録内容("采番ID文件",i当前采番id +1+ ""));
 				//数据采番ID_List.add(o文件記録.做成文件記録_by類型and記録内容("采番ID文件",i当前采番id==0 ? "1" : i当前采番id + ""));
 				数据采番ID_List.add(o文件記録.做成文件記録_by類型and記録内容("采番ID文件",i当前采番id +""));

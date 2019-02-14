@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,8 +38,8 @@ public class 詞条 extends DTO {
 	}
 
 	// 为了节省计算速度，将本次已处理的词条记录在Map里，方便以后调用
-	static Map<String, String> 詞条Map = new HashMap<String, String>();
-
+	static Map<String, String> 詞条Map_s詞条ID_詞条名 = new LinkedHashMap<String, String>();
+	static Map<String, String> 詞条Map_詞条名_s詞条ID = new LinkedHashMap<String, String>();
 	/**
 	 *
 	 * @param s詞条名
@@ -53,8 +54,7 @@ public class 詞条 extends DTO {
 
 		// 缓存机制
 		try {
-			CacheObject o结果 = (CacheObject) CacheForThingsDB.
-					取得Cache的Value_by函数名_param(s函数方法名,
+			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
 					new String[] {s業者詞条id,s業者実体数据,s顧客詞条名});
 			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
 			}else {
@@ -456,7 +456,7 @@ public class 詞条 extends DTO {
 				(int)(l終了地址 - l開始地址));
 
 		// 缓存机制
-		if(! StringUtils.isEmpty(s実体数据)) {
+		if( ! StringUtils.isEmpty(s実体数据)) {
 			CacheForThingsDB.设置Cache的Value_by函数名_param(s実体数据,
 				s函数方法名, s詞条id, s数据採番id);
 		}
@@ -563,18 +563,19 @@ public class 詞条 extends DTO {
 			String org_sCallPath = new String(sCallPath);
 			sCallPath += s函数方法名;
 
-			String sResult = 追加詞条_by詞条名( s詞条名);
-			詞条Map.put(sResult, s詞条名);
+			String s詞条ID = 追加詞条_by詞条名( s詞条名);
 
 			sCallPath = org_sCallPath;
 			// FORLOG_END
 
 			// 缓存机制
-			if(! StringUtils.isEmpty(sResult)) {
-				CacheForThingsDB.设置Cache的Value_by函数名_param(sResult,
+			if(! StringUtils.isEmpty(s詞条ID)) {
+				詞条Map_s詞条ID_詞条名.put(s詞条ID, s詞条名);
+				詞条Map_詞条名_s詞条ID.put(s詞条名, s詞条ID);
+				CacheForThingsDB.设置Cache的Value_by函数名_param(s詞条ID,
 					s函数方法名, s詞条名);
 			}
-			return sResult;
+			return s詞条ID;
 		}
 		// 缓存机制
 		if(! StringUtils.isEmpty(数据DTOList.get(0).get数据ID())) {
@@ -653,14 +654,15 @@ public class 詞条 extends DTO {
 		/*=================================
 		 *  如果在詞条Map中存在，就直接返回。
 		 =================================*/
-		for (Map.Entry<String, String> entry今 : 詞条Map.entrySet()) {
-			if(entry今.getValue().equals(s詞条名)){
-				CacheForThingsDB.设置Cache的Value_by函数名_param(entry今.getKey(),
+//		for (Map.Entry<String, String> entry今 : 詞条Map_s詞条ID_詞条名.entrySet()) {
+		String s詞条ID = 詞条Map_詞条名_s詞条ID.get(s詞条名);
+			if( ! StringUtils.isEmpty(s詞条ID)){
+				CacheForThingsDB.设置Cache的Value_by函数名_param(s詞条ID,
 						s函数方法名, s詞条名);
-				return entry今.getKey();
+				return s詞条ID;
 			}
-		}
-		String s詞条ID = 取得詞条ID_by詞条名_Primeval(s詞条名);
+//		}
+		s詞条ID = 取得詞条ID_by詞条名_Primeval(s詞条名);
 		// 缓存机制
 		if(! StringUtils.isEmpty(s詞条ID)) {
 			CacheForThingsDB.设置Cache的Value_by函数名_param(s詞条ID,
