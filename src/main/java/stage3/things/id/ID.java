@@ -7,8 +7,6 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
-import net.oschina.j2cache.CacheObject;
-import net.oschina.j2cache.NullObject;
 import stage3.cache.CacheForThingsDB;
 import stage3.log.MyLogger;
 import stage3.things.file.文件全路径;
@@ -57,7 +55,6 @@ public class ID {
 	public String 採番_by詞条名and実体数据(String s詞条名, String s実体数据) {
 		myLogger.printCallMessage(sCallPath,"ID.採番_by詞条名and実体数据( 詞条名="+ s詞条名+", 実体数据="+ s実体数据+")");
 
-
 		// 先根据词条名找到其所属的词条ID
 		詞条 o詞条 = new 詞条(sCallPath +"採番_by詞条名and実体数据");
 		文件記録 o文件記録 = new 文件記録(sCallPath + "採番_by詞条名and実体数据");
@@ -100,7 +97,6 @@ public class ID {
 			s類型 = "実体数据文件";
 			s対象文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(s類型, Arrays.asList(s詞条id, s数据采番ID));
 
-
 			// 追加实体数据记录
 			o文件記録.追加記録_by類型and追加内容and文件全路径(s類型, s追加内容, s対象文件全路径);
 			// 計算記録长度
@@ -136,8 +132,9 @@ public class ID {
 
 		o文件記録.追加記録_by類型and追加内容and文件全路径(s類型, s追加索引内容, s索引文件全路径);
 
-		String s函数方法名 = "詞条.取得実体数据_by詞条IDand数据採番ID"; // 用来统一函数名，避免出错
 		// 缓存机制
+		String s函数方法名 = "詞条.取得実体数据_by詞条IDand数据採番ID"; // 用来统一函数名，避免出错
+
 		if( ! StringUtils.isEmpty(s数据采番ID)) {
 			CacheForThingsDB.设置Cache的Value_by函数名_param(s実体数据,
 				s函数方法名, s詞条id, s数据采番ID);
@@ -167,11 +164,12 @@ public class ID {
 		myLogger.printCallMessage(sCallPath, s函数方法名 + "( 詞条ID="+ s詞条ID+", 実体数据="+ s実体数据_param+")");
 
 		try {
-			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
+			Object o结果 = CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
 					new String[] {s詞条ID, s実体数据_param});
-			if ( o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			if ( o结果 == null) {
+		//	if ( o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
 			}else {
-				return (List<String>) o结果.getValue();
+				return (List<String>) o结果;
 			}
 		}catch(Throwable e) {
 			System.out.println(e.getMessage());
@@ -206,7 +204,7 @@ public class ID {
 		List<String> l结果 = CollectionUtils.isEmpty(数据采番ID_List)? null:数据采番ID_List;
 
 		// 缓存机制
-		if(! CollectionUtils.isEmpty(l结果)) {
+		if( ! CollectionUtils.isEmpty(l结果)) {
 			CacheForThingsDB.设置Cache的Value_by函数名_param(l结果,
 				s函数方法名, s詞条ID, s実体数据_param);
 		}

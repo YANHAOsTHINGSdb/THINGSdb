@@ -12,8 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import lombok.Data;
-import net.oschina.j2cache.CacheObject;
-import net.oschina.j2cache.NullObject;
 import stage3.cache.CacheForThingsDB;
 import stage3.log.MyLogger;
 import stage3.things.dto.DTO;
@@ -54,11 +52,12 @@ public class 詞条 extends DTO {
 
 		// 缓存机制
 		try {
-			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
+			Object o结果 = CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
 					new String[] {s業者詞条id,s業者実体数据,s顧客詞条名});
-			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			if (o结果 == null) {
+			//if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
 			}else {
-				return (List<String>) o结果.getValue();
+				return (List<String>) o结果;
 			}
 		}catch(Throwable e) {
 			System.out.println(e.getMessage());
@@ -106,22 +105,7 @@ public class 詞条 extends DTO {
 					s業者数据id));
 
 		}
-//		sCallPath = org_sCallPath;
-//		// FORLOG_END
-//
-//		for(String s数据採番id : s数据採番idList){
-//
-//			// FORLOG_START
-//			org_sCallPath = new String(sCallPath);
-//			sCallPath += "取得対象詞条的指定情報_by対象詞条名and業者名";
-//
-//			String s実体数据 = 取得実体数据_by詞条IDand数据採番ID(s業者詞条id, s数据採番id);
-//
-//			sCallPath = org_sCallPath;
-//			// FORLOG_END
-//
-//			s結果List.add(s実体数据);
-//		}
+
 		if(! CollectionUtils.isEmpty(s数据採番idList)) {
 			CacheForThingsDB.设置Cache的Value_by函数名_param(s数据採番idList,
 					s函数方法名, s業者詞条id, s業者実体数据, s顧客詞条名);
@@ -153,12 +137,13 @@ public class 詞条 extends DTO {
 		 */
 		// 缓存机制
 		try {
-			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(
+			Object o结果 = CacheForThingsDB.取得Cache的Value_by函数名_param(
 					s函数方法名,
 					new String[] {s顧客詞条id,s業者詞条id,s業者数据id});
-			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			if (o结果 == null) {
+			//if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
 			}else {
-				return (List<String>) o结果.getValue();
+				return (List<String>) o结果;
 			}
 		}catch(Throwable e) {
 			System.out.println(e.getMessage());
@@ -221,12 +206,13 @@ public class 詞条 extends DTO {
 			String s顧客数据ID, String s本詞条ID) {
 		String s函数方法名 = "詞条.検索業者詞条的実体数据_by顧客詞条IDand顧客数据IDand本詞条ID"; // 用来统一函数名，避免出错
 	try {
-		CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(
+		Object o结果 = CacheForThingsDB.取得Cache的Value_by函数名_param(
 				s函数方法名,
 				new String[] {s顧客詞条ID,s顧客数据ID,s本詞条ID});
-		if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+		if (o结果 == null) {
+		// if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
 		}else {
-			return (List<String>) o结果.getValue();
+			return (List<String>) o结果;
 		}
 	}catch(Throwable e) {
 		System.out.println(e.getMessage());
@@ -297,11 +283,12 @@ public class 詞条 extends DTO {
 
 		// 缓存机制
 		try {
-			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
+			Object o结果 = CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
 					new String[] {s詞条id,s実体数据param});
-			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			if (o结果 == null) {
+			//if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
 			}else {
-				return (List<Map>) o结果.getValue();
+				return (List<Map>) o结果;
 			}
 		}catch(Throwable e) {
 			System.out.println(e.getMessage());
@@ -361,11 +348,12 @@ public class 詞条 extends DTO {
 				+ "開始値="+ s開始値 + ", 開始値="+ s終了値+")");
 
 		try {
-				CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
+				Object o结果 = CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
 						new String[] {s詞条id,s開始値,s終了値,s期間Format});
-				if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+				if (o结果 == null) {
+			//	if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
 				}else {
-					return (List<Map>) o结果.getValue();
+					return (List<Map>) o结果;
 				}
 		}catch(Throwable e) {
 			System.out.println(e.getMessage());
@@ -427,11 +415,12 @@ public class 詞条 extends DTO {
 
 		// 缓存机制
 		try {
-			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
+			Object o结果 = CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
 					new String[] {s詞条id,s数据採番id});
-			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			if (o结果 == null) {
+		//	if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
 			}else {
-				return (String) o结果.getValue();
+				return (String) o结果;
 			}
 		}catch(Throwable e) {
 			System.out.println(e.getMessage());
@@ -493,12 +482,13 @@ public class 詞条 extends DTO {
 			取得该文件的全部记录
 		 */
 		try {
-			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(
+			Object o结果 = CacheForThingsDB.取得Cache的Value_by函数名_param(
 					s函数方法名,
 					new String[] {s本詞条id,s顧客詞条id,s顧客数据id});
-			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			if (o结果 == null) {
+		//	if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
 			}else {
-				return (List<String>) o结果.getValue();
+				return (List<String>) o结果;
 			}
 		}catch(Throwable e) {
 			System.out.println(e.getMessage());
@@ -542,11 +532,12 @@ public class 詞条 extends DTO {
 		}
 
 		try {
-				CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
+				Object o结果 = CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
 						new String[] {s詞条名});
-				if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+				if (o结果 == null) {
+			//	if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
 				}else {
-					return (String) o结果.getValue();
+					return (String) o结果;
 				}
 		}catch(Throwable e) {
 			System.out.println(e.getMessage());
@@ -626,11 +617,12 @@ public class 詞条 extends DTO {
 
 		// 缓存机制
 		try {
-			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
+			Object o结果 = CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
 					new String[] {s詞条名});
-			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			if (o结果 == null) {
+		//	if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
 			}else {
-				return (String) o结果.getValue();
+				return (String) o结果;
 			}
 		}catch(Throwable e) {
 			System.out.println(e.getMessage());

@@ -18,8 +18,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
-import net.oschina.j2cache.CacheObject;
-import net.oschina.j2cache.NullObject;
 import stage3.cache.CacheForThingsDB;
 import stage3.log.MyLogger;
 import stage3.things.file.io.FileIO;
@@ -209,11 +207,6 @@ public class 文件記録 {
      */
     public static final Boolean existsFile(String _path) {
 
-//        // 親フォルダ取得
-//        File file_ = new File(_path);
-//
-//        // ファイル存在チェック
-//        return file_.exists() && file_.isFile();
     	return Files.exists(Paths.get(_path));
 
     }
@@ -265,7 +258,12 @@ public class 文件記録 {
 		return ((Long.parseLong(s数据采番id)-1) * i単位記録固定長度) + "";
 	}
 
-
+	/**
+	 *
+	 * @param s類型
+	 * @param s詞条id
+	 * @return
+	 */
 	public String 取得実体数据開始地址_by類型ands詞条ID(String s類型, String s詞条id) {
 
 		myLogger.printCallMessage(sCallPath,
@@ -286,8 +284,13 @@ public class 文件記録 {
 		return sResult;
 	}
 
+	/**
+	 *
+	 * @param s類型
+	 * @param s追加内容
+	 * @return
+	 */
 	public String 做成文件記録_by類型and記録内容(String s類型, String s追加内容) {
-
 
 		myLogger.printCallMessage(sCallPath,
 				"文件記録.做成文件記録_by類型and記録内容( 追加内容="+ s追加内容 +", 類型="+ s類型+")");
@@ -351,7 +354,12 @@ public class 文件記録 {
 		return s追加内容;
 	}
 
-
+	/**
+	 *
+	 * @param s追加内容
+	 * @param i単位記録固定長度
+	 * @return
+	 */
 	private String 做成文件記録_by追加内容and単位記録固定長度(String s追加内容, int i単位記録固定長度) {
 		myLogger.printCallMessage(sCallPath,
 				"文件記録.做成文件記録_by追加内容and単位記録固定長度( 追加内容="+ s追加内容 +", 単位記録固定長度="+ i単位記録固定長度+")");
@@ -424,11 +432,12 @@ public class 文件記録 {
 		// 缓存机制
 		String s函数方法名 = "文件记录.取得対象文件内容_by文件全路径and開始地址and単位記録長度"; // 用来统一函数名，避免出错
 		try {
-			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
+			Object o结果 = CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
 					new String[] {s対象文件全路径,l開始地址+"",i単位記録長度+""});
-			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			if (o结果 == null) {
+		//	if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
 			}else {
-				return (String) o结果.getValue();
+				return (String) o结果;
 			}
 		}catch(Throwable e) {
 			System.out.println(e.getMessage());
@@ -438,7 +447,7 @@ public class 文件記録 {
 		// FileIO fileIo = new DirectByteBufferExample();
 		FileIO fileIo = new MappedByteBufferExample();
 		// FileIO fileIo = new MappedByteBufferExampleOld();
-		
+
 		String sResult = fileIo.read(s対象文件全路径, l開始地址, i単位記録長度);
 
 
@@ -455,11 +464,12 @@ public class 文件記録 {
 		// 缓存机制
 		String s函数方法名 = "文件记录.取得対象文件内容_by文件全路径and開始地址and単位記録長度"; // 用来统一函数名，避免出错
 		try {
-			CacheObject o结果 = (CacheObject) CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
+			Object o结果 = CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
 					new String[] {s対象文件全路径, s単位記録長度});
-			if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+			if (o结果 == null) {
+		//	if (o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
 			}else {
-				return (List<String>) o结果.getValue();
+				return (List<String>) o结果;
 			}
 		}catch(Throwable e) {
 			System.out.println(e.getMessage());

@@ -1,6 +1,7 @@
 package stage3.cache;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -8,8 +9,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import net.oschina.j2cache.CacheChannel;
-import net.oschina.j2cache.CacheObject;
 import net.oschina.j2cache.J2Cache;
+
 
 public class CacheForThingsDB {
 	/**
@@ -86,7 +87,7 @@ public class CacheForThingsDB {
 	 */
 
 	static CacheChannel cache = J2Cache.getChannel();
-
+	static Map<String, Object> cacheMap = new LinkedHashMap<String, Object>();
 	/**
 	 * 例
 	 *    key   = 词条.取得词条ID_by词条名,股票实时数据
@@ -94,11 +95,14 @@ public class CacheForThingsDB {
 	 * @param key
 	 * @return
 	 */
-	private static CacheObject 取得CACHE的Value_byKey(String key) {
+	private static Object 取得CACHE的Value_byKey(String key) {
 
-		String sResult=cache.get("default", key).getValue()==null?"null":cache.get("default", key).getValue().toString();
-//		System.out.println("取得CACHE的Value_byKey key="+key+"      value="+sResult);
-		return cache.get("default", key);
+//		CacheObject o结果 = cache.get("default", key);
+//		if(o结果 == null || o结果.getValue() == null || o结果.getValue() instanceof NullObject) {
+//			cache.get("default", key).setValue(cacheMap.get(key));
+//		}
+//		return cache.get("default", key);
+		return cacheMap.get(key);
 	}
 
 	/**
@@ -111,9 +115,8 @@ public class CacheForThingsDB {
 	 */
 	private static void 设置CACHE(String key, Object value) {
 
-		cache.set("default", key, value);
-		String sResult=cache.get("default", key).getValue()==null?"null":cache.get("default", key).getValue().toString();
-//		System.out.println("设置CACHE key="+ key +"      value="+sResult);
+//		cache.set("default", key, value);
+		cacheMap.put(key, value);
 	}
 
 	/**
