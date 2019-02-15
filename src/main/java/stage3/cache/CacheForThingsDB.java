@@ -2,6 +2,7 @@ package stage3.cache;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -10,7 +11,6 @@ import org.springframework.util.StringUtils;
 
 import net.oschina.j2cache.CacheChannel;
 import net.oschina.j2cache.J2Cache;
-
 
 public class CacheForThingsDB {
 	/**
@@ -88,6 +88,8 @@ public class CacheForThingsDB {
 
 	static CacheChannel cache = J2Cache.getChannel();
 	static Map<String, Object> cacheMap = new LinkedHashMap<String, Object>();
+	static LinkedList<String> linkedList_key = new LinkedList<String>();
+	static Map<String, Integer> cacheMap_counter = new LinkedHashMap<String, Integer>();
 	/**
 	 * 例
 	 *    key   = 词条.取得词条ID_by词条名,股票实时数据
@@ -102,6 +104,7 @@ public class CacheForThingsDB {
 //			cache.get("default", key).setValue(cacheMap.get(key));
 //		}
 //		return cache.get("default", key);
+		cacheMap_counter.put(key, 1);
 		return cacheMap.get(key);
 	}
 
@@ -116,7 +119,12 @@ public class CacheForThingsDB {
 	private static void 设置CACHE(String key, Object value) {
 
 //		cache.set("default", key, value);
+		if(cacheMap_counter.size() > 1024L * 1024L * 1024L) {
+			clearCache();
+		}
 		cacheMap.put(key, value);
+		linkedList_key.add(key);
+		cacheMap_counter.put(key, 0);
 	}
 
 	/**
@@ -210,4 +218,49 @@ public class CacheForThingsDB {
 //		}
 //		return true;
 //	}
+
+	/*
+		项目日记 2019/2/15 【缓存策略】
+
+		每次当缓存数，大于某个数字的时候，
+		清除缓存空间。
+
+		这样的话，
+		就要记住每个记录的访问次数。
+
+		就是追加的时候，
+		同时初始化访问次数，
+
+		每次访问的时候，
+		就追加一次次数。
+
+		【课题】
+		如何取得所有的访问次数为零的记录集合。
+
+		【黑名单策略】
+		用list
+		每次都要把黑名单上的key从map中删掉。
+
+		当被查询过的时候。
+		就在另一个map中追加一下记录。
+
+		【删除内存】
+
+		就便利黑名单，
+		针对每个记录，在map中检索，
+		如果有记录，
+		就放过，
+
+		如果没有记录，
+		就从缓存中，除掉该记录。
+	 */
+	static void clearCache(){
+		for(String skey : linkedList_key) {
+			if(cacheMap_counter.get(skey) == 0) {
+				cacheMap.remove(skey);
+			}
+		}
+		cacheMap_counter.clear();
+		linkedList_key.clear();
+	}
 }
