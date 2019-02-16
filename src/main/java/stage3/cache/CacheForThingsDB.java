@@ -9,9 +9,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import net.oschina.j2cache.CacheChannel;
-import net.oschina.j2cache.J2Cache;
-
 public class CacheForThingsDB {
 	/**
 		项目日记 2019/1/12 【J2cache】
@@ -86,7 +83,7 @@ public class CacheForThingsDB {
 	 * =======================
 	 */
 
-	static CacheChannel cache = J2Cache.getChannel();
+//	static CacheChannel cache = J2Cache.getChannel();
 	static Map<String, Object> cacheMap = new LinkedHashMap<String, Object>();
 	static LinkedList<String> linkedList_key = new LinkedList<String>();
 	static Map<String, Integer> cacheMap_counter = new LinkedHashMap<String, Integer>();
