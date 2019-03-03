@@ -9,6 +9,8 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import stage3.REL.io.MyFileReader;
 import stage3.REL.io.file.FileReader_BufferedReader;
 import stage3.engine.tool.SDP;
@@ -63,7 +65,7 @@ public class 詞条CRUD {
 		this.sCallPath = sCallPath;
 	}
 
-	public void 追加詞条信息map(Map<String, Object> 詞条信息map){
+	public Map<String, String> 追加詞条信息map(Map<String, Object> 詞条信息map){
 		/**
 		 *  詞条信息map = {CRUD={操作=追加, 目标=股票实时情报, 条件={ ...
 		 */
@@ -71,21 +73,21 @@ public class 詞条CRUD {
 		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加詞条信息map( )");
 
 		if(CollectionUtils.isEmpty(詞条信息map)) {
-			return;
+			return null;
 		}
 
 		// I 处理条件词条List
 		List<Map> W词条词条List = 追加詞条信息_处理W词条List(詞条信息map);
 
 		// 要是没有处理结果，就算了吧
-		if(CollectionUtils.isEmpty(W词条词条List)) {return;}
+		if(CollectionUtils.isEmpty(W词条词条List)) {return null;}
 
 		// II 处理主词条【目标】
-		追加詞条信息_处理主词条(詞条信息map, W词条词条List);
+		return 追加詞条信息_处理主词条(詞条信息map, W词条词条List);
 
 	}
 
-	private void 追加詞条信息_处理主词条(Map<String, Object> 詞条信息map, List<Map> w词条词条List) {
+	private Map<String, String> 追加詞条信息_处理主词条(Map<String, Object> 詞条信息map, List<Map> w词条词条List) {
 		/** （以下仅限追加ADD模式）
 		 * I 处理主词条【目标】
 		 *    1-1 为主词条采番。如果该主词条都还未存在，就干脆交给THINGSdb处理吧
@@ -100,7 +102,7 @@ public class 詞条CRUD {
 		詞条 o詞条 = new 詞条(sCallPath + "追加子詞条");
 		ID idObject = new ID(sCallPath + "追加子詞条");
 		String 主詞条名 = (String) 詞条信息map.get("目标");
-		if(StringUtils.isEmpty(主詞条名)) {return;}
+		if(StringUtils.isEmpty(主詞条名)) {return null;}
 
 		// 如果词条不存在是可以词条采番的。
 		String 主詞条数据ID = idObject.採番_by詞条名and実体数据(主詞条名, null);
@@ -112,6 +114,8 @@ public class 詞条CRUD {
 		// 1-2 建立【主词条】与【条件词条】的关系（仅限追加模式）
 		为主词条追加W词条关系信息(主詞条信息Map, w词条词条List);
 		为W词条追加主词条关系信息(主詞条信息Map, w词条词条List);
+
+		return 主詞条信息Map;
 	}
 
 	private void 为W词条追加主词条关系信息(Map<String, String> 主詞条信息Map, List<Map> w词条词条List) {
@@ -170,7 +174,12 @@ public class 詞条CRUD {
 			if(StringUtils.equals(取得Map_value的Type(entry.getValue()), "List")){
 				// 1-2  如果Entry的Value是一个List
 				数据ID = 追加W词条的数据_文件流程(entry.getKey(), entry.getValue(), 詞条信息map);
-			}else {
+			}
+			else if(StringUtils.equals(取得Map_value的Type(entry.getValue()), "Bean")){
+				// 1-4 如果Entry的Value是一个Bean
+				数据ID = 追加W词条的Bean数据_by构造词条信息Map(entry.getKey(), entry.getValue()).get(数据ID);
+			}
+			else {
 				// 1-3  如果Entry的Value是一个非List
 				数据ID = 追加W词条的数据_正常流程(entry.getKey(), entry.getValue());
 			}
@@ -180,6 +189,44 @@ public class 詞条CRUD {
 			W词条信息MapList.add(W词条信息Map);
 		}
 		return W词条信息MapList;
+	}
+
+	/**
+	* 将bean内的信息登陆THINGSdb数据库
+	* @param key    句子
+	* @param value  Bean
+	* @param 詞条信息map
+	* @return
+	*/
+	private Map<String, String> 追加W词条的Bean数据_by构造词条信息Map(String 詞条名, Object value) {
+		/*===========================================
+		 *	  2.1 构造 词条信息Map
+		 *
+		 *	---------------词条信息Map的构造---------------------
+		 *	词条信息Map< key,   value>
+		 *	   |-------条件    条件Map< key,   value>
+		 *	                   |------什么    NlpWhat
+		 *	---------------------------------------------------
+		 *
+		 *	  2.2 2.3 递归调用【词条CRUD.追加词条信息Map】，返回其结果值
+		 ===========================================*/
+
+		// 2.1 构造 词条信息Map
+		// 取得Bean的Class名
+		// 取得Bean的属性名列表
+		// 取得Bean的属性列表下的每个属性的值
+		Map<String, Object> 詞条信息map = new HashMap();
+		ObjectMapper oMapper = new ObjectMapper();
+
+		詞条信息map.put("操作", "追加");
+		//詞条信息map.put("对象", ClassObject.getClassNameByClassObject(value));
+		詞条信息map.put("对象", 詞条名);
+		詞条信息map.put("条件", oMapper.convertValue(value, Map.class));
+
+
+		// 2.2 2.3 递归调用【词条CRUD.追加词条信息Map】，返回其结果值
+
+		return 追加詞条信息map(詞条信息map);
 	}
 
 	private String 追加W词条的数据_文件流程(String 詞条名, Object 値value, Map g詞条信息) {
@@ -365,11 +412,14 @@ public class 詞条CRUD {
 		if(valueObject instanceof List) {
 			sType = "List";
 		}
-		if(valueObject instanceof Map) {
+		else if(valueObject instanceof Map) {
 			sType = "Map";
 		}
-		if(valueObject instanceof String) {
+		else if(valueObject instanceof String) {
 			sType = "String";
+		}
+		else {
+			sType = "Bean";
 		}
 
 		return sType;
