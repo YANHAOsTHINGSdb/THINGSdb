@@ -56,6 +56,10 @@ public class THINGSdbController {
 	@RequestMapping(value = "/addInfo", method = RequestMethod.POST, headers = "Accept=application/json")
 	public List addInfomation(@RequestBody String json) {
 
+		/*
+		 * json=
+		 * {"CRUD":{"操作":"追加","目标":"股票实时情报","条件":{"成交量":"27347564","总市值":"2.83541096635e+11","流通市值":"2.71482359264e+11","最低价":"9.66","名称":"�ַ�����","最高价":"9.8","开盘价":"9.77","涨跌幅":"-0.1034","成交金额":"266280883.0","前收盘":"9.67","股票代码":"600000","涨跌额":"-0.01","日期":"2018-12-27","成交笔数":"None","收盘价":"9.66","换手率":"0.0973"}}}
+		 */
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> map = null;
 		try {

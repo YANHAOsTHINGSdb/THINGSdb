@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
+import lombok.Data;
+@Data
 public class NLPverb {
 	NLPwhat nlpWhat;
 	List<NLPverb> brotherNLPverbList;

@@ -113,7 +113,5 @@ public class CRUDer {
 			return jsonArr.toList();
 		}
 	}
-
-
 }
 
