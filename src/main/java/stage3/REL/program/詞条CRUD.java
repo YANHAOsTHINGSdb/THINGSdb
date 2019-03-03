@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import stage3.REL.io.MyFileReader;
 import stage3.REL.io.file.FileReader_BufferedReader;
+import stage3.engine.tool.ClassObject;
 import stage3.engine.tool.SDP;
 import stage3.log.MyLogger;
 import stage3.nosql.NOSQL;
@@ -219,8 +220,7 @@ public class 詞条CRUD {
 		ObjectMapper oMapper = new ObjectMapper();
 
 		詞条信息map.put("操作", "追加");
-		//詞条信息map.put("对象", ClassObject.getClassNameByClassObject(value));
-		詞条信息map.put("对象", 詞条名);
+		詞条信息map.put("对象", ClassObject.getClassNameByClassObject(value));
 		詞条信息map.put("条件", oMapper.convertValue(value, Map.class));
 
 

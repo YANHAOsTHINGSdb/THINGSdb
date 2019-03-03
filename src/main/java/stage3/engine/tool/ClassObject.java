@@ -24,4 +24,25 @@ public class ClassObject {
 		}
 
 	}
+
+	/**
+	 * 根据CLASS名来判断到底该用什么【词条名】
+	 * 因为你无法一个一个跟进去，所以也不见可能一个指定该是什么【词条名】
+	 * 所以只能在外部映射好。
+	 * @param object
+	 * @return
+	 */
+	public static String get对象名ByClassName(Object object ){
+
+		switch(getClassNameByClassObject(object)){
+			case "stage3.NLP.NLPreader.NLPwhat":
+				return "什么";
+
+			case "stage3.NLP.NLPreader.NLPverb":
+				return "怎么样";
+
+			default :
+				return null;
+		}
+	}
 }
