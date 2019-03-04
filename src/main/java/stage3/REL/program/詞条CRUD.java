@@ -9,8 +9,6 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import stage3.REL.io.MyFileReader;
 import stage3.REL.io.file.FileReader_BufferedReader;
 import stage3.engine.tool.ClassObject;
@@ -139,12 +137,17 @@ public class 詞条CRUD {
 
 	private List<Map> 追加詞条信息_处理W词条List(Map<String, Object> 詞条信息map) {
 		// 首先W词条，就是所谓的条件词条，它是List<Map>的类型
-		if(CollectionUtils.isEmpty((Map)詞条信息map.get("条件"))) {return null;}
+//		if(CollectionUtils.isEmpty((Map<String, Object>)詞条信息map.get("条件"))) {return null;}
+
+		if(ClassObject.checkObjectIsEmpty(詞条信息map.get("条件"))) {return null;}
 		List<Map> W词条List = null;
 		if(詞条信息map.get("条件") instanceof Map) {
 			W词条List = Arrays.asList((Map)詞条信息map.get("条件"));
 		}else if(詞条信息map.get("条件") instanceof List) {
 			W词条List = (List<Map>) 詞条信息map.get("条件");
+		}else {
+			// 是一个BEAN时，该怎么办。
+			W词条List = Arrays.asList((Map)詞条信息map.get("条件"));
 		}
 
 		List<Map> W词条信息MapList = new ArrayList();
@@ -159,6 +162,12 @@ public class 詞条CRUD {
 		return W词条信息MapList;
 	}
 
+	/**
+	 *
+	 * @param w词条
+	 * @param 詞条信息map
+	 * @return
+	 */
 	private List<Map> 追加W词条的数据_处理每一个w词条Map(Map<String, Object> w词条, Map<String, Object> 詞条信息map) {
 		// 1-1 	取得Map下的每一个Entry
 		// 1-2  如果Entry的Value是一个List
@@ -172,13 +181,22 @@ public class 詞条CRUD {
 			詞条 o詞条 = new 詞条(sCallPath + "处理每一个w词条Map");
 			String 数据ID = null;
 
-			if(StringUtils.equals(取得Map_value的Type(entry.getValue()), "List")){
+			if(StringUtils.equals(ClassObject.取得对象Object的Type(entry.getValue()), "List")){
 				// 1-2  如果Entry的Value是一个List
-				数据ID = 追加W词条的数据_文件流程(entry.getKey(), entry.getValue(), 詞条信息map);
+				//数据ID = 追加W词条的数据_文件流程(entry.getKey(), entry.getValue(), 詞条信息map);
+				/*
+				 * 因为【NLPwhat】下的【listWhat】是个list形式。
+				 * 这个List代表修饰其主【NLPwhat】的
+				 * 所以，于此既存设计冲突了。
+				 * 对策，就是分别对应，返回List<词条DTO>
+				 *                           |----词条ID
+				 *                           |----数据ID
+				 */
+				return 追加W词条的数据_by辅臣List(entry.getKey(), entry.getValue(), 詞条信息map);
 			}
-			else if(StringUtils.equals(取得Map_value的Type(entry.getValue()), "Bean")){
+			else if(StringUtils.equals(ClassObject.取得对象Object的Type(entry.getValue()), "Bean")){
 				// 1-4 如果Entry的Value是一个Bean
-				数据ID = 追加W词条的Bean数据_by构造词条信息Map(entry.getKey(), entry.getValue()).get(数据ID);
+				数据ID = 追加W词条的Bean数据_by构造词条信息Map(entry.getKey(), entry.getValue()).get("数据ID");
 			}
 			else {
 				// 1-3  如果Entry的Value是一个非List
@@ -190,6 +208,33 @@ public class 詞条CRUD {
 			W词条信息MapList.add(W词条信息Map);
 		}
 		return W词条信息MapList;
+	}
+	/**
+	 * 这个是专门针对辅臣List做的对应处理
+	 *
+	 * @param key
+	 * @param value
+	 * @param 詞条信息map
+	 * @return
+	 */
+	private List<Map> 追加W词条的数据_by辅臣List(String key, Object value, Map<String, Object> 詞条信息map) {
+		// ----------------------------------
+		// 先把每一个辅臣做好词条追加的处理
+		// 然后把每一个辅臣的信息都放入一个【Map】中，
+		// 最后返回信息集合即可。
+		// ----------------------------------
+		List<Map> resultMapList = new ArrayList();
+		List<Object> W辅臣信息ObjectList = (ArrayList)value;
+		詞条 o詞条 = new 詞条(sCallPath + "追加W词条的数据_by辅臣List");
+		String s词条ID = o詞条.取得詞条ID_by詞条名(key);
+		for(Object W辅臣信息Object : W辅臣信息ObjectList) {
+			String 数据ID = 追加W词条的Bean数据_by构造词条信息Map(key, W辅臣信息Object).get("数据ID");
+			Map<String, String> resultMap = new HashMap();
+			resultMap.put("词条ID", s词条ID);
+			resultMap.put("数据ID", 数据ID);
+			resultMapList.add(resultMap);
+		}
+		return resultMapList;
 	}
 
 	/**
@@ -217,11 +262,11 @@ public class 詞条CRUD {
 		// 取得Bean的属性名列表
 		// 取得Bean的属性列表下的每个属性的值
 		Map<String, Object> 詞条信息map = new HashMap();
-		ObjectMapper oMapper = new ObjectMapper();
+//		ObjectMapper oMapper = new ObjectMapper();
 
 		詞条信息map.put("操作", "追加");
-		詞条信息map.put("对象", ClassObject.getClassNameByClassObject(value));
-		詞条信息map.put("条件", oMapper.convertValue(value, Map.class));
+		詞条信息map.put("对象", ClassObject.get对象名ByClassName(value));
+		詞条信息map.put("条件", ClassObject.把Bean的第一层转成Map(value));
 
 
 		// 2.2 2.3 递归调用【词条CRUD.追加词条信息Map】，返回其结果值
@@ -404,26 +449,7 @@ public class 詞条CRUD {
 		o業者.追加業者関係_by主体数据and業者数据(G数据dto, W数据dto);
 	}
 
-	private String 取得Map_value的Type(Object valueObject) {
-		myLogger.printCallMessage(sCallPath,"詞条CRUD.取得Map_value的Type( )");
 
-		String sType= null;
-
-		if(valueObject instanceof List) {
-			sType = "List";
-		}
-		else if(valueObject instanceof Map) {
-			sType = "Map";
-		}
-		else if(valueObject instanceof String) {
-			sType = "String";
-		}
-		else {
-			sType = "Bean";
-		}
-
-		return sType;
-	}
 
 	private Map<String,String> 設置詞条信息(String 詞条id, String 数据id, Map g詞条信息) {
 		myLogger.printCallMessage(sCallPath,"詞条CRUD.設置詞条信息(詞条id="+詞条id+",数据id="+数据id+" )");

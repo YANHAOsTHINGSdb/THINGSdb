@@ -6,8 +6,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.Data;
 import stage3.things.multiConditionCalc.CRUDer;
 
@@ -215,10 +213,21 @@ public class NLPreader extends NLPreaderBase {
 		List<NLPwhat> nlpWhatList1 = nlpWhat.getListWhat();//ROOT
 		List<NLPwhat> nlpWhatList2 = nlpWhatList1.get(0).getListWhat();//IP
 		//----------要把Bean 转成后 Map----------
-		ObjectMapper m = new ObjectMapper();
-		Map<String,Object> nlpWhatMap = m.convertValue(nlpWhatList1.get(0), Map.class);
+//		ObjectMapper m = new ObjectMapper();
+//		Map<String,Object> nlpWhatMap = m.convertValue(nlpWhatList1.get(0), Map.class);
 
-		CRUDmap.put("条件", nlpWhatMap);
+//		CRUDmap.put("条件", nlpWhatMap);
+
+		/*
+			---------------词条信息Map的构造---------------------
+			词条信息Map< key,   value>
+			   |-------条件    条件Map< key,   value>
+			                   |------什么    NlpWhat
+			---------------------------------------------------
+		 */
+		Map 什么map = new HashMap();
+		什么map.put("什么", nlpWhatList1.get(0));
+		CRUDmap.put("条件", 什么map);
 		nlp解析结果Json.put("CRUD", CRUDmap);
 
 		//=============把MAP放入THINFGSdb========================

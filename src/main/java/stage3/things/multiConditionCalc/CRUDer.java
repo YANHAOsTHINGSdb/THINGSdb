@@ -100,7 +100,8 @@ public class CRUDer {
 		try {
 			db.事前準備();
 			//db.追加_by数据(map, new ArrayList());
-			詞条crud.追加詞条信息map((Map)crudMap.get("CRUD"));
+			詞条crud.追加詞条信息map((Map<String, Object>)crudMap.get("CRUD"));
+			//			詞条crud.追加詞条信息map(crudMap.get("CRUD"));
 			jsonObj.put("结果", "OK");
 			//return Arrays.asList(jsonObj.toString());
 		} catch (Exception e) {
