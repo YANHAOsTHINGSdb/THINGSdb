@@ -228,10 +228,14 @@ public class 詞条CRUD {
 		詞条 o詞条 = new 詞条(sCallPath + "追加W词条的数据_by辅臣List");
 		String s词条ID = o詞条.取得詞条ID_by詞条名(key);
 		for(Object W辅臣信息Object : W辅臣信息ObjectList) {
-			String 数据ID = 追加W词条的Bean数据_by构造词条信息Map(key, W辅臣信息Object).get("数据ID");
+			Map<String,String> w词条Map = 追加W词条的Bean数据_by构造词条信息Map(key, W辅臣信息Object);
+			if(w词条Map == null) {
+				return null;
+			}
+			String s数据ID = w词条Map.get("数据ID");
 			Map<String, String> resultMap = new HashMap();
 			resultMap.put("词条ID", s词条ID);
-			resultMap.put("数据ID", 数据ID);
+			resultMap.put("数据ID", s数据ID);
 			resultMapList.add(resultMap);
 		}
 		return resultMapList;
@@ -265,7 +269,8 @@ public class 詞条CRUD {
 //		ObjectMapper oMapper = new ObjectMapper();
 
 		詞条信息map.put("操作", "追加");
-		詞条信息map.put("对象", ClassObject.get对象名ByClassName(value));
+		//詞条信息map.put("对象", ClassObject.get对象名ByClassName(value));
+		詞条信息map.put("目标", ClassObject.get对象名ByClassName(value));
 		詞条信息map.put("条件", ClassObject.把Bean的第一层转成Map(value));
 
 

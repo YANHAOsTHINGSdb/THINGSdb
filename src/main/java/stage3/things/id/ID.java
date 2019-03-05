@@ -141,7 +141,13 @@ public class ID {
 		}
 		s函数方法名 = "ID.検索数据采番ID_by詞条IDand実体数据"; // 用来统一函数名，避免出错
 		// 缓存机制
-		if( ! StringUtils.isEmpty(s数据采番ID)) {
+		// 【bug对应】由于【s実体数据】null的时候，也是可以采番的，
+		//  但一旦保存入缓存，就只能沿用原来的值了，
+		//  所以这里强调，只有在【都】不为空的时候，才可以存入缓存
+		//  【修正前】if( ! StringUtils.isEmpty(s数据采番ID)）
+		//  【修正后】if( ! StringUtils.isEmpty(s数据采番ID)  && ! StringUtils.isEmpty(s実体数据))
+		//                               --20190305 yan
+		if( ! StringUtils.isEmpty(s数据采番ID)  && ! StringUtils.isEmpty(s実体数据)) {
 			CacheForThingsDB.设置Cache的Value_by函数名_param(Arrays.asList(s数据采番ID),
 				s函数方法名, s詞条id, s実体数据);
 		}

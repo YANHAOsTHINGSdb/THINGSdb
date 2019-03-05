@@ -236,9 +236,9 @@ public class NLPreader extends NLPreaderBase {
 
 	}
 
-/**
- *
- */
+	/**
+	 *
+	 */
 	Node parse(Node father, String s累计读入文本) {
 
 		super.parse(father, s累计读入文本);

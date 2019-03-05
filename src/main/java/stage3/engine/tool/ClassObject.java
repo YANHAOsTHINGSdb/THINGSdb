@@ -192,8 +192,9 @@ public class ClassObject {
 			return "什么";
 
 		case "太子":
-			return "名字";
+			return "值";
 
+		case "nlpVerb":
 		case "brotherNLPverbList":
 			return "怎么样";
 
