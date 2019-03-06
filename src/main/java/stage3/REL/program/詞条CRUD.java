@@ -68,8 +68,9 @@ public class 詞条CRUD {
 		/**
 		 *  詞条信息map = {CRUD={操作=追加, 目标=股票实时情报, 条件={ ...
 		 */
-
-		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加詞条信息map( )");
+		String sCallPath_local = sCallPath;
+		sCallPath += "追加詞条信息map";
+		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加詞条信息map( )" + "詞条信息map=" + 詞条信息map);
 
 		if(CollectionUtils.isEmpty(詞条信息map)) {
 			return null;
@@ -82,11 +83,16 @@ public class 詞条CRUD {
 		if(CollectionUtils.isEmpty(W词条词条List)) {return null;}
 
 		// II 处理主词条【目标】
-		return 追加詞条信息_处理主词条(詞条信息map, W词条词条List);
+		Map<String, String> reslut = 追加詞条信息_处理主词条(詞条信息map, W词条词条List);
+		sCallPath = sCallPath_local;
+		return reslut;
 
 	}
 
 	private Map<String, String> 追加詞条信息_处理主词条(Map<String, Object> 詞条信息map, List<Map> w词条词条List) {
+		String sCallPath_local = sCallPath;
+		sCallPath += "追加詞条信息_处理主词条";
+		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加詞条信息_处理主词条( )" +"w词条词条List=" + w词条词条List);
 		/** （以下仅限追加ADD模式）
 		 * I 处理主词条【目标】
 		 *    1-1 为主词条采番。如果该主词条都还未存在，就干脆交给THINGSdb处理吧
@@ -114,30 +120,44 @@ public class 詞条CRUD {
 		为主词条追加W词条关系信息(主詞条信息Map, w词条词条List);
 		为W词条追加主词条关系信息(主詞条信息Map, w词条词条List);
 
+		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加詞条信息_处理主词条( )" + "主詞条名=" + 主詞条名);
+		sCallPath = sCallPath_local;
 		return 主詞条信息Map;
 	}
 
 	private void 为W词条追加主词条关系信息(Map<String, String> 主詞条信息Map, List<Map> w词条词条List) {
+		String sCallPath_local = sCallPath;
+		sCallPath += "为W词条追加主词条关系信息";
+		myLogger.printCallMessage(sCallPath,"詞条CRUD.为W词条追加主词条关系信息( )" + "w词条词条List=" + w词条词条List);
 		// 首先，你要有主词条
 		// 遍历每个W词条
 		for(Map w词条 : w词条词条List){
 			// 调用 追加Guest関係（）
 			追加Guest関係(主詞条信息Map, w词条);
 		}
+
+		sCallPath = sCallPath_local;
 	}
 
 	private void 为主词条追加W词条关系信息(Map<String, String> 主詞条信息Map, List<Map> w词条词条List) {
+		String sCallPath_local = sCallPath;
+		sCallPath += "为主词条追加W词条关系信息";
+		myLogger.printCallMessage(sCallPath,"詞条CRUD.为主词条追加W词条关系信息( )"+ "w词条词条List=" + w词条词条List);
 		// 首先，你要有主词条
 		// 遍历每个W词条
 		for(Map w词条 : w词条词条List){
 			// 调用 追加Waiter关系（）
 			追加Waiter関係(主詞条信息Map, w词条);
 		}
+		sCallPath = sCallPath_local;
 	}
 
 	private List<Map> 追加詞条信息_处理W词条List(Map<String, Object> 詞条信息map) {
+		String sCallPath_local = sCallPath;
+		sCallPath += "追加詞条信息_处理W词条List";
 		// 首先W词条，就是所谓的条件词条，它是List<Map>的类型
 //		if(CollectionUtils.isEmpty((Map<String, Object>)詞条信息map.get("条件"))) {return null;}
+		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加詞条信息_处理W词条List( )"+"条件="+詞条信息map.get("条件"));
 
 		if(ClassObject.checkObjectIsEmpty(詞条信息map.get("条件"))) {return null;}
 		List<Map> W词条List = null;
@@ -159,6 +179,8 @@ public class 詞条CRUD {
 			W词条信息MapList.addAll(追加W词条的数据_处理每一个w词条Map(W词条, 詞条信息map));
 		}
 		// 返回List<W词条信息Map>
+
+		sCallPath = sCallPath_local;
 		return W词条信息MapList;
 	}
 
@@ -169,10 +191,13 @@ public class 詞条CRUD {
 	 * @return
 	 */
 	private List<Map> 追加W词条的数据_处理每一个w词条Map(Map<String, Object> w词条, Map<String, Object> 詞条信息map) {
+		String sCallPath_local = sCallPath;
+		sCallPath += "追加W词条的数据_处理每一个w词条M";
 		// 1-1 	取得Map下的每一个Entry
 		// 1-2  如果Entry的Value是一个List
 		// 1-3  如果Entry的Value是一个非List
 		// 1-4  做成W词条的词条信息Map<词条ID，数据ID>
+		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加W词条的数据_处理每一个w词条Map( )" + "w词条 = " + w词条);
 
 		List<Map> W词条信息MapList = new ArrayList();
 		for(Map.Entry<String, Object> entry:w词条.entrySet()) {
@@ -207,6 +232,7 @@ public class 詞条CRUD {
 			W词条信息Map.put("数据ID", 数据ID);
 			W词条信息MapList.add(W词条信息Map);
 		}
+		sCallPath = sCallPath_local;
 		return W词条信息MapList;
 	}
 	/**
@@ -218,6 +244,9 @@ public class 詞条CRUD {
 	 * @return
 	 */
 	private List<Map> 追加W词条的数据_by辅臣List(String key, Object value, Map<String, Object> 詞条信息map) {
+		String sCallPath_local = sCallPath;
+		sCallPath += "追加W词条的数据_by辅臣List";
+		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加W词条的数据_by辅臣List( )" + "詞条名=" + key + ",Object=" + value);
 		// ----------------------------------
 		// 先把每一个辅臣做好词条追加的处理
 		// 然后把每一个辅臣的信息都放入一个【Map】中，
@@ -238,6 +267,7 @@ public class 詞条CRUD {
 			resultMap.put("数据ID", s数据ID);
 			resultMapList.add(resultMap);
 		}
+		sCallPath = sCallPath_local;
 		return resultMapList;
 	}
 
@@ -248,7 +278,10 @@ public class 詞条CRUD {
 	* @param 詞条信息map
 	* @return
 	*/
-	private Map<String, String> 追加W词条的Bean数据_by构造词条信息Map(String 詞条名, Object value) {
+	private Map<String, String> 追加W词条的Bean数据_by构造词条信息Map(String s詞条名, Object value) {
+		String sCallPath_local = sCallPath;
+		sCallPath += "追加W词条的Bean数据_by构造词条信息Map";
+		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加W词条的Bean数据_by构造词条信息Map( )" + "词条名=" + s詞条名 +", Object=" + value);
 		/*===========================================
 		 *	  2.1 构造 词条信息Map
 		 *
@@ -275,7 +308,7 @@ public class 詞条CRUD {
 
 
 		// 2.2 2.3 递归调用【词条CRUD.追加词条信息Map】，返回其结果值
-
+		sCallPath = sCallPath_local;
 		return 追加詞条信息map(詞条信息map);
 	}
 
@@ -284,6 +317,9 @@ public class 詞条CRUD {
 	}
 
 	private String 追加W词条的数据_正常流程(String s词条名, Object o实际数据) {
+		String sCallPath_local = sCallPath;
+		sCallPath += "追加W词条的Bean数据_by构造词条信息Map";
+		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加W词条的数据_正常流程( )" + "词条名=" + s词条名 +",实际数据=" + o实际数据);
 		// 这一块有些混乱了，想不起THINGSdb的追加_by数据()有什么特别的了
 		ID idObject = new ID(sCallPath + "处理每一个w词条Map");
 		String s实际数据=null;
@@ -302,10 +338,13 @@ public class 詞条CRUD {
 //		if( o实际数据 instanceof String) {
 //			s实际数据 = (String)o实际数据;
 //		}
+		sCallPath = sCallPath_local;
+
 		s实际数据 = o实际数据.toString();
 		if(StringUtils.isEmpty(s实际数据)) {
 			return null;
 		}
+
 		return idObject.採番_by詞条名and実体数据(s词条名, s实际数据);
 	}
 
@@ -325,7 +364,7 @@ public class 詞条CRUD {
 		// |-----程序代码
 		 * |
 		---------------------------------------------------------------*/
-		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加文件(詞条名="+詞条名+",g詞条信息"+g詞条信息+" )");
+		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加文件(詞条名="+詞条名+",g詞条信息="+g詞条信息+" )");
 		ID id = new ID(sCallPath + "追加子詞条");
 
 		// 处理过程

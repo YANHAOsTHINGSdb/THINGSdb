@@ -27,8 +27,7 @@ public class 顧客  extends DTO{
 
 	public void 追加顧客関係_by主体数据and顧客数据(数据DTO 主体数据, 数据DTO 顧客数据) {
 
-		myLogger.printCallMessage(sCallPath,
-				"顧客.追加顧客関係_by主体数据and顧客数据( 主体数据=" + 主体数据.toString() + ", 顧客数据=" + 顧客数据.toString() + ")");
+//myLogger.printCallMessage(sCallPath,"顧客.追加顧客関係_by主体数据and顧客数据( 主体数据=" + 主体数据.toString() + ", 顧客数据=" + 顧客数据.toString() + ")");
 
 		//		追加_顧客詞条id一覧表記録(主体数据, 顧客数据);
 		//
@@ -86,8 +85,7 @@ public class 顧客  extends DTO{
 	private void 追加_id顧客数据一覧表記録(数据DTO 主体数据dto, List<数据DTO> 顧客数据List) {
 		//本词条 的 具体 实体数据的id 对应有哪些顾客的哪些id（要求1个id有一个专门文件。该文件中，左面是顾客词条id，右面是顾客数据id）
 
-		myLogger.printCallMessage(sCallPath,
-				"顧客.追加_id顧客数据一覧表記録( 主体数据dto=" + 主体数据dto.toString() + ", 顧客数据List=" + 顧客数据List.toString() + ")");
+//myLogger.printCallMessage(sCallPath,"顧客.追加_id顧客数据一覧表記録( 主体数据dto=" + 主体数据dto.toString() + ", 顧客数据List=" + 顧客数据List.toString() + ")");
 
 		String s類型 = "id顧客数据一覧表";
 
@@ -111,8 +109,7 @@ public class 顧客  extends DTO{
 	private void 追加_顧客id数据一覧表記録(List<数据DTO> 主体数据List, 数据DTO 顧客数据dto) {
 		//本词条 的 具体 实体数据的id 对应有哪些顾客的哪些id（要求1个id有一个专门文件。该文件中，左面是顾客词条id，右面是顾客数据id）
 
-		myLogger.printCallMessage(sCallPath,
-				"顧客.追加_顧客id数据一覧表記録( 主体数据List=" + 主体数据List.toString() + ", 顧客数据dto=" + 顧客数据dto.toString() + ")");
+//myLogger.printCallMessage(sCallPath,"顧客.追加_顧客id数据一覧表記録( 主体数据List=" + 主体数据List.toString() + ", 顧客数据dto=" + 顧客数据dto.toString() + ")");
 
 		String s類型 = "顧客id数据一覧表";
 
@@ -143,7 +140,7 @@ public class 顧客  extends DTO{
 	 * @return
 	 */
 	private String 数据DTOList出力(List<数据DTO> 主体数据List) {
-		myLogger.printCallMessage(sCallPath, "顧客.数据DTOList出力( 主体数据List=" + 主体数据List.toString());
+//myLogger.printCallMessage(sCallPath, "顧客.数据DTOList出力( 主体数据List=" + 主体数据List.toString());
 
 		String sList出力 = "";
 
@@ -175,7 +172,7 @@ public class 顧客  extends DTO{
 		//根据【詞条名】和【実体数据】来找到【数据id】
 		//如果有余力
 		//把 这 条数据的顧客也一并找到
-		myLogger.printCallMessage(sCallPath, "顧客.取得顧客数据DTOList_by詞条名and実体数据( s詞条名=" + s本詞条名 + ", 実体数据=" + s実体数据 + ")");
+//myLogger.printCallMessage(sCallPath, "顧客.取得顧客数据DTOList_by詞条名and実体数据( s詞条名=" + s本詞条名 + ", 実体数据=" + s実体数据 + ")");
 
 		詞条 o詞条 = new 詞条(sCallPath + "取得顧客数据DTOList_by詞条名and実体数据");
 		String s本詞条id = o詞条.取得詞条ID_by詞条名(s本詞条名);
@@ -193,7 +190,7 @@ public class 顧客  extends DTO{
 	}
 
 	private List<数据DTO> 取得_複数_顧客数据DTOList_by本詞条IDand本数据采番ID(String s本詞条id, List<String> s本数据id_List ) {
-		myLogger.printCallMessage(this.sCallPath,"顧客.取得_複数_顧客数据DTOList_by本詞条IDand本数据采番ID(s本詞条id="+s本詞条id+")");
+//myLogger.printCallMessage(this.sCallPath,"顧客.取得_複数_顧客数据DTOList_by本詞条IDand本数据采番ID(s本詞条id="+s本詞条id+")");
 
 		List<数据DTO> result数据DTOlist = new ArrayList<数据DTO>();
 
@@ -232,8 +229,7 @@ public class 顧客  extends DTO{
 	// 将所有为之服务的W詞条ID数据ID一起取出
 	private List<数据DTO> 取得W数据DTOList_by詞条IDand数据采番ID(String s本詞条id, String s本数据id) {
 
-		myLogger.printCallMessage(sCallPath,
-				"顧客.取得顧客数据DTOList_by詞条IDand数据采番ID( 詞条ID=" + s本詞条id + ", 数据采番ID=" + s本数据id + ")");
+//myLogger.printCallMessage(sCallPath,"顧客.取得顧客数据DTOList_by詞条IDand数据采番ID( 詞条ID=" + s本詞条id + ", 数据采番ID=" + s本数据id + ")");
 
 		List<数据DTO> 数据DTOList = new ArrayList<数据DTO>();
 		文件全路径 o文件全路径 = new 文件全路径();
@@ -305,7 +301,7 @@ public class 顧客  extends DTO{
 		 *[]:文件夹
 		 *():文件按
 		 */
-		myLogger.printCallMessage(this.sCallPath,"顧客.取得所有Guest詞条IDList_by本詞条名(s本詞条名="+s本詞条名+")");
+//myLogger.printCallMessage(this.sCallPath,"顧客.取得所有Guest詞条IDList_by本詞条名(s本詞条名="+s本詞条名+")");
 
 		詞条 o詞条 = new 詞条("取得所有Guest詞条IDList_by本詞条名");
 

@@ -28,7 +28,7 @@ public class ID {
 	 */
 	public String 採番_by対象文件全路径and種類(String s対象文件全路径, String s種類) {
 
-		myLogger.printCallMessage(sCallPath,"ID.採番_by対象文件全路径and種類( 対象文件全路径="+ s対象文件全路径+", 種類="+ s種類+")");
+//myLogger.printCallMessage(sCallPath,"ID.採番_by対象文件全路径and種類( 対象文件全路径="+ s対象文件全路径+", 種類="+ s種類+")");
 
 		Long ID = null;
 		文件記録 o文件記録 = new 文件記録(sCallPath + "採番_by対象文件全路径and種類");
@@ -53,8 +53,10 @@ public class ID {
 	 * @return
 	 */
 	public String 採番_by詞条名and実体数据(String s詞条名, String s実体数据) {
-		myLogger.printCallMessage(sCallPath,"ID.採番_by詞条名and実体数据( 詞条名="+ s詞条名+", 実体数据="+ s実体数据+")");
-
+//myLogger.printCallMessage(sCallPath,"ID.採番_by詞条名and実体数据( 詞条名="+ s詞条名+", 実体数据="+ s実体数据+")");
+if(StringUtils.equals(s詞条名, "什么") && s実体数据 == null) {
+	s詞条名 = "什么";
+}
 		// 先根据词条名找到其所属的词条ID
 		詞条 o詞条 = new 詞条(sCallPath +"採番_by詞条名and実体数据");
 		文件記録 o文件記録 = new 文件記録(sCallPath + "採番_by詞条名and実体数据");
@@ -65,9 +67,12 @@ public class ID {
 		/**=====================
 		 * 如果 已经存在同值的数据，那就干脆用同值的ID吧 19-01-06
 		 =======================*/
+		/**=====================
+		 * 如果 实体数据的值是null，还是要进行采番的，因为各自子孙不一样嘛。19-03-06
+		 =======================*/
 		ID idObject = new ID(sCallPath + "採番_by詞条名and実体数据");
 		List<String> s既存数据采番ID = idObject.検索数据采番ID_by詞条IDand実体数据(s詞条id, s実体数据);
-		if( ! CollectionUtils.isEmpty(s既存数据采番ID)) {
+		if( ! CollectionUtils.isEmpty(s既存数据采番ID) && s実体数据 != null) {
 			return s既存数据采番ID.get(0);
 		}
 
@@ -119,13 +124,17 @@ public class ID {
 		// 关于索引内容。采番id的长度是固定的；至于开始地址的位置。需要事先给定每条地址的最大宽度。余下不足的补零。
 		Long l終了地址 = Long.parseLong(s開始地址) + (s実体数据 != null ? s実体数据.getBytes().length:0);
 
-		myLogger.printCallMessage(sCallPath+"採番_by詞条名and実体数据","s実体数据.Length = "+ (s実体数据 != null ? s実体数据.getBytes().length:0));
+//myLogger.printCallMessage(sCallPath+"採番_by詞条名and実体数据","s実体数据.Length = "+ (s実体数据 != null ? s実体数据.getBytes().length:0));
 
 		s開始地址 = o文件記録.做成文件記録_by類型and記録内容("索引地址", s開始地址);
 		String s終了地址 = o文件記録.做成文件記録_by類型and記録内容("索引地址", "" + l終了地址);
 		String s索引内容 = s開始地址  + s終了地址;
 		if(s実体数据 == null){
-			s索引内容 = "";
+			// 如果实体数据是空值，就要取同等ID长度的空字符串，
+			// 因为索引是记录数据存放地址的数据，他直接与ID对应
+			// 就是说ID本身的意义在于暗示了实体数据的物理位置的信息
+			// s索引内容 = "	";
+			s索引内容 = String.format("%1$"+20+ "s", " ");
 		}
 
 		String s追加索引内容 = o文件記録.做成文件記録_by類型and記録内容(s類型, s索引内容);
@@ -134,12 +143,7 @@ public class ID {
 
 		// 缓存机制
 		String s函数方法名 = "詞条.取得実体数据_by詞条IDand数据採番ID"; // 用来统一函数名，避免出错
-
-		if( ! StringUtils.isEmpty(s数据采番ID)) {
-			CacheForThingsDB.设置Cache的Value_by函数名_param(s実体数据,
-				s函数方法名, s詞条id, s数据采番ID);
-		}
-		s函数方法名 = "ID.検索数据采番ID_by詞条IDand実体数据"; // 用来统一函数名，避免出错
+		//-----------------------------------------
 		// 缓存机制
 		// 【bug对应】由于【s実体数据】null的时候，也是可以采番的，
 		//  但一旦保存入缓存，就只能沿用原来的值了，
@@ -147,6 +151,13 @@ public class ID {
 		//  【修正前】if( ! StringUtils.isEmpty(s数据采番ID)）
 		//  【修正后】if( ! StringUtils.isEmpty(s数据采番ID)  && ! StringUtils.isEmpty(s実体数据))
 		//                               --20190305 yan
+		//-----------------------------------------
+		if( ! StringUtils.isEmpty(s数据采番ID) && ! StringUtils.isEmpty(s実体数据)) {
+			CacheForThingsDB.设置Cache的Value_by函数名_param(s実体数据,
+				s函数方法名, s詞条id, s数据采番ID);
+		}
+		s函数方法名 = "ID.検索数据采番ID_by詞条IDand実体数据"; // 用来统一函数名，避免出错
+
 		if( ! StringUtils.isEmpty(s数据采番ID)  && ! StringUtils.isEmpty(s実体数据)) {
 			CacheForThingsDB.设置Cache的Value_by函数名_param(Arrays.asList(s数据采番ID),
 				s函数方法名, s詞条id, s実体数据);
@@ -167,7 +178,7 @@ public class ID {
 	public List<String> 検索数据采番ID_by詞条IDand実体数据(String s詞条ID, String s実体数据_param) {
 
 		String s函数方法名 = "ID.検索数据采番ID_by詞条IDand実体数据"; // 用来统一函数名，避免出错
-		myLogger.printCallMessage(sCallPath, s函数方法名 + "( 詞条ID="+ s詞条ID+", 実体数据="+ s実体数据_param+")");
+//myLogger.printCallMessage(sCallPath, s函数方法名 + "( 詞条ID="+ s詞条ID+", 実体数据="+ s実体数据_param+")");
 
 		try {
 			Object o结果 = CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,

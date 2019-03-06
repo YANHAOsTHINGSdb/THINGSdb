@@ -22,12 +22,12 @@ public class ClassObject {
 
 		if (enclosingClass != null) {
 
-		  System.out.println(enclosingClass.getName());
+		  //System.out.println(enclosingClass.getName());
 		  return enclosingClass.getName();
 
 		} else {
 
-		  System.out.println(object.getClass().getName());
+		  //System.out.println(object.getClass().getName());
 		  return object.getClass().getName();
 
 		}

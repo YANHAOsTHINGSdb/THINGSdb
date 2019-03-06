@@ -105,6 +105,7 @@ public class CRUDer {
 			jsonObj.put("结果", "OK");
 			//return Arrays.asList(jsonObj.toString());
 		} catch (Exception e) {
+			System.out.println(e.toString());
 			jsonObj.put("结果", "NG");
 			//return Arrays.asList(jsonObj.toString());
 		}catch(Throwable e) {

@@ -25,7 +25,7 @@ public class MyLogger {
 		}
 
 		if (StringUtils.isEmpty(sCallPath) || StringUtils.isEmpty(sMethodName)) {
-//			System.out.println(sMethodName);
+			System.out.println(sMethodName);
 			return;
 		}
 
@@ -34,7 +34,7 @@ public class MyLogger {
 			sBlank += " ";
 		}
 
-//		System.out.println(sBlank + sMethodName);
+		System.out.println(sBlank + sMethodName);
 	}
 
 }

@@ -33,7 +33,7 @@ public class 文件記録 {
 
 	public static int 取得単位記録固定長度_by類型(String s類型) {
 
-		myLogger.printCallMessage(sCallPath,"文件記録.取得単位記録固定長度_by類型( 類型="+ s類型 +")");
+//myLogger.printCallMessage(sCallPath,"文件記録.取得単位記録固定長度_by類型( 類型="+ s類型 +")");
 		/*====================================================
 		 * 取得单条記録固定长度_by類型
 			也许只有以下几种：
@@ -93,8 +93,7 @@ public class 文件記録 {
 	 */
 	public static Long 取得文件SIZE_by文件全路径(String s対象文件全路径) {
 
-		myLogger.printCallMessage(sCallPath,
-				"文件記録.取得文件SIZE_by文件全路径( 対象文件全路径="+ s対象文件全路径+")" );
+//myLogger.printCallMessage(sCallPath,"文件記録.取得文件SIZE_by文件全路径( 対象文件全路径="+ s対象文件全路径+")" );
 		/*====================================================
 		// 上网去查、或者找一找以前的代码
 		// バイト数が返されます
@@ -117,8 +116,7 @@ public class 文件記録 {
 
 		File file = new File(s対象文件全路径);
 
-		myLogger.printCallMessage(sCallPath+"取得文件SIZE_by文件全路径" ,
-				"file.Length = "+ (file != null ? file.length():0));
+//myLogger.printCallMessage(sCallPath+"取得文件SIZE_by文件全路径" ,"file.Length = "+ (file != null ? file.length():0));
 
 		return file.length();
 
@@ -133,9 +131,7 @@ public class 文件記録 {
 	 */
 	public void 追加記録_by類型and追加内容and文件全路径(String s類型, String s追加内容, String s文件全路径) {
 
-		myLogger.printCallMessage(sCallPath,
-				"文件記録.追加記録_by類型and追加内容and文件全路径( 文件全路径="+ s文件全路径 +", "
-						+ "類型="+ s類型+", 追加内容="+ s追加内容+")");
+//myLogger.printCallMessage(sCallPath,"文件記録.追加記録_by類型and追加内容and文件全路径( 文件全路径="+ s文件全路径 +", "+ "類型="+ s類型+", 追加内容="+ s追加内容+")");
 
 		String org_sCallPath = new String(sCallPath);
 		sCallPath += "追加記録_by類型and追加内容and文件全路径";
@@ -152,8 +148,7 @@ public class 文件記録 {
 	 */
 	public static void 写入文件_by写入内容and文件全路径(String s写入内容, String 文件全路径) {
 
-		myLogger.printCallMessage(sCallPath,
-				"文件記録.写入文件_by写入内容and文件全路径( 文件全路径="+ 文件全路径 +", 写入内容="+ s写入内容+")");
+//myLogger.printCallMessage(sCallPath,"文件記録.写入文件_by写入内容and文件全路径( 文件全路径="+ 文件全路径 +", 写入内容="+ s写入内容+")");
 		/*==========================
 		 * 可能是数据文件
 		 * 也可能是索引文件
@@ -236,8 +231,7 @@ public class 文件記録 {
 	public String 取得索引開始地址_by類型and数据ID(String s類型, String s数据采番id) {
 
 
-		myLogger.printCallMessage(sCallPath,
-				"文件記録.取得索引開始地址_by類型and数据ID( 数据ID="+ s数据采番id +", 類型="+ s類型+")");
+//myLogger.printCallMessage(sCallPath,"文件記録.取得索引開始地址_by類型and数据ID( 数据ID="+ s数据采番id +", 類型="+ s類型+")");
 		/*====================================================
 		 * 取得詞条ID_by詞条名
 		 * 取得業者数据DTOList_by数据采番IDand詞条ID
@@ -266,8 +260,7 @@ public class 文件記録 {
 	 */
 	public String 取得実体数据開始地址_by類型ands詞条ID(String s類型, String s詞条id) {
 
-		myLogger.printCallMessage(sCallPath,
-				"文件記録.取得実体数据開始地址_by類型and数据ID( 数据ID="+ s詞条id +", 類型="+ s類型+")");
+//myLogger.printCallMessage(sCallPath,"文件記録.取得実体数据開始地址_by類型and数据ID( 数据ID="+ s詞条id +", 類型="+ s類型+")");
 
 		文件全路径 o文件全路径 = new 文件全路径();
 		文件記録 o文件記録 = new 文件記録(sCallPath + "取得実体数据開始地址_by類型and数据ID");
@@ -292,8 +285,7 @@ public class 文件記録 {
 	 */
 	public String 做成文件記録_by類型and記録内容(String s類型, String s追加内容) {
 
-		myLogger.printCallMessage(sCallPath,
-				"文件記録.做成文件記録_by類型and記録内容( 追加内容="+ s追加内容 +", 類型="+ s類型+")");
+//myLogger.printCallMessage(sCallPath,"文件記録.做成文件記録_by類型and記録内容( 追加内容="+ s追加内容 +", 類型="+ s類型+")");
 		/*================================================
 			例如，根据类型可以知道每条记录的固定长度。
 			只适用：
@@ -361,8 +353,7 @@ public class 文件記録 {
 	 * @return
 	 */
 	private String 做成文件記録_by追加内容and単位記録固定長度(String s追加内容, int i単位記録固定長度) {
-		myLogger.printCallMessage(sCallPath,
-				"文件記録.做成文件記録_by追加内容and単位記録固定長度( 追加内容="+ s追加内容 +", 単位記録固定長度="+ i単位記録固定長度+")");
+//myLogger.printCallMessage(sCallPath,"文件記録.做成文件記録_by追加内容and単位記録固定長度( 追加内容="+ s追加内容 +", 単位記録固定長度="+ i単位記録固定長度+")");
 		/*==========================
 		 * 用采番id単位記録固定長度来格式化输出ID，前端不足补零
 		 * 得到一个NumberFormat的实例
@@ -382,7 +373,7 @@ public class 文件記録 {
 
 	public long 取得開始地址_by索引内容(String s索引内容)  {
 
-		myLogger.printCallMessage(sCallPath,"文件記録.取得開始地址_by索引内容( 索引内容="+ s索引内容+")");
+//myLogger.printCallMessage(sCallPath,"文件記録.取得開始地址_by索引内容( 索引内容="+ s索引内容+")");
 		/*==========================
 		索引内容 = "[开始地址][終了地址]"
 
@@ -402,7 +393,7 @@ public class 文件記録 {
 	public long 取得終了地址_by索引内容(String s索引内容){
 
 
-		myLogger.printCallMessage(sCallPath,"文件記録.取得終了地址_by索引内容( 索引内容="+ s索引内容+")");
+//myLogger.printCallMessage(sCallPath,"文件記録.取得終了地址_by索引内容( 索引内容="+ s索引内容+")");
 
 		/*==========================
 		索引内容 = "[开始地址][終了地址]"
@@ -443,7 +434,7 @@ public class 文件記録 {
 			System.out.println(e.getMessage());
 		}
 
-		myLogger.printCallMessage(sCallPath,"文件記録.取得対象文件内容_by文件全路径and開始地址and単位記録長度( 対象文件全路径="+ s対象文件全路径+", 開始地址="+ l開始地址+", 単位記録長度="+ i単位記録長度+")");
+//myLogger.printCallMessage(sCallPath,"文件記録.取得対象文件内容_by文件全路径and開始地址and単位記録長度( 対象文件全路径="+ s対象文件全路径+", 開始地址="+ l開始地址+", 単位記録長度="+ i単位記録長度+")");
 		// FileIO fileIo = new DirectByteBufferExample();
 		FileIO fileIo = new MappedByteBufferExample();
 		// FileIO fileIo = new MappedByteBufferExampleOld();

@@ -47,8 +47,7 @@ public class 詞条 extends DTO {
 	public List<String> 検索顧客詞条数据採番idList_by業者詞条IDand業者実体数据and顧客詞条名(String s業者詞条id,
 			String s業者実体数据, String s顧客詞条名) {
 		String s函数方法名 = "詞条.検索顧客詞条数据採番idList_by業者詞条IDand業者実体数据and顧客詞条名"; // 用来统一函数名，避免出错
-		myLogger.printCallMessage(sCallPath, s函数方法名 + "( 業者詞条id="+ s業者詞条id+", "
-				+ "顧客名="+ s顧客詞条名+")");
+//myLogger.printCallMessage(sCallPath, s函数方法名 + "( 業者詞条id="+ s業者詞条id+", "+ "顧客名="+ s顧客詞条名+")");
 
 		// 缓存机制
 		try {
@@ -116,8 +115,7 @@ public class 詞条 extends DTO {
 	public List<String> 検索顧客詞条数据採番idList_by顧客詞条IDand業者詞条IDand業者数据ID(String s顧客詞条id, String s業者詞条id,
 			String s業者数据id) {
 		String s函数方法名 = "詞条.検索顧客詞条数据採番idList_by顧客詞条IDand業者詞条IDand業者数据ID"; // 用来统一函数名，避免出错
-		myLogger.printCallMessage(sCallPath, s函数方法名 + "( 顧客詞条ID="+ s顧客詞条id+", 業者詞条ID="+ s業者詞条id+", "
-				+ "業者数据ID="+ s業者数据id+")");
+//myLogger.printCallMessage(sCallPath, s函数方法名 + "( 顧客詞条ID="+ s顧客詞条id+", 業者詞条ID="+ s業者詞条id+", "+ "業者数据ID="+ s業者数据id+")");
 		/**
 		 * 	一个顾客，来到银行（）
 			说，给我取钱。
@@ -278,8 +276,7 @@ public class 詞条 extends DTO {
 	 */
 	public List<Map> 検索数据採番ID_by詞条IDand実体数据_模糊検索(String s詞条id, String s実体数据param) {
 		String s函数方法名 = "詞条.検索数据採番ID_by詞条IDand実体数据_模糊検索"; // 用来统一函数名，避免出错
-		myLogger.printCallMessage(sCallPath, s函数方法名 + "( 詞条ID="+ s詞条id+", "
-				+ "実体数据="+ s実体数据param+")");
+//myLogger.printCallMessage(sCallPath, s函数方法名 + "( 詞条ID="+ s詞条id+", "+ "実体数据="+ s実体数据param+")");
 
 		// 缓存机制
 		try {
@@ -344,8 +341,7 @@ public class 詞条 extends DTO {
 			String s期間Format) {
 
 		String s函数方法名 = "詞条.検索数据採番ID_by詞条IDand実体数据_区間検索"; // 用来统一函数名，避免出错
-		myLogger.printCallMessage(sCallPath, s函数方法名 + "( 詞条ID="+ s詞条id+", "
-				+ "開始値="+ s開始値 + ", 開始値="+ s終了値+")");
+//myLogger.printCallMessage(sCallPath, s函数方法名 + "( 詞条ID="+ s詞条id+", "+ "開始値="+ s開始値 + ", 開始値="+ s終了値+")");
 
 		try {
 				Object o结果 = CacheForThingsDB.取得Cache的Value_by函数名_param(s函数方法名,
@@ -410,8 +406,7 @@ public class 詞条 extends DTO {
 	public String 取得実体数据_by詞条IDand数据採番ID(String s詞条id, String s数据採番id) {
 
 		String s函数方法名 = "詞条.取得実体数据_by詞条IDand数据採番ID"; // 用来统一函数名，避免出错
-		myLogger.printCallMessage(sCallPath, s函数方法名 + "( 詞条ID="+ s詞条id+", "
-				+ "数据採番ID="+ s数据採番id+")");
+//myLogger.printCallMessage(sCallPath, s函数方法名 + "( 詞条ID="+ s詞条id+", "+ "数据採番ID="+ s数据採番id+")");
 
 		// 缓存机制
 		try {
@@ -462,8 +457,7 @@ public class 詞条 extends DTO {
 	public List<String> 検索業者数据採番idList_by本詞条IDand顧客詞条IDand顧客数据ID(String s本詞条id, String s顧客詞条id,
 			String s顧客数据id) {
 		String s函数方法名 = "詞条.検索業者数据採番idList_by本詞条IDand顧客詞条IDand顧客数据ID"; // 用来统一函数名，避免出错
-		myLogger.printCallMessage(sCallPath, s函数方法名 + "( 詞条ID="+ s本詞条id+", 顧客詞条ID="+ s顧客詞条id+", "
-				+ "顧客詞条ID="+ s顧客数据id+")");
+//myLogger.printCallMessage(sCallPath, s函数方法名 + "( 詞条ID="+ s本詞条id+", 顧客詞条ID="+ s顧客詞条id+", "+ "顧客詞条ID="+ s顧客数据id+")");
 		/**
 		 * 	一个顾客，来到银行（）
 			说，给我取钱。
@@ -582,7 +576,7 @@ public class 詞条 extends DTO {
 	 */
 	public String 取得詞条ID_by詞条名(String s詞条名){
 		String s函数方法名 = "詞条.取得詞条ID_by詞条名"; // 用来统一函数名，避免出错
-		myLogger.printCallMessage(sCallPath, s函数方法名 + "( 詞条名="+ s詞条名+")");
+//myLogger.printCallMessage(sCallPath, s函数方法名 + "( 詞条名="+ s詞条名+")");
 		/**
 		 *  String s詞条id=取得该詞条的客户ID_by詞条idand実体数据（00000000003，词条名）
 			//如果作为别名，其对应的詞条已经存在。则返回所属詞条名
@@ -671,7 +665,7 @@ public class 詞条 extends DTO {
 	 */
 	public String 追加詞条_by詞条名( String s詞条名) {
 
-		myLogger.printCallMessage(sCallPath,"詞条.追加詞条_by詞条名( 詞条名="+ s詞条名+")");
+//myLogger.printCallMessage(sCallPath,"詞条.追加詞条_by詞条名( 詞条名="+ s詞条名+")");
 
 		文件全路径	o文件全路径 = new 文件全路径();
 		文件記録 o文件記録 = new 文件記録(sCallPath+"追加詞条_by詞条名");
@@ -704,7 +698,7 @@ public class 詞条 extends DTO {
 	public 数据DTO 追加処理_単条数据(対象数据DTO 処理対象dto, List<数据DTO> 已処理数据){
 
 
-		myLogger.printCallMessage(sCallPath,"詞条.追加処理_単条数据( "+ 処理対象dto.toString() + 已処理数据.toString()+")");
+//myLogger.printCallMessage(sCallPath,"詞条.追加処理_単条数据( "+ 処理対象dto.toString() + 已処理数据.toString()+")");
 
 		/**
 		 * //chk_词条
@@ -747,8 +741,7 @@ public class 詞条 extends DTO {
 	 */
 	private 数据DTO 追加直接記録_by処理対象DTO(対象数据DTO 対象数据dto, List<数据DTO> 已処理数据) {
 
-		myLogger.printCallMessage(sCallPath,
-				"詞条.追加直接記録_by処理対象DTO( "+ 対象数据dto.toString() + 已処理数据.toString()+")");
+//myLogger.printCallMessage(sCallPath,"詞条.追加直接記録_by処理対象DTO( "+ 対象数据dto.toString() + 已処理数据.toString()+")");
 
 		/**
 		 * ■設置計算結果
@@ -823,8 +816,7 @@ public class 詞条 extends DTO {
 	 */
 	private 数据DTO 追加記録_by対象数据and已処理数据(対象数据DTO 対象数据dto, List<数据DTO> 已処理数据){
 
-		myLogger.printCallMessage(sCallPath,
-				"詞条.追加記録_by対象数据and已処理数据( "+ 対象数据dto.toString() + 已処理数据.toString()+")");
+//myLogger.printCallMessage(sCallPath,"詞条.追加記録_by対象数据and已処理数据( "+ 対象数据dto.toString() + 已処理数据.toString()+")");
 
 		ID id = new ID(sCallPath + "追加記録_by対象数据and已処理数据");
 
