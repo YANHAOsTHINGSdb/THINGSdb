@@ -200,8 +200,9 @@ public class 詞条CRUD {
 		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加W词条的数据_处理每一个w词条Map( )" + "w词条 = " + w词条);
 
 		List<Map> W词条信息MapList = new ArrayList();
-		for(Map.Entry<String, Object> entry:w词条.entrySet()) {
-			// 1-1 	取得Map下的每一个Entry
+
+		for(Map.Entry<String, Object> entry : w词条.entrySet()) {
+			// 1-1 取得Map下的每一个Entry
 			Map W词条信息Map = new HashMap();
 			詞条 o詞条 = new 詞条(sCallPath + "处理每一个w词条Map");
 			String 数据ID = null;
@@ -217,7 +218,9 @@ public class 詞条CRUD {
 				 *                           |----词条ID
 				 *                           |----数据ID
 				 */
-				return 追加W词条的数据_by辅臣List(entry.getKey(), entry.getValue(), 詞条信息map);
+				List<Map> W词条List = 追加W词条的数据_by辅臣List(entry.getKey(), entry.getValue(), 詞条信息map);
+				W词条信息MapList.addAll(W词条List);
+				continue;
 			}
 			else if(StringUtils.equals(ClassObject.取得对象Object的Type(entry.getValue()), "Bean")){
 				// 1-4 如果Entry的Value是一个Bean
@@ -231,10 +234,12 @@ public class 詞条CRUD {
 			W词条信息Map.put("詞条ID", o詞条.取得詞条ID_by詞条名(entry.getKey()));
 			W词条信息Map.put("数据ID", 数据ID);
 			W词条信息MapList.add(W词条信息Map);
+
 		}
 		sCallPath = sCallPath_local;
 		return W词条信息MapList;
 	}
+
 	/**
 	 * 这个是专门针对辅臣List做的对应处理
 	 *
@@ -259,7 +264,7 @@ public class 詞条CRUD {
 		for(Object W辅臣信息Object : W辅臣信息ObjectList) {
 			Map<String,String> w词条Map = 追加W词条的Bean数据_by构造词条信息Map(key, W辅臣信息Object);
 			if(w词条Map == null) {
-				return null;
+				continue;
 			}
 			String s数据ID = w词条Map.get("数据ID");
 			Map<String, String> resultMap = new HashMap();
@@ -276,7 +281,7 @@ public class 詞条CRUD {
 	* @param key    句子
 	* @param value  Bean
 	* @param 詞条信息map
-	* @return
+	* @return 詞条数据map<>
 	*/
 	private Map<String, String> 追加W词条的Bean数据_by构造词条信息Map(String s詞条名, Object value) {
 		String sCallPath_local = sCallPath;
@@ -302,10 +307,9 @@ public class 詞条CRUD {
 //		ObjectMapper oMapper = new ObjectMapper();
 
 		詞条信息map.put("操作", "追加");
-		//詞条信息map.put("对象", ClassObject.get对象名ByClassName(value));
+		// 詞条信息map.put("对象", ClassObject.get对象名ByClassName(value));
 		詞条信息map.put("目标", ClassObject.get对象名ByClassName(value));
 		詞条信息map.put("条件", ClassObject.把Bean的第一层转成Map(value));
-
 
 		// 2.2 2.3 递归调用【词条CRUD.追加词条信息Map】，返回其结果值
 		sCallPath = sCallPath_local;
@@ -316,13 +320,19 @@ public class 詞条CRUD {
 		return 追加List数据到文件_返回数据ID( 詞条名, (List<String>) 値value,  g詞条信息);
 	}
 
+	/**
+	 *
+	 * @param s词条名
+	 * @param o实际数据
+	 * @return 数据ID
+	 */
 	private String 追加W词条的数据_正常流程(String s词条名, Object o实际数据) {
 		String sCallPath_local = sCallPath;
 		sCallPath += "追加W词条的Bean数据_by构造词条信息Map";
 		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加W词条的数据_正常流程( )" + "词条名=" + s词条名 +",实际数据=" + o实际数据);
 		// 这一块有些混乱了，想不起THINGSdb的追加_by数据()有什么特别的了
 		ID idObject = new ID(sCallPath + "处理每一个w词条Map");
-		String s实际数据=null;
+		String s实际数据 = null;
 //		if( o实际数据 instanceof Long) {
 //			s实际数据 = Long.toString((Long)o实际数据);
 //		}
@@ -348,6 +358,13 @@ public class 詞条CRUD {
 		return idObject.採番_by詞条名and実体数据(s词条名, s实际数据);
 	}
 
+	/**
+	 *
+	 * @param 詞条名
+	 * @param 値valueList
+	 * @param g詞条信息
+	 * @return 数据ID
+	 */
 	private String 追加List数据到文件_返回数据ID(String 詞条名, List<String> 値valueList, Map g詞条信息) {
 		// 程序数据ID = 词条. 采番数据ID_by词条ID(程序词条ID);
 		// 需要以文件形式保存
@@ -483,6 +500,8 @@ public class 詞条CRUD {
 		数据DTO W数据dto = new 数据DTO(W詞条信息.get("詞条ID"), W詞条信息.get("数据ID"));
 		o顧客.追加顧客関係_by主体数据and顧客数据(W数据dto, G数据dto);
 	}
+
+
 
 	private void 追加Waiter関係(Map<String, String> G詞条信息, Map<String, String> W詞条信息) {
 		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加Waiter関係( )");
@@ -915,7 +934,6 @@ public class 詞条CRUD {
 			// 如果是不是文件路径，就直接返回该数据吧
 			return s実体数据List;
 		}
-
 	}
 
 	private List<String> 数据方式取得目标数据_by_词条名_数据ID(String s词条名, String s数据採番id) {

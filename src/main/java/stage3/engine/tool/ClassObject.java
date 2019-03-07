@@ -188,6 +188,7 @@ public class ClassObject {
 	 */
     private static String get对象名ByFieldName(String name) {
 		switch(name){
+		case "nlpWhat":
 		case "listWhat":
 			return "什么";
 
@@ -236,4 +237,13 @@ public class ClassObject {
         }
         return false;
     }
+
+	public static Map getW词条信息MapList(List<Map> w词条List, String 詞条id) {
+		Map<String, String> W词条信息Map = new HashMap();
+		for(Map element : w词条List) {
+			W词条信息Map.put("数据ID", (String) element.get("数据ID"));
+			W词条信息Map.put("詞条ID", 詞条id);
+		}
+		return W词条信息Map;
+	}
 }
