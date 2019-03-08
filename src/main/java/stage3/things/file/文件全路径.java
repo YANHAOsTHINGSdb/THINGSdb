@@ -3,6 +3,8 @@ package stage3.things.file;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import stage3.consts.PublicName;
 public class 文件全路径 {
 	// private static final String KEY_路径分隔符 = null;
 	//static String s数据路径= "F:\\things_db";
@@ -21,10 +23,10 @@ public class 文件全路径 {
 		String s文件全路径 = null;
 		switch(s類型){
 		case "採番ID文件":
-		case "采番ID文件":				//詞条ID（文件夹）
+		case PublicName.KEY_采番ID文件_:				//詞条ID（文件夹）
 			s文件全路径 = s数据路径 + KEY_路径分隔符  + 数据idList.get(0) + KEY_路径分隔符 + s采番ID文件 ;
 			break;
-		case "id顧客数据一覧表":
+		case PublicName.KEY_id顧客数据一覧表:
 			// id顧客 = WAITER
 			// 本词条 的 具体 实体数据的id 对应有哪些顾客的哪些id（要求1个.实.体数据id有一个专门文件。该文件中，左面是顾客词条id，右面是顾客数据id）
 			// 本词条ID    = 数据idList.get(0)
@@ -35,11 +37,11 @@ public class 文件全路径 {
 		case "顧客路径":
 			s文件全路径 = s数据路径 +KEY_路径分隔符 + 数据idList.get(0) + KEY_路径分隔符 + sGUEST ;
 			break;
-		case "顧客id数据路径":
+		case PublicName.KEY_顧客id数据路径:
 			// 什么顾客的什么id对应着本词条的哪些实体数据的id
 			s文件全路径 = s数据路径 +KEY_路径分隔符 + 数据idList.get(0) + KEY_路径分隔符 + sGUEST + KEY_路径分隔符 + 数据idList.get(1) ;
 			break;
-		case "顧客id数据一覧表":
+		case PublicName.KEY_顧客id数据一覧表:
 			// 什么顾客的什么id对应着本词条的哪些实体数据的id
 			// 顧客id = GUEST
 			// 本词条ID   = 数据idList.get(0)
@@ -47,19 +49,21 @@ public class 文件全路径 {
 			// 顾客数据ID = 数据idList.get(2)
 			s文件全路径 = s数据路径 +KEY_路径分隔符 + 数据idList.get(0) + KEY_路径分隔符 + sGUEST + KEY_路径分隔符 + 数据idList.get(1) + KEY_路径分隔符 +数据idList.get(2) + s文件后缀data ;
 			break;
-		case "実体数据文件":
+		case PublicName.KEY_実体数据文件:
 			s文件全路径 = s数据路径 + KEY_路径分隔符 + 数据idList.get(0) + KEY_路径分隔符 + s実体数据文件名 ;
 			break;
 
-		case "実体数据索引文件":
+		case PublicName.KEY_実体数据索引文件:
 			s文件全路径 = s数据路径 + KEY_路径分隔符 + 数据idList.get(0) + KEY_路径分隔符 + s実体数据索引文件名 ;
 			break;
 
-		case "業者詞条id一覧表":
+		case PublicName.KEY_業者詞条id一覧表:
 			s文件全路径 = s数据路径 + KEY_路径分隔符 + 数据idList.get(0) + s業者詞条id一覧表路径 + 数据idList.get(1) + s文件后缀data ;
 			break;
 		}
-
+	if(s文件全路径 == null) {
+		s文件全路径 = null;
+	}
 	return s文件全路径;
 
 	}
@@ -118,7 +122,7 @@ public class 文件全路径 {
 
 		String s文件全路径 = null;
 		switch(s類型){
-		case "詞条路径":
+		case PublicName.KEY_詞条路径:
 			//詞条ID（文件夹）
 			s文件全路径 = s数据路径 + KEY_路径分隔符 + 数据idList.get(0);
 			break;

@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import stage3.cache.CacheForThingsDB;
+import stage3.consts.PublicName;
 import stage3.log.MyLogger;
 import stage3.things.file.io.FileIO;
 import stage3.things.file.io.impl.MappedByteBufferExample;
@@ -49,20 +50,20 @@ public class 文件記録 {
 		====================================================*/
 		switch(s類型){
 		case "採番ID文件":
-		case "采番ID文件":
+		case PublicName.KEY_采番ID文件_:
 			//用采番id単位記録固定長度格式化输出ID，前端不足补零
 			return 10;
 
-		case "実体数据索引文件":		//用索引记录固定长度来格式化输出
+		case PublicName.KEY_実体数据索引文件:		//用索引记录固定长度来格式化输出
 			return 20;					//開始地址終了地址
 
-		case "索引地址":				//用索引记录固定长度来格式化输出
+		case PublicName.KEY_索引地址:				//用索引记录固定长度来格式化输出
 			return 10;					//開始地址終了地址
 //		|---id_GUEST
 //			|-----0000000018.data
 //					|---------000000001600000000010000000017000000000100000000160000000002000000001700000000020000000016000000000300000000170000000003
 
-		case "id顧客数据一覧表":		//id顧客数据一覧表
+		case PublicName.KEY_id顧客数据一覧表:		//id顧客数据一覧表
 			return 20;          		//左面是顾客词条id，右边是顾客数据id
 
 //		case "顧客詞条id":				//用索引记录固定长度来格式化输出
@@ -76,10 +77,10 @@ public class 文件記録 {
 //				|				|-----0000000001.data
 //				|			          	|---00000000180000000001
 
-		case "顧客id数据一覧表":		//用索引记录固定长度来格式化输出
+		case PublicName.KEY_顧客id数据一覧表:		//用索引记录固定长度来格式化输出
 			return 20;
 
-		case "業者詞条id一覧表":		//用索引记录固定长度来格式化输出
+		case PublicName.KEY_業者詞条id一覧表:		//用索引记录固定长度来格式化输出
 			return 10;
 
 		}
@@ -241,7 +242,7 @@ public class 文件記録 {
 
 		//"業者詞条id一覧表"的时候，整个文件的记录都是这条数据的地址才对。
 		switch(s類型){
-		case "業者詞条id一覧表":
+		case PublicName.KEY_業者詞条id一覧表:
 			return "0";
 
 		}
@@ -309,11 +310,11 @@ public class 文件記録 {
 		sCallPath = org_sCallPath;
 
 		switch(s類型){
-		case "実体数据索引文件":		//用索引记录固定长度来格式化输出
+		case PublicName.KEY_実体数据索引文件:		//用索引记录固定长度来格式化输出
 	        return s追加内容;
 
-		case "索引地址":		//用索引记录固定长度来格式化输出
-		case "采番ID文件":
+		case PublicName.KEY_索引地址:		//用索引记录固定长度来格式化输出
+		case PublicName.KEY_采番ID文件_:
 
 			String ss追加内容 = null;
 			if(NumberUtils.isDigits(s追加内容)){
@@ -339,8 +340,8 @@ public class 文件記録 {
 
 //		case "顧客詞条id":		//用索引记录固定长度来格式化输出
 //		case "顧客数据id":		//用索引记录固定长度来格式化输出
-		case "顧客id数据一覧表":
-		case "業者詞条id一覧表":
+		case PublicName.KEY_顧客id数据一覧表:
+		case PublicName.KEY_業者詞条id一覧表:
 
 		}
 		return s追加内容;
@@ -387,7 +388,7 @@ public class 文件記録 {
 				e.printStackTrace();
 			}
 		}
-		return Long.parseLong(StringUtils.substring(s索引内容,0, 取得単位記録固定長度_by類型("索引地址")).trim());
+		return Long.parseLong(StringUtils.substring(s索引内容,0, 取得単位記録固定長度_by類型(PublicName.KEY_索引地址)).trim());
 	}
 
 	public long 取得終了地址_by索引内容(String s索引内容){
@@ -408,7 +409,7 @@ public class 文件記録 {
 				e.printStackTrace();
 			}
 		}
-		return Long.parseLong(StringUtils.substring(s索引内容, 取得単位記録固定長度_by類型("索引地址"), s索引内容.length()));
+		return Long.parseLong(StringUtils.substring(s索引内容, 取得単位記録固定長度_by類型(PublicName.KEY_索引地址), s索引内容.length()));
 	}
 
 	/**

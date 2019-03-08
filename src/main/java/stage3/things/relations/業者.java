@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
+import stage3.consts.PublicName;
 import stage3.log.MyLogger;
 import stage3.things.dto.DTO;
 import stage3.things.dto.数据DTO;
@@ -39,7 +40,7 @@ public class 業者  extends DTO{
 		文件記録 o文件記録 = new 文件記録(sCallPath + "追加_業者詞条id一覧表記録");
 		文件全路径 o文件全路径 = new 文件全路径();
 
-		String s類型 = "業者詞条id一覧表";
+		String s類型 = PublicName.KEY_業者詞条id一覧表;
 		String s詞条id = 主体数据dto.get詞条ID();
 		String s数据id = 主体数据dto.get数据ID();
 
@@ -108,7 +109,7 @@ public class 業者  extends DTO{
 		文件記録 o文件記録 = new 文件記録(sCallPath + "取得業者数据DTOList_by数据采番IDand詞条ID");
 		List<数据DTO> 数据DTOList = new ArrayList<数据DTO>();
 
-		String s類型 = "業者詞条id一覧表";
+		String s類型 = PublicName.KEY_業者詞条id一覧表;
 		String s文件全路径_業者詞条ID一覧 =
 				o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(s類型, Arrays.asList(s詞条id, s数据id));
 
@@ -157,7 +158,7 @@ public class 業者  extends DTO{
 //myLogger.printCallMessage(this.sCallPath,"業者.取得業者詞条IDList_by目標詞条ID(main目標詞条ID="+main目標詞条ID+")");
 
 
-		String s文件全路径 = 文件全路径.取得対象文件全路径_by類型and詞条ID("詞条路径", Arrays.asList(main目標詞条ID));
+		String s文件全路径 = 文件全路径.取得対象文件全路径_by類型and詞条ID(PublicName.KEY_詞条路径, Arrays.asList(main目標詞条ID));
 		// List<String> 業者詞条IDList =  文件全路径.getDirectorys(s文件全路径+"\\WAITER");
 
 		s文件全路径 += "\\WAITER";
@@ -196,7 +197,7 @@ public class 業者  extends DTO{
 		 */
 		文件記録 o文件記録 = new 文件記録(sCallPath + "取得業者詞条IDList_by目標詞条ID()");
 
-		String s類型 = "業者詞条id一覧表";
+		String s類型 = PublicName.KEY_業者詞条id一覧表;
 		int 単位記録固定長度 = o文件記録.取得単位記録固定長度_by類型(s類型);
 
 		文件夹 o文件夹 = new 文件夹(sCallPath + "取得所有Guest詞条IDList_by本詞条名");

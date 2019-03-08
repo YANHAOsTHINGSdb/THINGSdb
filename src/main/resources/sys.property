@@ -1,4 +1,4 @@
 #数据路径 =/Users/ai1/Desktop/things_db
 数据路径=/Users/haoyan/Desktop/things_db
 #outputLog=true 输出LOG 其他不输出LOG
-outputLog=true
+outputLog=false

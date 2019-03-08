@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import stage3.cache.CacheForThingsDB;
+import stage3.consts.PublicName;
 import stage3.log.MyLogger;
 import stage3.things.file.文件全路径;
 import stage3.things.file.文件記録;
@@ -39,7 +40,7 @@ public class ID {
 		 * 例如，要求：6位编号自动生成，递增，格式为“000001”。 解释：0代表前面要补的字符，6代表字符串长度，d表示参数为整数类型
 		 */
 
-		String s追加内容 = o文件記録.做成文件記録_by類型and記録内容("采番ID文件", ID+"");
+		String s追加内容 = o文件記録.做成文件記録_by類型and記録内容(PublicName.KEY_采番ID文件_, ID+"");
 		o文件記録.写入文件_by写入内容and文件全路径(s追加内容, s対象文件全路径);
 
 		return s追加内容;
@@ -62,7 +63,7 @@ if(StringUtils.equals(s詞条名, "什么") && s実体数据 == null) {
 		文件記録 o文件記録 = new 文件記録(sCallPath + "採番_by詞条名and実体数据");
 
 		String s詞条id = o詞条.取得詞条ID_by詞条名(s詞条名);
-		String s類型 = "采番ID文件";
+		String s類型 = PublicName.KEY_采番ID文件_;
 
 		/**=====================
 		 * 如果 已经存在同值的数据，那就干脆用同值的ID吧 19-01-06
@@ -91,7 +92,7 @@ if(StringUtils.equals(s詞条名, "什么") && s実体数据 == null) {
 		//=========================
 		// 数据的开始的地址，要 在 写入前就采好 added 20180622
 		//=========================
-		String s開始地址 = o文件記録.取得実体数据開始地址_by類型ands詞条ID("実体数据文件", s詞条id);
+		String s開始地址 = o文件記録.取得実体数据開始地址_by類型ands詞条ID(PublicName.KEY_実体数据文件, s詞条id);
 
 		// 如果实体数据不为空
 		if ( ! StringUtils.isEmpty(s実体数据)) {
@@ -99,7 +100,7 @@ if(StringUtils.equals(s詞条名, "什么") && s実体数据 == null) {
 			// 则在实体数据文件中追加记录
 			// （不要忘记索引文件）
 			String s追加内容 =  s実体数据;
-			s類型 = "実体数据文件";
+			s類型 = PublicName.KEY_実体数据文件;
 			s対象文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(s類型, Arrays.asList(s詞条id, s数据采番ID));
 
 			// 追加实体数据记录
@@ -113,7 +114,7 @@ if(StringUtils.equals(s詞条名, "什么") && s実体数据 == null) {
 		// 取得索引文件全路径
 		//=========================
 
-		s類型 = "実体数据索引文件";
+		s類型 = PublicName.KEY_実体数据索引文件;
 		String s索引文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(s類型, Arrays.asList(s詞条id, s数据采番ID));
 		//=========================
 		// 索引的值是根据采番id取得的。具体方法是。每条索引记录都是固定长度的。它的开始地址就是（采番id-1）*固定长度
@@ -126,8 +127,8 @@ if(StringUtils.equals(s詞条名, "什么") && s実体数据 == null) {
 
 //myLogger.printCallMessage(sCallPath+"採番_by詞条名and実体数据","s実体数据.Length = "+ (s実体数据 != null ? s実体数据.getBytes().length:0));
 
-		s開始地址 = o文件記録.做成文件記録_by類型and記録内容("索引地址", s開始地址);
-		String s終了地址 = o文件記録.做成文件記録_by類型and記録内容("索引地址", "" + l終了地址);
+		s開始地址 = o文件記録.做成文件記録_by類型and記録内容(PublicName.KEY_索引地址, s開始地址);
+		String s終了地址 = o文件記録.做成文件記録_by類型and記録内容(PublicName.KEY_索引地址, "" + l終了地址);
 		String s索引内容 = s開始地址  + s終了地址;
 		if(s実体数据 == null){
 			// 如果实体数据是空值，就要取同等ID长度的空字符串，
@@ -196,12 +197,12 @@ if(StringUtils.equals(s詞条名, "什么") && s実体数据 == null) {
 		文件全路径 o文件全路径 = new 文件全路径();
 		文件記録 o文件記録 = new 文件記録(sCallPath + "取得数据采番ID_by詞条IDand実体数据");
 
-		String s采番ID文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID("采番ID文件", Arrays.asList(s詞条ID));
-		String s実体数据文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID("実体数据文件", Arrays.asList(s詞条ID));
-		String s実体数据索引文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID("実体数据索引文件", Arrays.asList(s詞条ID));
+		String s采番ID文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(PublicName.KEY_采番ID文件_, Arrays.asList(s詞条ID));
+		String s実体数据文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(PublicName.KEY_実体数据文件, Arrays.asList(s詞条ID));
+		String s実体数据索引文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(PublicName.KEY_実体数据索引文件, Arrays.asList(s詞条ID));
 		long l采番ID文件Size = o文件記録.取得文件SIZE_by文件全路径(s采番ID文件全路径);
-		int i単位記録长度_采番ID = o文件記録.取得単位記録固定長度_by類型("采番ID文件");
-		int 単位記録长度_実体数据索引 = o文件記録.取得単位記録固定長度_by類型("実体数据索引文件");
+		int i単位記録长度_采番ID = o文件記録.取得単位記録固定長度_by類型(PublicName.KEY_采番ID文件_);
+		int 単位記録长度_実体数据索引 = o文件記録.取得単位記録固定長度_by類型(PublicName.KEY_実体数据索引文件);
 		//for (int i当前采番id = 0; i当前采番id * i単位記録长度_采番ID < l采番ID文件Size; i当前采番id++) {
 		for ( int i当前采番id = 1; i当前采番id * i単位記録长度_采番ID <= l采番ID文件Size; i当前采番id++) {
 
@@ -210,12 +211,12 @@ if(StringUtils.equals(s詞条名, "什么") && s実体数据 == null) {
 
 			if( StringUtils.isEmpty(s実体数据_param)) {
 				// 如果入力的【s実体数据_param】为空。那么就是无条件查询，那么就全部取出
-				//数据采番ID_List.add(o文件記録.做成文件記録_by類型and記録内容("采番ID文件",i当前采番id +1+ ""));
-				数据采番ID_List.add(o文件記録.做成文件記録_by類型and記録内容("采番ID文件",i当前采番id + ""));
+				//数据采番ID_List.add(o文件記録.做成文件記録_by類型and記録内容(PublicName.KEY_采番ID文件_,i当前采番id +1+ ""));
+				数据采番ID_List.add(o文件記録.做成文件記録_by類型and記録内容(PublicName.KEY_采番ID文件_,i当前采番id + ""));
 			}else if ( StringUtils.equals(s実体数据_param, (String)s実体数据)) {
-				//数据采番ID_List.add(o文件記録.做成文件記録_by類型and記録内容("采番ID文件",i当前采番id +1+ ""));
-				//数据采番ID_List.add(o文件記録.做成文件記録_by類型and記録内容("采番ID文件",i当前采番id==0 ? "1" : i当前采番id + ""));
-				数据采番ID_List.add(o文件記録.做成文件記録_by類型and記録内容("采番ID文件",i当前采番id +""));
+				//数据采番ID_List.add(o文件記録.做成文件記録_by類型and記録内容(PublicName.KEY_采番ID文件_,i当前采番id +1+ ""));
+				//数据采番ID_List.add(o文件記録.做成文件記録_by類型and記録内容(PublicName.KEY_采番ID文件_,i当前采番id==0 ? "1" : i当前采番id + ""));
+				数据采番ID_List.add(o文件記録.做成文件記録_by類型and記録内容(PublicName.KEY_采番ID文件_,i当前采番id +""));
 			}
 		}
 		List<String> l结果 = CollectionUtils.isEmpty(数据采番ID_List)? null:数据采番ID_List;

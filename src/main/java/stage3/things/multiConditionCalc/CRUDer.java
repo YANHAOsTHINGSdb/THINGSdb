@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.springframework.util.CollectionUtils;
 
 import stage3.REL.program.詞条CRUD;
+import stage3.consts.PublicName;
 import stage3.log.MyLogger;
 import stage3.things.THINGSdb;
 
@@ -52,7 +53,7 @@ public class CRUDer {
 		if(! check条件(map)) {
 			return multiConditionCalc.計算_无条件関係(map);
 		}else
-		if(map.get("条件関係")== null) {
+		if(map.get(PublicName.KEY_条件関係)== null) {
 			//単条件检索
 			return multiConditionCalc.計算_単条件関係(map);
 		}else {
@@ -68,15 +69,15 @@ public class CRUDer {
 		LinkedHashMap 条件LinkedHashMap = null;
 		List 条件List = null;
 
-		if (計算情報Map.get("条件") instanceof LinkedHashMap) {
-			条件LinkedHashMap = (LinkedHashMap)計算情報Map.get("条件");
+		if (計算情報Map.get(PublicName.KEY_条件) instanceof LinkedHashMap) {
+			条件LinkedHashMap = (LinkedHashMap)計算情報Map.get(PublicName.KEY_条件);
 			if(CollectionUtils.isEmpty(条件LinkedHashMap)) {
 				return false;
 			}
 		}
 
-		if (計算情報Map.get("条件") instanceof ArrayList) {
-			条件List = (ArrayList)計算情報Map.get("条件");
+		if (計算情報Map.get(PublicName.KEY_条件) instanceof ArrayList) {
+			条件List = (ArrayList)計算情報Map.get(PublicName.KEY_条件);
 			if(CollectionUtils.isEmpty(条件List)) {
 				return false;
 			}

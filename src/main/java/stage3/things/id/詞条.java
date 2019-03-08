@@ -13,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 
 import lombok.Data;
 import stage3.cache.CacheForThingsDB;
+import stage3.consts.PublicName;
 import stage3.log.MyLogger;
 import stage3.things.dto.DTO;
 import stage3.things.dto.対象数据DTO;
@@ -152,13 +153,13 @@ public class 詞条 extends DTO {
 		// 遍历路径下的所有文件
 		文件全路径 o文件全路径 = new 文件全路径();
 		文件記録 o文件記録 = new 文件記録(sCallPath+"取得数据採番idList_by詞条IDand顧客詞条IDand顧客数据ID");
-		String s類型 = "顧客id数据路径";
+		String s類型 = PublicName.KEY_顧客id数据路径;
 
 		String s顧客id数据文件的全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(s類型, Arrays.asList(
 				s業者詞条id, s顧客詞条id));
 
 		long l開始地址 = 0;
-		int i単位記録固定長度 = o文件記録.取得単位記録固定長度_by類型("顧客id数据一覧表");
+		int i単位記録固定長度 = o文件記録.取得単位記録固定長度_by類型(PublicName.KEY_顧客id数据一覧表);
 
 
 		List<String> o文件名List = 文件全路径.getAllFile(s顧客id数据文件的全路径, false);
@@ -296,15 +297,15 @@ public class 詞条 extends DTO {
 		文件全路径 o文件全路径 = new 文件全路径();
 		文件記録 o文件記録 = new 文件記録(sCallPath+"取得数据採番ID_by詞条IDand実体数据");
 
-		String s採番ID文件全路径 =o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID("採番ID文件",
+		String s採番ID文件全路径 =o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(PublicName.KEY_采番ID文件_,
 				Arrays.asList(s詞条id));
-		String s実体数据文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID("実体数据文件",
+		String s実体数据文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(PublicName.KEY_実体数据文件,
 				Arrays.asList(s詞条id));
-		String s実体数据索引文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID("実体数据索引文件",
+		String s実体数据索引文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(PublicName.KEY_実体数据索引文件,
 				Arrays.asList(s詞条id));
 
-		int i単位記録固定長度_採番ID文件 = o文件記録.取得単位記録固定長度_by類型("採番ID文件");
-		int i単位記録固定長度_索引文件 = o文件記録.取得単位記録固定長度_by類型("実体数据索引文件");
+		int i単位記録固定長度_採番ID文件 = o文件記録.取得単位記録固定長度_by類型(PublicName.KEY_采番ID文件_);
+		int i単位記録固定長度_索引文件 = o文件記録.取得単位記録固定長度_by類型(PublicName.KEY_実体数据索引文件);
 
 		long l文件SIZE = o文件記録.取得文件SIZE_by文件全路径(s採番ID文件全路径);
 
@@ -321,9 +322,9 @@ public class 詞条 extends DTO {
 			if(模糊検索plan.模糊chk(s実体数据, s実体数据param)){
 				Map<String, String> 検索結果 = new HashMap();
 
-				String 数据採番ID = o文件記録.做成文件記録_by類型and記録内容("采番ID文件",i当前采番id + "");
-				//検索結果.put("数据採番ID", o文件記録.做成文件記録_by類型and記録内容("采番文件",s実体数据));
-				検索結果.put("数据採番ID", 数据採番ID);
+				String 数据採番ID = o文件記録.做成文件記録_by類型and記録内容(PublicName.KEY_采番ID文件_, i当前采番id + "");
+				//検索結果.put(PublicName.KEY_数据采番ID, o文件記録.做成文件記録_by類型and記録内容(PublicName.KEY_采番ID文件_, s実体数据));
+				検索結果.put(PublicName.KEY_数据采番ID, 数据採番ID);
 				数据採番IDList.add(検索結果);
 			}
 		}
@@ -359,15 +360,15 @@ public class 詞条 extends DTO {
 		文件全路径 o文件全路径 = new 文件全路径();
 		文件記録 o文件記録 = new 文件記録(sCallPath + s函数方法名);
 
-		String s採番ID文件全路径 =o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID("採番ID文件",
+		String s採番ID文件全路径 =o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(PublicName.KEY_采番ID文件_,
 				Arrays.asList(s詞条id));
-		String s実体数据文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID("実体数据文件",
+		String s実体数据文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(PublicName.KEY_実体数据文件,
 				Arrays.asList(s詞条id));
-		String s実体数据索引文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID("実体数据索引文件",
+		String s実体数据索引文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(PublicName.KEY_実体数据索引文件,
 				Arrays.asList(s詞条id));
 
-		int i単位記録固定長度_採番ID文件 = o文件記録.取得単位記録固定長度_by類型("採番ID文件");
-		int i単位記録固定長度_索引文件 = o文件記録.取得単位記録固定長度_by類型("実体数据索引文件");
+		int i単位記録固定長度_採番ID文件 = o文件記録.取得単位記録固定長度_by類型(PublicName.KEY_采番ID文件_);
+		int i単位記録固定長度_索引文件 = o文件記録.取得単位記録固定長度_by類型(PublicName.KEY_実体数据索引文件);
 
 		long l文件SIZE = o文件記録.取得文件SIZE_by文件全路径(s採番ID文件全路径);
 
@@ -383,7 +384,7 @@ public class 詞条 extends DTO {
 
 			if(区間検索plan.区間chk(s実体数据, s開始値, s終了値)){
 				Map<String, String> 検索結果 = new HashMap();
-				検索結果.put("数据採番ID", o文件記録.做成文件記録_by類型and記録内容("采番文件",s実体数据));
+				検索結果.put(PublicName.KEY_数据采番ID, o文件記録.做成文件記録_by類型and記録内容(PublicName.KEY_采番ID文件_,s実体数据));
 				数据採番IDList.add(検索結果);
 			}
 		}
@@ -425,10 +426,10 @@ public class 詞条 extends DTO {
 		文件記録 o文件記録 = new 文件記録(sCallPath + s函数方法名);
 
 		String s実体数据文件全路径 =
-			o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID("実体数据文件", Arrays.asList(s詞条id, s数据採番id));
-		String s実体数据索引文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID("実体数据索引文件",
+			o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(PublicName.KEY_実体数据文件, Arrays.asList(s詞条id, s数据採番id));
+		String s実体数据索引文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(PublicName.KEY_実体数据索引文件,
 				Arrays.asList(s詞条id));
-		int i単位記録长度_実体数据索引 = o文件記録.取得単位記録固定長度_by類型("実体数据索引文件");
+		int i単位記録长度_実体数据索引 = o文件記録.取得単位記録固定長度_by類型(PublicName.KEY_実体数据索引文件);
 
 		String s索引内容 = o文件記録.取得対象文件内容_by文件全路径and開始地址and単位記録長度(s実体数据索引文件全路径,
 				(Long.parseLong(s数据採番id)-1) * i単位記録长度_実体数据索引, i単位記録长度_実体数据索引);
@@ -489,7 +490,7 @@ public class 詞条 extends DTO {
 		}
 		文件全路径 o文件全路径 = new 文件全路径();
 		文件記録 o文件記録 = new 文件記録(sCallPath + s函数方法名);
-		String s類型 = "顧客id数据一覧表";
+		String s類型 = PublicName.KEY_顧客id数据一覧表;
 
 		String s顧客id数据文件的全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(s類型,
 				Arrays.asList(s本詞条id, s顧客詞条id, s顧客数据id));
@@ -541,7 +542,7 @@ public class 詞条 extends DTO {
 
 
 		// 从第二条数据开始，每一条都是它的顾客信息
-		List<数据DTO> 数据DTOList = o顧客.取得顧客数据DTOList_by詞条名and実体数据("詞条", s詞条名);
+		List<数据DTO> 数据DTOList = o顧客.取得顧客数据DTOList_by詞条名and実体数据(PublicName.KEY_词条, s詞条名);
 
 		if(CollectionUtils.isEmpty(数据DTOList)){
 			// FORLOG_START
@@ -626,7 +627,7 @@ public class 詞条 extends DTO {
 
 		switch (s詞条名) {
 
-		case "詞条":
+		case PublicName.KEY_词条:
 			return "0000000001";
 		case "別名":
 			return "0000000002";
@@ -671,13 +672,13 @@ public class 詞条 extends DTO {
 		文件記録 o文件記録 = new 文件記録(sCallPath+"追加詞条_by詞条名");
 
 		String s採番文件全路径 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(
-				"采番ID文件",
+				PublicName.KEY_采番ID文件_,
 				Arrays.asList("0000000001"));
-		String s種類 = "采番ID文件";
+		String s種類 = PublicName.KEY_采番ID文件_;
 
 		ID id = new ID(sCallPath + "追加詞条_by詞条名");
 
-		String s数据採番ID =id.採番_by詞条名and実体数据("詞条", s詞条名);
+		String s数据採番ID =id.採番_by詞条名and実体数据(PublicName.KEY_词条, s詞条名);
 
 		// 缓存机制
 		if(! StringUtils.isEmpty(s数据採番ID)) {

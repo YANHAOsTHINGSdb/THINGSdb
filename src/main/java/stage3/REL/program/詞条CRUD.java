@@ -11,6 +11,7 @@ import org.springframework.util.CollectionUtils;
 
 import stage3.REL.io.MyFileReader;
 import stage3.REL.io.file.FileReader_BufferedReader;
+import stage3.consts.PublicName;
 import stage3.engine.tool.ClassObject;
 import stage3.engine.tool.SDP;
 import stage3.log.MyLogger;
@@ -106,15 +107,15 @@ public class 詞条CRUD {
 		// 1-1 为主词条采番
 		詞条 o詞条 = new 詞条(sCallPath + "追加子詞条");
 		ID idObject = new ID(sCallPath + "追加子詞条");
-		String 主詞条名 = (String) 詞条信息map.get("目标");
+		String 主詞条名 = (String) 詞条信息map.get(PublicName.KEY_目标);
 		if(StringUtils.isEmpty(主詞条名)) {return null;}
 
 		// 如果词条不存在是可以词条采番的。
 		String 主詞条数据ID = idObject.採番_by詞条名and実体数据(主詞条名, null);
 		String 主詞条ID = o詞条.取得詞条ID_by詞条名(主詞条名);
 		Map<String, String> 主詞条信息Map = new HashMap();
-		主詞条信息Map.put("詞条ID", 主詞条ID);
-		主詞条信息Map.put("数据ID", 主詞条数据ID);
+		主詞条信息Map.put(PublicName.KEY_词条ID, 主詞条ID);
+		主詞条信息Map.put(PublicName.KEY_数据ID, 主詞条数据ID);
 
 		// 1-2 建立【主词条】与【条件词条】的关系（仅限追加模式）
 		为主词条追加W词条关系信息(主詞条信息Map, w词条词条List);
@@ -161,13 +162,13 @@ public class 詞条CRUD {
 
 		if(ClassObject.checkObjectIsEmpty(詞条信息map.get("条件"))) {return null;}
 		List<Map> W词条List = null;
-		if(詞条信息map.get("条件") instanceof Map) {
-			W词条List = Arrays.asList((Map)詞条信息map.get("条件"));
-		}else if(詞条信息map.get("条件") instanceof List) {
-			W词条List = (List<Map>) 詞条信息map.get("条件");
+		if(詞条信息map.get(PublicName.KEY_条件) instanceof Map) {
+			W词条List = Arrays.asList((Map)詞条信息map.get(PublicName.KEY_条件));
+		}else if(詞条信息map.get(PublicName.KEY_条件) instanceof List) {
+			W词条List = (List<Map>) 詞条信息map.get(PublicName.KEY_条件);
 		}else {
 			// 是一个BEAN时，该怎么办。
-			W词条List = Arrays.asList((Map)詞条信息map.get("条件"));
+			W词条List = Arrays.asList((Map)詞条信息map.get(PublicName.KEY_条件));
 		}
 
 		List<Map> W词条信息MapList = new ArrayList();
@@ -224,15 +225,15 @@ public class 詞条CRUD {
 			}
 			else if(StringUtils.equals(ClassObject.取得对象Object的Type(entry.getValue()), "Bean")){
 				// 1-4 如果Entry的Value是一个Bean
-				数据ID = 追加W词条的Bean数据_by构造词条信息Map(entry.getKey(), entry.getValue()).get("数据ID");
+				数据ID = 追加W词条的Bean数据_by构造词条信息Map(entry.getKey(), entry.getValue()).get(PublicName.KEY_数据ID);
 			}
 			else {
 				// 1-3  如果Entry的Value是一个非List
 				数据ID = 追加W词条的数据_正常流程(entry.getKey(), entry.getValue());
 			}
 			// 1-4  做成W词条的词条信息Map<词条ID，数据ID>
-			W词条信息Map.put("詞条ID", o詞条.取得詞条ID_by詞条名(entry.getKey()));
-			W词条信息Map.put("数据ID", 数据ID);
+			W词条信息Map.put(PublicName.KEY_词条ID, o詞条.取得詞条ID_by詞条名(entry.getKey()));
+			W词条信息Map.put(PublicName.KEY_数据ID, 数据ID);
 			W词条信息MapList.add(W词条信息Map);
 
 		}
@@ -266,10 +267,10 @@ public class 詞条CRUD {
 			if(w词条Map == null) {
 				continue;
 			}
-			String s数据ID = w词条Map.get("数据ID");
+			String s数据ID = w词条Map.get(PublicName.KEY_数据ID);
 			Map<String, String> resultMap = new HashMap();
-			resultMap.put("词条ID", s词条ID);
-			resultMap.put("数据ID", s数据ID);
+			resultMap.put(PublicName.KEY_词条ID, s词条ID);
+			resultMap.put(PublicName.KEY_数据ID, s数据ID);
 			resultMapList.add(resultMap);
 		}
 		sCallPath = sCallPath_local;
@@ -306,10 +307,10 @@ public class 詞条CRUD {
 		Map<String, Object> 詞条信息map = new HashMap();
 //		ObjectMapper oMapper = new ObjectMapper();
 
-		詞条信息map.put("操作", "追加");
+		詞条信息map.put(PublicName.KEY_操作, "追加");
 		// 詞条信息map.put("对象", ClassObject.get对象名ByClassName(value));
-		詞条信息map.put("目标", ClassObject.get对象名ByClassName(value));
-		詞条信息map.put("条件", ClassObject.把Bean的第一层转成Map(value));
+		詞条信息map.put(PublicName.KEY_目标, ClassObject.get对象名ByClassName(value));
+		詞条信息map.put(PublicName.KEY_条件, ClassObject.把Bean的第一层转成Map(value));
 
 		// 2.2 2.3 递归调用【词条CRUD.追加词条信息Map】，返回其结果值
 		sCallPath = sCallPath_local;
@@ -496,8 +497,8 @@ public class 詞条CRUD {
 		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加Guest関係( )");
 
 		顧客 o顧客 = new 顧客(sCallPath + "追加Guest関係");
-		数据DTO G数据dto = new 数据DTO(G詞条信息.get("詞条ID"), G詞条信息.get("数据ID"));
-		数据DTO W数据dto = new 数据DTO(W詞条信息.get("詞条ID"), W詞条信息.get("数据ID"));
+		数据DTO G数据dto = new 数据DTO(G詞条信息.get(PublicName.KEY_词条ID), G詞条信息.get(PublicName.KEY_数据ID));
+		数据DTO W数据dto = new 数据DTO(W詞条信息.get(PublicName.KEY_词条ID), W詞条信息.get(PublicName.KEY_数据ID));
 		o顧客.追加顧客関係_by主体数据and顧客数据(W数据dto, G数据dto);
 	}
 
@@ -507,8 +508,8 @@ public class 詞条CRUD {
 		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加Waiter関係( )");
 
 		業者 o業者 = new 業者(sCallPath + "追加Waiter関係");
-		数据DTO G数据dto = new 数据DTO(G詞条信息.get("詞条ID"), G詞条信息.get("数据ID"));
-		数据DTO W数据dto = new 数据DTO(W詞条信息.get("詞条ID"), W詞条信息.get("数据ID"));
+		数据DTO G数据dto = new 数据DTO(G詞条信息.get(PublicName.KEY_词条ID), G詞条信息.get(PublicName.KEY_数据ID));
+		数据DTO W数据dto = new 数据DTO(W詞条信息.get(PublicName.KEY_词条ID), W詞条信息.get(PublicName.KEY_数据ID));
 		o業者.追加業者関係_by主体数据and業者数据(G数据dto, W数据dto);
 	}
 
@@ -519,8 +520,8 @@ public class 詞条CRUD {
 
 		Map<String,String> 詞条信息map = new HashMap<String,String>();
 		詞条信息map.putAll(g詞条信息);
-		詞条信息map.put("詞条ID",詞条id);
-		詞条信息map.put("数据ID",数据id);
+		詞条信息map.put(PublicName.KEY_词条ID,詞条id);
+		詞条信息map.put(PublicName.KEY_数据ID,数据id);
 
 		return 詞条信息map;
 	}
@@ -639,7 +640,7 @@ public class 詞条CRUD {
         MyFileReader oMyFileReader = new FileReader_BufferedReader();
 
         List<String> 程序代码文件地址List = new ArrayList();
-        String 程序詞条ID = o詞条.取得詞条ID_by詞条名((String) crudMap.get("目标"));
+        String 程序詞条ID = o詞条.取得詞条ID_by詞条名((String) crudMap.get(PublicName.KEY_目标));
         NOSQL nosql = new NOSQL("");
         /**
 		 * NOSQL.用SDP方式取得実体数据_byFrom词条ID_To词条ID_入力情報Map
@@ -653,7 +654,7 @@ public class 詞条CRUD {
 		 * |
 		 * |---NOSQL.取得目标值_通过执行_SDP代码List_入力情報Map
          */
-        Map 条件Map = (Map) crudMap.get("条件");
+        Map 条件Map = (Map) crudMap.get(PublicName.KEY_条件);
         SDP sdpObject = new SDP("");
         List<String> 取得SDP的SDP代码List = sdpObject.先通过固定方式取的_取得目标数据的计算方法SDP的SDP();
         return nosql.取得SDP代码List_byFrom词条ID_To词条ID(取得SDP的SDP代码List, (String)条件Map.get("from词条ID"), (String)条件Map.get("to词条ID"));
@@ -764,7 +765,7 @@ public class 詞条CRUD {
 		// 把所有信息都放入map
 		詞条 o詞条 = new 詞条(sCallPath+"取得関係詞条_検索UIListMap");
 		/*
-		String s文件全路径 = 文件全路径.取得対象文件全路径_by類型and詞条ID("詞条路径",
+		String s文件全路径 = 文件全路径.取得対象文件全路径_by類型and詞条ID(PublicName.KEY_詞条路径,
 				Arrays.asList(o詞条.取得詞条ID_by詞条名(s詞条)));
 		if(StringUtils.isEmpty(s文件全路径)) {
 			return null;
@@ -772,7 +773,7 @@ public class 詞条CRUD {
 */		// 取得【社員Bean】下所有【顧客】与【業者】的詞条
 
 		String s詞条ID = o詞条.取得詞条ID_by詞条名(s詞条);
-		String s文件全路径 = 文件全路径.取得対象文件全路径_by類型and詞条ID("詞条路径",
+		String s文件全路径 = 文件全路径.取得対象文件全路径_by類型and詞条ID(PublicName.KEY_詞条路径,
 				Arrays.asList(s詞条ID));
 		/**
 		 * 社員Bean
@@ -852,7 +853,7 @@ public class 詞条CRUD {
 		詞条 o詞条 = new 詞条(sCallPath+"詞条CRUD.取得関係詞条IDList");
 
 		String s詞条ID = o詞条.取得詞条ID_by詞条名(s詞条);
-		String s文件全路径 = 文件全路径.取得対象文件全路径_by類型and詞条ID("詞条路径",
+		String s文件全路径 = 文件全路径.取得対象文件全路径_by類型and詞条ID(PublicName.KEY_詞条路径,
 				Arrays.asList(s詞条ID));
 
 		顧客 o顧客 = new 顧客(sCallPath+"詞条CRUD.取得関係詞条IDList");
@@ -925,8 +926,8 @@ public class 詞条CRUD {
 			// 如果是文件路径，就用路径取得文件内容，化为List
 			// 1 取得即将要存入数据的对象文件的全路径
 			Map g詞条信息 = new HashMap();
-			g詞条信息.put("词条ID", o詞条.取得詞条ID_by詞条名(s词条名));
-			g詞条信息.put("数据ID", s数据id);
+			g詞条信息.put(PublicName.KEY_词条ID, o詞条.取得詞条ID_by詞条名(s词条名));
+			g詞条信息.put(PublicName.KEY_数据ID, s数据id);
 			詞条ListData o詞条ListData = new 詞条ListData(g詞条信息);
 
 			return o詞条ListData.取得数据DataList(g詞条信息);

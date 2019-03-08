@@ -11,6 +11,7 @@ public  class PublicName {
 	//static String spath="/Users/ai1/Desktop/SpringRestfulWebServicesCRUDExample/sys.property" ;
 	//static String spath="/Users/haoyan/Desktop/history/20190110/SpringRestfulWebServicesCRUDExample/sys.property" ;
 	static String spath="/sys.property";
+
 	/**
 	 * 将数据库地址的信息存入property文件
 	 * @param s指定信息
@@ -102,15 +103,18 @@ public  class PublicName {
 	public static final String KEY_ID="ID" ;// 场所=MultiConditionCalc.取得指定信息_根据词条名and条件DTO，场所=MultiConditionCalc.取得指定信息_根据条件Map，场所=MultiConditionCalc.计算_单条件关系
 	                                        // 取得辞書IDList_根据入出力字典and出力項目andIDList
 	public static final String KEY_词条名="词条名" ;// 场所=MultiConditionCalc.取得指定信息_根据词条名and条件DTO，场所=MultiConditionCalc.取得指定信息_根据条件Map
+	public static final String KEY_词条="词条"; 	// 詞条
+												// 詞条CRUD
 	public static final Object KEY_詞条名 = KEY_词条名;
 	public static final String KEY_顾客路径="顾客路径" ;// 场所=MultiConditionCalc.取得指定信息_根据词条名and条件DTO，场所=MultiConditionCalc.取得关系Str_by目标and条件项目
 	public static final String KEY_顧客路径 = KEY_顾客路径;
 	public static final Object KEY_計算符号 = "计算符号";// 场所=MultiConditionCalc.取得結果_根据直接関係
 	public static final String KEY_EMPTYBLANK = "";// NOSQL.取得プログラム数据_根据辞書ID
 	public static final Object KEY_目标词条ID = "目标词条ID";// NOSQL.取得実体数据_根据字典Aand字典Band入力数据
-	public static final Object KEY_词条ID = "词条ID"; // NOSQL.取得実体数据_根据字典Aand字典Band入力数据
+	public static final String KEY_词条ID = "词条ID"; // 詞条CRUD NOSQL.取得実体数据_根据字典Aand字典Band入力数据
+	public static final String KEY_数据ID = "数据ID"; // 詞条CRUD
 	public static final Object KEY_计算符号 = "计算符号";// NOSQL.取得実体数据_根据字典Aand字典Band入力数据
-	public static final Object KEY_操作 = "操作";// NOSQL.取得実体数据_根据字典Aand字典Band入力数据
+	public static final String KEY_操作 = "操作";// NOSQL.取得実体数据_根据字典Aand字典Band入力数据
 	public static final Object KEY_检索 = "检索";// NOSQL.取得実体数据_根据字典Aand字典Band入力数据
 	public static final String KEY_朋友 = "朋友";// NOSQL.取得指定値_根据入力字典and出力字典and入力情報Map, NOSQL.取得指定値_根据入力字典and出力字典and入力数据
 	public static final String KEY_家族 = "家族";// NOSQL.取得指定値_根据入力字典and出力字典and入力情報Map, NOSQL.取得指定値_根据入力字典and出力字典and入力数据
@@ -132,4 +136,14 @@ public  class PublicName {
 	public static final String KEY_THINGSdb词条ID = "0000000001";
 
 	public static final String outputLog = 取得指定信息("outputLog"); // MyLogger.printCallMessage
+	public static final String KEY_词条路径 = "词条路径";
+	public static final String KEY_詞条路径 = KEY_词条路径;
+	public static final String KEY_業者詞条id一覧表 = "業者詞条id一覧表";
+	public static final String KEY_顧客id数据一覧表 = "顧客id数据一覧表";
+	public static final String KEY_id顧客数据一覧表 = "id顧客数据一覧表";
+	public static final String KEY_采番ID文件_ = "采番ID文件";
+	public static final String KEY_実体数据文件 = "実体数据文件";
+	public static final String KEY_実体数据索引文件 = "実体数据索引文件";
+	public static final String KEY_顧客id数据路径 = "顧客id数据路径";
+	public static final String KEY_索引地址 = "索引地址";
 }

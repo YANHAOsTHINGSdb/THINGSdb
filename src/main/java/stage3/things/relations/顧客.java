@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
+import stage3.consts.PublicName;
 import stage3.log.MyLogger;
 import stage3.things.dto.DTO;
 import stage3.things.dto.数据DTO;
@@ -87,7 +88,7 @@ public class 顧客  extends DTO{
 
 //myLogger.printCallMessage(sCallPath,"顧客.追加_id顧客数据一覧表記録( 主体数据dto=" + 主体数据dto.toString() + ", 顧客数据List=" + 顧客数据List.toString() + ")");
 
-		String s類型 = "id顧客数据一覧表";
+		String s類型 = PublicName.KEY_id顧客数据一覧表;
 
 		文件全路径 o文件全路径 = new 文件全路径();
 		//怕是要新建一个文件了
@@ -111,7 +112,7 @@ public class 顧客  extends DTO{
 
 //myLogger.printCallMessage(sCallPath,"顧客.追加_顧客id数据一覧表記録( 主体数据List=" + 主体数据List.toString() + ", 顧客数据dto=" + 顧客数据dto.toString() + ")");
 
-		String s類型 = "顧客id数据一覧表";
+		String s類型 = PublicName.KEY_顧客id数据一覧表;
 
 		String s詞条id = 主体数据List.get(0).get詞条ID();
 
@@ -239,7 +240,7 @@ public class 顧客  extends DTO{
 
 			s本詞条id = "0000000001";
 		}
-		String s類型1 = "id顧客数据一覧表";
+		String s類型1 = PublicName.KEY_id顧客数据一覧表;
 		String s文件全路径_id顧客数据一覧表 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(s類型1, Arrays.asList(s本詞条id, s本数据id));
 
 		long l開始地址1 = 0;
@@ -306,7 +307,7 @@ public class 顧客  extends DTO{
 		詞条 o詞条 = new 詞条("取得所有Guest詞条IDList_by本詞条名");
 
 		文件全路径 o文件全路径 = new 文件全路径();
-		String s類型1 = "顧客路径";
+		String s類型1 = PublicName.KEY_顧客路径;
 		String s文件全路径_id顧客数据一覧表 =
 				o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(
 						s類型1, Arrays.asList(o詞条.取得詞条ID_by詞条名(s本詞条名)));
