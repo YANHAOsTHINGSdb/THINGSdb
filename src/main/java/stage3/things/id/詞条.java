@@ -15,11 +15,11 @@ import lombok.Data;
 import stage3.cache.CacheForThingsDB;
 import stage3.consts.PublicName;
 import stage3.log.MyLogger;
-import stage3.things.dto.DTO;
 import stage3.things.dto.対象数据DTO;
 import stage3.things.dto.数据DTO;
 import stage3.things.file.文件全路径;
 import stage3.things.file.文件記録;
+import stage3.things.relations.詞業顧三者親;
 import stage3.things.relations.業者;
 import stage3.things.relations.顧客;
 import stage3.things.search.区間検索Plan;
@@ -28,7 +28,7 @@ import stage3.things.search.impl.区間検索Plan期間Impl;
 import stage3.things.search.impl.模糊検索Plan文字列Impl;
 
 @Data
-public class 詞条 extends DTO {
+public class 詞条 extends 詞業顧三者親 {
 	String sCallPath = null;
 	MyLogger myLogger = new MyLogger();
 

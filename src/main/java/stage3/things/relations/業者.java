@@ -11,7 +11,6 @@ import org.springframework.util.CollectionUtils;
 
 import stage3.consts.PublicName;
 import stage3.log.MyLogger;
-import stage3.things.dto.DTO;
 import stage3.things.dto.数据DTO;
 import stage3.things.file.文件全路径;
 import stage3.things.file.文件夹;
@@ -19,7 +18,7 @@ import stage3.things.file.文件記録;
 import stage3.things.id.ID;
 import stage3.things.id.詞条;
 
-public class 業者  extends DTO{
+public class 業者  extends 詞業顧三者親{
 	String sCallPath = null;
 	MyLogger myLogger = new MyLogger();
 
@@ -34,36 +33,14 @@ public class 業者  extends DTO{
 
 	}
 
-	private void 追加_業者詞条id一覧表記録(数据DTO 主体数据dto, List<数据DTO> 業者数据List) {
-//myLogger.printCallMessage(this.sCallPath,"業者.追加_業者詞条id一覧表記録()");
 
-		文件記録 o文件記録 = new 文件記録(sCallPath + "追加_業者詞条id一覧表記録");
-		文件全路径 o文件全路径 = new 文件全路径();
 
-		String s類型 = PublicName.KEY_業者詞条id一覧表;
-		String s詞条id = 主体数据dto.get詞条ID();
-		String s数据id = 主体数据dto.get数据ID();
-
-		String s文件全路径_主体数据and顧客数据 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(s類型, Arrays.asList(s詞条id, s数据id));
-
-		//追加内容 = 顾客数据.数据ID + "," + 主体数据.词条ID
-		String s追加内容= 数据DTOList出力(業者数据List);
-
-		o文件記録.追加記録_by類型and追加内容and文件全路径(s類型,s追加内容,s文件全路径_主体数据and顧客数据);
-
-	}
-
-	private String 数据DTOList出力(List<数据DTO> 主体数据List) {
-
-//myLogger.printCallMessage(this.sCallPath,"業者.数据DTOList出力()");
-
-		String sList出力 = "";
-		for(数据DTO 数据dto : 主体数据List){
-			sList出力 += 数据dto.get詞条ID();
-		}
-		return sList出力;
-	}
-
+	/**
+	 *
+	 * @param s詞条名
+	 * @param s実体数据
+	 * @return
+	 */
 	public List<数据DTO> 取得業者数据DTOList_by詞条名and実体数据(String s詞条名, String s実体数据){
 
 //myLogger.printCallMessage(this.sCallPath,"業者.取得業者数据DTOList_by詞条名and実体数据(s詞条名="+s詞条名+",s実体数据="+s実体数据+")");
@@ -88,61 +65,12 @@ public class 業者  extends DTO{
 
 	}
 
+
 	/**
 	 *
-	 * @param s詞条id
-	 * @param s数据id
+	 * @param main目標詞条名
 	 * @return
 	 */
-	public List<数据DTO> 取得業者数据DTOList_by詞条IDand数据采番ID(String s詞条id, String s数据id){
-		//目的/意味：就是针对这个词条的这条数据，找出有哪些相关的数据
-		//具体操作：1、先找到【業者詞条ID一覧文件的物理地址】，当然是根据词条ID，数据ID
-		//				因為業者詞条ID一覧的文件名是每条数据的采番ID
-		//			2、再把该文件中的所有值都取出。
-		//				当然就算是业者一览，也是按规矩来存储的
-		//				其内容也是按照ID的単位記録固定長度来存储的
-
-//myLogger.printCallMessage(this.sCallPath,"業者.取得業者数据DTOList_by詞条IDand数据采番ID(s詞条id="+s詞条id+",s数据id="+s数据id+")");
-
-
-		文件全路径 o文件全路径 = new 文件全路径();
-		文件記録 o文件記録 = new 文件記録(sCallPath + "取得業者数据DTOList_by数据采番IDand詞条ID");
-		List<数据DTO> 数据DTOList = new ArrayList<数据DTO>();
-
-		String s類型 = PublicName.KEY_業者詞条id一覧表;
-		String s文件全路径_業者詞条ID一覧 =
-				o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(s類型, Arrays.asList(s詞条id, s数据id));
-
-		//"業者詞条id一覧表"的时候，整个文件的记录都是这条数据的地址才对。
-		String s開始地址 = o文件記録.取得索引開始地址_by類型and数据ID(s類型, s数据id);
-
-		//int 詞条 = o文件記録.取得単位記録固定長度_by類型(s類型);
-		long l文件SIZE = o文件記録.取得文件SIZE_by文件全路径(s文件全路径_業者詞条ID一覧);
-		if(l文件SIZE <= 0) {
-			return new ArrayList<数据DTO>();
-		}
-		String s本詞条IDs = o文件記録.取得対象文件内容_by文件全路径and開始地址and単位記録長度(s文件全路径_業者詞条ID一覧, Long.parseLong(s開始地址), l文件SIZE);
-		int 単位記録固定長度 = o文件記録.取得単位記録固定長度_by類型(s類型);
-
-		詞条 o詞条 = new 詞条(sCallPath + "取得業者数据DTOList_by詞条IDand数据采番ID()");
-		for(int i = 0; i*単位記録固定長度 < s本詞条IDs.trim().length() ; i++){
-			String s本詞条ID =  s本詞条IDs.substring(i*単位記録固定長度, (i+1)*単位記録固定長度);
-			List<String> s業者数据IDList = o詞条.検索業者数据採番idList_by本詞条IDand顧客詞条IDand顧客数据ID(s本詞条ID, s詞条id, s数据id);
-
-			if(CollectionUtils.isEmpty(s業者数据IDList)) {
-				数据DTO 数据dto = new 数据DTO(s本詞条ID, null);
-				数据DTOList.add(数据dto);
-				continue;
-			}
-			for(String 数据ID : s業者数据IDList) {
-				数据DTO 数据dto = new 数据DTO(s本詞条ID, 数据ID);
-				数据DTOList.add(数据dto);
-			}
-
-		}
-		return 数据DTOList;
-	}
-
 	public List<String> 取得業者詞条IDList_by目標詞条名(String main目標詞条名) {
 
 //myLogger.printCallMessage(this.sCallPath,"業者.取得業者詞条IDList_by目標詞条名(main目標詞条名="+main目標詞条名+")");
@@ -154,6 +82,11 @@ public class 業者  extends DTO{
 		return 取得業者詞条IDList_by目標詞条ID(s詞条ID);
 	}
 
+	/**
+	 *
+	 * @param main目標詞条ID
+	 * @return
+	 */
 	public List<String> 取得業者詞条IDList_by目標詞条ID(String main目標詞条ID) {
 //myLogger.printCallMessage(this.sCallPath,"業者.取得業者詞条IDList_by目標詞条ID(main目標詞条ID="+main目標詞条ID+")");
 
@@ -217,4 +150,54 @@ public class 業者  extends DTO{
 
 		return 業者詞条IDList;
 	}
+
+	/*	// 将所有为之服务的W詞条ID数据ID一起取出
+	private List<数据DTO> 取得W数据DTOList_by詞条IDand数据采番ID(String s本詞条id, String s本数据id) {
+
+//myLogger.printCallMessage(sCallPath,"顧客.取得顧客数据DTOList_by詞条IDand数据采番ID( 詞条ID=" + s本詞条id + ", 数据采番ID=" + s本数据id + ")");
+
+		List<数据DTO> 数据DTOList = new ArrayList<数据DTO>();
+		文件全路径 o文件全路径 = new 文件全路径();
+		文件記録 o文件記録 = new 文件記録(sCallPath + "取得顧客数据DTOList_by詞条IDand数据采番ID");
+
+		if(s本詞条id.equals("0000000001") && s本数据id.equals("0000000011")) {
+
+			s本詞条id = "0000000001";
+		}
+		String s類型1 = PublicName.KEY_id顧客数据一覧表;
+		String s文件全路径_id顧客数据一覧表 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(s類型1, Arrays.asList(s本詞条id, s本数据id));
+
+		long l開始地址1 = 0;
+		int 単位記録固定長度1 = o文件記録.取得単位記録固定長度_by類型(s類型1);
+		long l文件SIZE1 = o文件記録.取得文件SIZE_by文件全路径(s文件全路径_id顧客数据一覧表);
+
+		String s顧客詞条IDs = o文件記録.取得対象文件内容_by文件全路径and開始地址and単位記録長度(s文件全路径_id顧客数据一覧表, l開始地址1, 単位記録固定長度1);
+		if (StringUtils.isEmpty(s顧客詞条IDs)) {
+			return null;
+		}
+
+		for (int i = 0; i * 単位記録固定長度1 < s顧客詞条IDs.length(); i++) {
+			String s顧客詞条ID数据ID = s顧客詞条IDs.substring(i * 単位記録固定長度1, (i + 1) * 単位記録固定長度1);
+
+			数据DTO 数据dto = to数据DTO(s顧客詞条ID数据ID);
+
+			数据DTOList.add(数据dto);
+		}
+
+		//		String s類型2 = "顧客数据id一覧表";
+		//		String s文件全路径_顧客数据id一覧表 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(s類型2, Arrays.asList(s詞条id, s数据id));
+		//
+		//		long l開始地址2 = 0;
+		//		int 単位記録固定長度2 = o文件記録.取得単位記録固定長度_by類型(s類型2);
+		//		long l文件SIZE2 = o文件記録.取得文件SIZE_by文件全路径(s文件全路径_顧客数据id一覧表);
+		//
+		//		String s顧客数据IDs = o文件記録.取得対象文件内容_by文件全路径and開始地址and単位記録長度(s文件全路径_顧客数据id一覧表, l開始地址2, l文件SIZE2);
+		//		for(int i = 0; i*単位記録固定長度2 < s顧客数据IDs.length() ; i++){
+		//			String s顧客数据ID =  s顧客詞条IDs.substring(i*単位記録固定長度2, (i+1)*単位記録固定長度2);
+		//
+		//			数据DTOList.get(i).set数据ID(s顧客数据ID);
+		//		}
+		return 数据DTOList;
+
+	}*/
 }
