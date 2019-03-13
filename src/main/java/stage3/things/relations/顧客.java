@@ -40,41 +40,9 @@ public class 顧客  extends 詞業顧三者親{
 		*/
 		//追加_id顧客数据一覧表記録(主体数据, Arrays.asList(顧客数据));
 		追加_顧客id数据一覧表記録(Arrays.asList(主体数据), 顧客数据);
-		super.追加_業者詞条id一覧表記録(主体数据, Arrays.asList(顧客数据));
+		追加_業者詞条id一覧表記録(主体数据, Arrays.asList(顧客数据));
 	}
 
-	//	public void 追加_顧客詞条id一覧表記録(数据DTO 主体数据dto, 数据DTO 顧客数据dto) {
-	//		String s類型 = "顧客詞条id一覧表";
-	//		String s詞条id = 主体数据dto.get詞条ID();
-	//		String s数据id = 主体数据dto.get数据ID();
-	//
-	//		文件全路径 o文件全路径 = new 文件全路径();
-	//		String s文件全路径_顧客詞条id一覧表 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(s類型, Arrays.asList(s詞条id, s数据id));
-	//
-	//		//追加内容 = 主体数据.数据ID + "," + 顧客数据.詞条ID
-	//		String s追加内容= 顧客数据dto.get詞条ID();
-	//
-	//		文件記録 o文件記録 = new 文件記録();
-	//		o文件記録.追加記録_by類型and追加内容and文件全路径(s類型, s追加内容, s文件全路径_顧客詞条id一覧表);
-	//
-	//	}
-	//
-	//
-	//	private void 追加_顧客数据id一覧表記録(数据DTO 主体数据dto, 数据DTO 顧客数据dto) {
-	//		String s類型 = "顧客数据id一覧表";
-	//
-	//		String s詞条id = 主体数据dto.get詞条ID();
-	//		String s数据id = 主体数据dto.get数据ID();
-	//		文件全路径 o文件全路径 = new 文件全路径();
-	//		String s文件全路径_顧客数据id一覧表 = o文件全路径.取得対象文件全路径_by類型and詞条IDand数据ID(s類型, Arrays.asList(s詞条id, s数据id));
-	//
-	//		//追加内容 = 主体数据.数据ID + "," + 顧客数据.数据ID
-	//		String s追加内容= 顧客数据dto.get詞条ID();
-	//
-	//		文件記録 o文件記録 = new 文件記録();
-	//		o文件記録.追加記録_by類型and追加内容and文件全路径(s類型,s追加内容,s文件全路径_顧客数据id一覧表);
-	//
-	//	}
 /*
 |---id_GUEST
 		|-----0000000001.data

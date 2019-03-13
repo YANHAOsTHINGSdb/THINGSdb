@@ -499,6 +499,9 @@ public class 詞条CRUD {
 		顧客 o顧客 = new 顧客(sCallPath + "追加Guest関係");
 		数据DTO G数据dto = new 数据DTO(G詞条信息.get(PublicName.KEY_词条ID), G詞条信息.get(PublicName.KEY_数据ID));
 		数据DTO W数据dto = new 数据DTO(W詞条信息.get(PublicName.KEY_词条ID), W詞条信息.get(PublicName.KEY_数据ID));
+		/**
+		 * 将G数据dto数据放入G下
+		 */
 		o顧客.追加顧客関係_by主体数据and顧客数据(W数据dto, G数据dto);
 	}
 
@@ -510,6 +513,9 @@ public class 詞条CRUD {
 		業者 o業者 = new 業者(sCallPath + "追加Waiter関係");
 		数据DTO G数据dto = new 数据DTO(G詞条信息.get(PublicName.KEY_词条ID), G詞条信息.get(PublicName.KEY_数据ID));
 		数据DTO W数据dto = new 数据DTO(W詞条信息.get(PublicName.KEY_词条ID), W詞条信息.get(PublicName.KEY_数据ID));
+		/**
+		 * 将W数据dto数据放入W下
+		 */
 		o業者.追加業者関係_by主体数据and業者数据(G数据dto, W数据dto);
 	}
 
