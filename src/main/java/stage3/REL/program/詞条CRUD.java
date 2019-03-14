@@ -84,9 +84,9 @@ public class 詞条CRUD {
 		if(CollectionUtils.isEmpty(W词条词条List)) {return null;}
 
 		// II 处理主词条【目标】
-		Map<String, String> reslut = 追加詞条信息_处理主词条(詞条信息map, W词条词条List);
+		Map<String, String> 主词条map = 追加詞条信息_处理主词条(詞条信息map, W词条词条List);
 		sCallPath = sCallPath_local;
-		return reslut;
+		return 主词条map;
 
 	}
 
@@ -219,21 +219,21 @@ public class 詞条CRUD {
 				 *                           |----词条ID
 				 *                           |----数据ID
 				 */
-				List<Map> W词条List = 追加W词条的数据_by辅臣List(entry.getKey(), entry.getValue(), 詞条信息map);
+				List<Map> W词条List = 追加W词条的数据_by辅臣List(entry.getValue(), 詞条信息map);
 				W词条信息MapList.addAll(W词条List);
 				continue;
 			}
 			else if(StringUtils.equals(ClassObject.取得对象Object的Type(entry.getValue()), "Bean")){
 				// 1-4 如果Entry的Value是一个Bean
-				数据ID = 追加W词条的Bean数据_by构造词条信息Map(entry.getKey(), entry.getValue()).get(PublicName.KEY_数据ID);
+				W词条信息Map = 追加W词条的Bean数据_by构造词条信息Map(entry.getValue());
 			}
 			else {
 				// 1-3  如果Entry的Value是一个非List
-				数据ID = 追加W词条的数据_正常流程(entry.getKey(), entry.getValue());
+				W词条信息Map = 追加W词条的数据_正常流程(entry.getKey(), entry.getValue());
 			}
 			// 1-4  做成W词条的词条信息Map<词条ID，数据ID>
-			W词条信息Map.put(PublicName.KEY_词条ID, o詞条.取得詞条ID_by詞条名(entry.getKey()));
-			W词条信息Map.put(PublicName.KEY_数据ID, 数据ID);
+		//	W词条信息Map.put(PublicName.KEY_词条ID, o詞条.取得詞条ID_by詞条名(entry.getKey()));
+		//	W词条信息Map.put(PublicName.KEY_数据ID, 数据ID);
 			W词条信息MapList.add(W词条信息Map);
 
 		}
@@ -249,10 +249,10 @@ public class 詞条CRUD {
 	 * @param 詞条信息map
 	 * @return
 	 */
-	private List<Map> 追加W词条的数据_by辅臣List(String key, Object value, Map<String, Object> 詞条信息map) {
+	private List<Map> 追加W词条的数据_by辅臣List(Object value, Map<String, Object> 詞条信息map) {
 		String sCallPath_local = sCallPath;
 		sCallPath += "追加W词条的数据_by辅臣List";
-		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加W词条的数据_by辅臣List( )" + "詞条名=" + key + ",Object=" + value);
+		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加W词条的数据_by辅臣List( )" + ",Object=" + value);
 		// ----------------------------------
 		// 先把每一个辅臣做好词条追加的处理
 		// 然后把每一个辅臣的信息都放入一个【Map】中，
@@ -261,17 +261,17 @@ public class 詞条CRUD {
 		List<Map> resultMapList = new ArrayList();
 		List<Object> W辅臣信息ObjectList = (ArrayList)value;
 		詞条 o詞条 = new 詞条(sCallPath + "追加W词条的数据_by辅臣List");
-		String s词条ID = o詞条.取得詞条ID_by詞条名(key);
+//		String s词条ID = o詞条.取得詞条ID_by詞条名(s词条名);
 		for(Object W辅臣信息Object : W辅臣信息ObjectList) {
-			Map<String,String> w词条Map = 追加W词条的Bean数据_by构造词条信息Map(key, W辅臣信息Object);
+			Map<String,String> w词条Map = 追加W词条的Bean数据_by构造词条信息Map(W辅臣信息Object);
 			if(w词条Map == null) {
 				continue;
 			}
-			String s数据ID = w词条Map.get(PublicName.KEY_数据ID);
-			Map<String, String> resultMap = new HashMap();
-			resultMap.put(PublicName.KEY_词条ID, s词条ID);
-			resultMap.put(PublicName.KEY_数据ID, s数据ID);
-			resultMapList.add(resultMap);
+//			String s数据ID = w词条Map.get(PublicName.KEY_数据ID);
+//			Map<String, String> resultMap = new HashMap();
+//			resultMap.put(PublicName.KEY_词条ID, s词条ID);
+//			resultMap.put(PublicName.KEY_数据ID, s数据ID);
+			resultMapList.add(w词条Map);
 		}
 		sCallPath = sCallPath_local;
 		return resultMapList;
@@ -284,10 +284,10 @@ public class 詞条CRUD {
 	* @param 詞条信息map
 	* @return 詞条数据map<>
 	*/
-	private Map<String, String> 追加W词条的Bean数据_by构造词条信息Map(String s詞条名, Object value) {
+	private Map<String, String> 追加W词条的Bean数据_by构造词条信息Map(Object value) {
 		String sCallPath_local = sCallPath;
 		sCallPath += "追加W词条的Bean数据_by构造词条信息Map";
-		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加W词条的Bean数据_by构造词条信息Map( )" + "词条名=" + s詞条名 +", Object=" + value);
+		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加W词条的Bean数据_by构造词条信息Map( )" + " Object=" + value);
 		/*===========================================
 		 *	  2.1 构造 词条信息Map
 		 *
@@ -312,7 +312,7 @@ public class 詞条CRUD {
 		詞条信息map.put(PublicName.KEY_目标, ClassObject.get对象名ByClassName(value));
 		詞条信息map.put(PublicName.KEY_条件, ClassObject.把Bean的第一层转成Map(value));
 
-		// 2.2 2.3 递归调用【词条CRUD.追加词条信息Map】，返回其结果值
+		// 2.2 2.3 递归调用【词条CRUD.追加词条信息Map】，返回其结果值 = 主词条Map
 		sCallPath = sCallPath_local;
 		return 追加詞条信息map(詞条信息map);
 	}
@@ -327,7 +327,7 @@ public class 詞条CRUD {
 	 * @param o实际数据
 	 * @return 数据ID
 	 */
-	private String 追加W词条的数据_正常流程(String s词条名, Object o实际数据) {
+	private Map<String,String> 追加W词条的数据_正常流程(String s词条名, Object o实际数据) {
 		String sCallPath_local = sCallPath;
 		sCallPath += "追加W词条的Bean数据_by构造词条信息Map";
 		myLogger.printCallMessage(sCallPath,"詞条CRUD.追加W词条的数据_正常流程( )" + "词条名=" + s词条名 +",实际数据=" + o实际数据);
@@ -350,13 +350,16 @@ public class 詞条CRUD {
 //			s实际数据 = (String)o实际数据;
 //		}
 		sCallPath = sCallPath_local;
+		詞条 o詞条 = new 詞条(sCallPath + "追加W词条的数据_by辅臣List");
 
 		s实际数据 = o实际数据.toString();
 		if(StringUtils.isEmpty(s实际数据)) {
 			return null;
 		}
-
-		return idObject.採番_by詞条名and実体数据(s词条名, s实际数据);
+		Map<String, String> 主詞条map = new HashMap();
+		主詞条map.put(PublicName.KEY_数据ID, idObject.採番_by詞条名and実体数据(s词条名, s实际数据));
+		主詞条map.put(PublicName.KEY_词条ID, o詞条.取得詞条ID_by詞条名(s词条名));
+		return 主詞条map;
 	}
 
 	/**
