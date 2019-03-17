@@ -334,21 +334,7 @@ public class 詞条CRUD {
 		// 这一块有些混乱了，想不起THINGSdb的追加_by数据()有什么特别的了
 		ID idObject = new ID(sCallPath + "处理每一个w词条Map");
 		String s实际数据 = null;
-//		if( o实际数据 instanceof Long) {
-//			s实际数据 = Long.toString((Long)o实际数据);
-//		}
-//		if( o实际数据 instanceof Integer) {
-//			s实际数据 = Integer.toString((int)o实际数据);
-//		}
-//		if( o实际数据 instanceof Double) {
-//			s实际数据 = Double.toString((Double)o实际数据);
-//		}
-//		if( o实际数据 instanceof Float) {
-//			s实际数据 = Float.toString((Float)o实际数据);
-//		}
-//		if( o实际数据 instanceof String) {
-//			s实际数据 = (String)o实际数据;
-//		}
+
 		sCallPath = sCallPath_local;
 		詞条 o詞条 = new 詞条(sCallPath + "追加W词条的数据_by辅臣List");
 
@@ -547,7 +533,6 @@ public class 詞条CRUD {
 
 		// 把 所有b3为【字典】【项目】的所有值取出来。
 
-
 		// 取得程序中【字典】与【项目】所对应的值
 		// 去除重复项
 		//     将项目放入【对象List】
@@ -666,7 +651,10 @@ public class 詞条CRUD {
         Map 条件Map = (Map) crudMap.get(PublicName.KEY_条件);
         SDP sdpObject = new SDP("");
         List<String> 取得SDP的SDP代码List = sdpObject.先通过固定方式取的_取得目标数据的计算方法SDP的SDP();
-        return nosql.取得SDP代码List_byFrom词条ID_To词条ID(取得SDP的SDP代码List, (String)条件Map.get("from词条ID"), (String)条件Map.get("to词条ID"));
+        return nosql.取得SDP代码List_byFrom词条ID_To词条ID(
+        		取得SDP的SDP代码List,
+        		(String)条件Map.get("from词条ID"),
+        		(String)条件Map.get("to词条ID"));
 	}
 
 //	private List<String> 取得程序IDList__byCRUD(Map<String, Object> crudMap) {
@@ -954,7 +942,8 @@ public class 詞条CRUD {
 
 	private List<String> 取得指定数据的保存方式信息_by词条名_数据ID(String s词条名, String s数据ID) {
 		詞条 o詞条 = new 詞条("");
-		List<String> 保存方式信息List = o詞条.検索業者詞条的実体数据_by顧客詞条IDand顧客数据IDand本詞条ID(o詞条.取得詞条ID_by詞条名(s词条名), s数据ID, o詞条.取得詞条ID_by詞条名("保存方式"));
+		List<String> 保存方式信息List = o詞条.検索業者詞条的実体数据_by顧客詞条IDand顧客数据IDand本詞条ID(
+				o詞条.取得詞条ID_by詞条名(s词条名), s数据ID, o詞条.取得詞条ID_by詞条名("保存方式"));
 		return 保存方式信息List;
 	}
 
