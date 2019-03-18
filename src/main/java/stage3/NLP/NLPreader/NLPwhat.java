@@ -15,6 +15,52 @@ public class NLPwhat {
 	String 太子;
 
 	/**
+	 * 解析对象
+	 *
+	  └── ROOT
+	    └── IP
+	        ├── ADVP
+	        │   └── AD
+	        ├── NP（有效）
+	        │   └── NN（有效）
+	        ├── VP（有效）
+	        │   ├── VP（有效）
+	        │   │   ├── VC（有效）
+	        │   │   └── NP（有效）
+	        │   │       ├── DNP（？）
+	        │   │       │   ├── NP（有效）
+	        │   │       │   │   ├── NN（有效）
+	        │   │       │   │   ├── NN（有效）
+	        │   │       │   │   ├── CC
+	        │   │       │   │   └── NN（有效）
+	        │   │       │   └── DEG
+	        │   │       ├── ADJP
+	        │   │       │   └── JJ
+	        │   │       └── NP（有效）
+	        │   │           └── NN（有效）
+	        │   ├── PU（无效）
+	        │   └── VP（有效）
+	        │       ├── VC（有效）
+	        │       └── NP（有效）
+	        │           ├── DNP（？）
+	        │           │   ├── NP（有效）
+	        │           │   │   ├── NN（有效）
+	        │           │   │   └── NN（有效）
+	        │           │   └── DEG
+	        │           └── NP（有效）
+	        │               └── NN（有效）
+	        └── PU（无效）
+	 */
+
+	/**
+	 * 采用递归方式。解析语句。
+	 *   先找NP
+	 *   再找VP
+	 *   最后确定其他
+	 *     |---在此递归
+	 */
+
+	/**
 	 * 目的是将node的语义存入what
 	 * @param what
 	 * @param nodeParam
@@ -137,6 +183,7 @@ public class NLPwhat {
 				case "DNP":
 //					System.out.println("DNP");
 				default:
+					// 还要继续深入
 					NLPwhat subWhat = new NLPwhat();
 					subWhat = subWhat.parse(subWhat, node);
 					what.listWhat = what.listWhat == null ? new ArrayList() : what.listWhat;
