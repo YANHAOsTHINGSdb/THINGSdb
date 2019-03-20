@@ -66,33 +66,33 @@ public class NLPwhat {
 	 * @param nodeParam
 	 * @return
 	 */
-	public NLPwhat parse(NLPwhat what, Node nodeParam) {
-		if(what == null) {
-			return null;
-		}
-
-		if(nodeParam == null) {
-			return null;
-		}
+	public void parse(Node nodeParam) {
+//		if(what == null) {
+//			return null;
+//		}
+//
+//		if(nodeParam == null) {
+//			return null;
+//		}
 
 		if(CollectionUtils.isEmpty(nodeParam.sonNodeList)) {
-			return what;
+			return ;
 		}
+	//	NLPwhat what = new NLPwhat();
+		this.findNp(nodeParam);    // findNP会在what中设置它的NP项，然后把结果返回给what
+		this.findVp(nodeParam);    // findVP会在what中设置它的VP项，然后把结果返回给what
+		this.parseOther(nodeParam);// parseOther会在nodeParam中找非VP和NP项。然后把结果返回给what
 
-		what = findNp(what, nodeParam);// findNP会在what中设置它的NP项，然后把结果返回给what
-		what = findVp(what, nodeParam);// findVP会在what中设置它的VP项，然后把结果返回给what
-		what = parseOther(what, nodeParam);// parseOther会在nodeParam中找非VP和NP项。然后把结果返回给what
-
-		if(! isParseAnyInThisNode(what)) {// isParseAnyInThisNode会在what中查找是否已经存在VP会NP
+		if(! isParseAnyInThisNode(this)) {// isParseAnyInThisNode会在what中查找是否已经存在VP会NP
 			// 如果该层Node不是有效的
 			// 就需要进入下一层
 			for(Node node : nodeParam.sonNodeList) {
 				// 专门给无效层做的准备，例。ROOT、IP。。
 				// 下一层处理，然后把结果返回给what
-				what = what.parse(what, node);
+				this.parse(node);
 			}
 		}
-		return what;
+		// return what;
 	}
 
 	/**
@@ -101,22 +101,22 @@ public class NLPwhat {
 	 * @param nodeParam
 	 * @return
 	 */
-	private NLPwhat findVp(NLPwhat what, Node nodeParam) {
+	private void  findVp(Node nodeParam) {
 		// 如果没有子集，就返回
 		if(CollectionUtils.isEmpty(nodeParam.sonNodeList)) {
-			return what;
+			return ;
 		}
 		// 如果没有NN
 		for(Node node : nodeParam.sonNodeList) {
 			if (StringUtils.equals(node.sTYPE, "VP")) {
 				NLPverb newVerb = new NLPverb();
 				newVerb = newVerb.parse(newVerb, node);
-				what.nlpVerb = newVerb;
-				return what;
+				this.setNlpVerb(newVerb);
+				return ;
 			}
 		}
 		// 说明什么都没有找到
-		return what;
+		return ;
 	}
 
 	/**
@@ -125,26 +125,21 @@ public class NLPwhat {
 	 * @param nodeParam
 	 * @return
 	 */
-	private NLPwhat findNp(NLPwhat what, Node nodeParam) {
+	private void findNp(Node nodeParam) {
 		// 如果没有子集，就返回
 		if(CollectionUtils.isEmpty(nodeParam.sonNodeList)) {
-			return what;
+			return;
 		}
 		// 如果没有NN，说明需要发现NP，需要再次递归。
 		for(Node node : nodeParam.sonNodeList) {
 			// 在子集中发现了【NP】这样的node
 			if (StringUtils.equals(node.sTYPE, "NP")) {
-				NLPwhat newWhat = new NLPwhat();
 				// VP---VC-NP---DNP-ADJP-NP
 				// 因为NP之下有可能不是NN，而还是VP、所以只能递归，不可挖掘
-				newWhat = newWhat.parse(newWhat, node);
-				what.太子 = newWhat.太子;
-				what.listWhat = newWhat.listWhat;
-				return what;
+				this.parse(node);
 			}
 		}
 		// 说明什么都没有找到
-		return what;
 	}
 
 	/**
@@ -153,15 +148,16 @@ public class NLPwhat {
 	 * @param nodeParam
 	 * @return
 	 */
-	private NLPwhat parseOther(NLPwhat what, Node nodeParam) {
-		if(what == null) {
-			return null;
-		}
+	private void parseOther(Node nodeParam) {
+//		if(what == null) {
+//			return null;
+//		}
 		// 先将非NP/VP的项找到
 		// 如果没有子集，就返回吧。
 		if(CollectionUtils.isEmpty(nodeParam.sonNodeList)) {
-			return what;
+			return;
 		}
+		NLPwhat subWhat = null;
 		boolean bNNisOver = false; // 有没有被处理过的flg
 		for(Node node : nodeParam.sonNodeList) {
 			if(StringUtils.isEmpty(nodeParam.sTYPE)) {
@@ -175,25 +171,39 @@ public class NLPwhat {
 				case "NN":
 					// 所有的NN会被一次性处理掉，但上面却是在遍历，所以弄了个flag
 					if(!bNNisOver) {
-						what = findNN(what, nodeParam.sonNodeList);
+						findNN(nodeParam.sonNodeList);
 						bNNisOver = true;
 					}
 					break;
-				case "ADVP":
+				case "IP":
+					this.parse(node);
+					break;
+
 				case "DNP":
+					// 还要继续深入
+					subWhat = new NLPwhat();
+					// subWhat = subWhat.parse(subWhat, node);
+					subWhat.parse(node);
+					this.listWhat = this.listWhat == null ? new ArrayList() : this.listWhat;
+					// 把她加到辅臣
+					if(! subWhat.isEmpty()) this.listWhat.addAll(subWhat.listWhat);
+
 //					System.out.println("DNP");
+					break;
+				case "ADVP":
 				default:
 					// 还要继续深入
-					NLPwhat subWhat = new NLPwhat();
-					subWhat = subWhat.parse(subWhat, node);
-					what.listWhat = what.listWhat == null ? new ArrayList() : what.listWhat;
+					subWhat = new NLPwhat();
+					// subWhat = subWhat.parse(subWhat, node);
+					subWhat.parse(node);
+					this.listWhat = this.listWhat == null ? new ArrayList() : this.listWhat;
 					// 把她加到辅臣
-					if(! subWhat.isEmpty()) what.listWhat.add(subWhat);
+					if(! subWhat.isEmpty()) this.listWhat.add(subWhat);
 			}
 		} // end-for
 
 		// 如果什么都没找到，就算了
-		return what;
+		return ;
 	}
 
 	/**
@@ -202,14 +212,21 @@ public class NLPwhat {
 	 * @param sonNodeList
 	 * @return
 	 */
-	private NLPwhat findNN(NLPwhat what, List<Node> sonNodeList) {
+	private void findNN(List<Node> sonNodeList) {
 		//
 		Integer countNN = getCountOfNN(sonNodeList);
-		if(countNN == 1) return parse太子(what, sonNodeList);
+		if(countNN == 1) {
+			parse太子( sonNodeList);
+		}
+		// 取得子集中CC的位置
 		Integer iLocCC = getLocCC(sonNodeList);
-		what = beforeCC(what, sonNodeList, iLocCC);
-		if(iLocCC != -1) what = afterCC(what, sonNodeList, iLocCC);
-		return what;
+
+		// 目的是处理第一个CC之前的部分
+		beforeCC(sonNodeList, iLocCC);
+
+		// 目的是处理第一个CC之后的部分
+		if(iLocCC != -1) afterCC(sonNodeList, iLocCC);
+
 	}
 
 	/**
@@ -219,7 +236,7 @@ public class NLPwhat {
 	 * @param iLocCC
 	 * @return
 	 */
-	private NLPwhat afterCC(NLPwhat what, List<Node> sonNodeList, Integer iLocCC) {
+	private void afterCC(List<Node> sonNodeList, Integer iLocCC) {
 		List<Node> anther_nodeList = new ArrayList();
 		// 如果CC为【与】，可以考虑共享辅臣
 		anther_nodeList = shareByCC(anther_nodeList, sonNodeList, iLocCC);
@@ -232,10 +249,9 @@ public class NLPwhat {
 		// 【人类 交流-与-思维 和 记录 还有 学习】
 		// 这才是最难解析的
 		NLPwhat anther_newWhat = new NLPwhat();
-		anther_newWhat = anther_newWhat.findNN(anther_newWhat, anther_nodeList);
-		what.listWhat = what.listWhat == null ? new ArrayList() : what.listWhat;
-		what.listWhat.add(anther_newWhat);
-		return what;
+		anther_newWhat.findNN(anther_nodeList);
+		this.listWhat = this.listWhat == null ? new ArrayList() : this.listWhat;
+		this.listWhat.add(anther_newWhat);
 	}
 
 	/**
@@ -263,7 +279,7 @@ public class NLPwhat {
 	 * @param iLocCC
 	 * @return
 	 */
-	private NLPwhat beforeCC(NLPwhat what, List<Node> sonNodeList, Integer iLocCC) {
+	private void beforeCC(List<Node> sonNodeList, Integer iLocCC) {
 		List<Node> nodeList = new ArrayList();
 		// 以下不是【1】就是【2】
 		// 【1】
@@ -277,17 +293,37 @@ public class NLPwhat {
 
 		switch(nodeList.size()) {
 		case 1:
-			what.parse太子(what, sonNodeList.get(0));
-			return what;
+			this.parse太子(sonNodeList.get(0));
+			break;
 		case 2:
 			NLPwhat nlpWhat = new NLPwhat();
-			nlpWhat = nlpWhat.parseNN_NN(nlpWhat, nodeList);
-			what.listWhat = what.listWhat == null ? new ArrayList() : what.listWhat;
-			what.listWhat.add(nlpWhat);
+			nlpWhat.parseNN_NN( nodeList);
+		//	if( !nlpWhat.isNLPwhatEmpty() ) {
+				this.listWhat = this.listWhat == null ? new ArrayList() : this.listWhat;
+				this.listWhat.add(nlpWhat);
+		//	}
 		default:
 			// 还没想好怎么处理三个以上的NN 一起来的。
 		}
-		return what;
+		return ;
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public boolean isNLPwhatEmpty() {
+		boolean bResult = false;
+		if(StringUtils.isEmpty(this.太子)) {
+			bResult = true;
+		}
+		if(CollectionUtils.isEmpty(this.listWhat)) {
+			bResult = true;
+		}
+		if(this.nlpVerb == null || this.nlpVerb.isNLPVerbEmpty()) {
+			bResult = true;
+		}
+		return bResult;
 	}
 
 	/**
@@ -299,26 +335,25 @@ public class NLPwhat {
 	 * @param nodeList
 	 * @return
 	 */
-	private NLPwhat parseNN_NN(NLPwhat what, List<Node> sonNodeList) {
+	private void parseNN_NN(List<Node> sonNodeList) {
 		Integer countNN = getCountOfNN(sonNodeList);
 		if(countNN != 2) {
 			// 还没想好怎么处理三个以上的NN 一起来的。
 			// 真的来了，我也不知道咋办
-			return null;
+			return ;
 		}
 		Node node =  new Node();
 		if(countNN == 2) {
-			what.太子 = sonNodeList.get(1).sVar;     // 后一个NN 是主上
+			this.太子 = sonNodeList.get(1).sVar;     // 后一个NN 是主上
 			node.sTYPE = "NP";
 			node.sonNodeList = new ArrayList();
 			node.sonNodeList.add(sonNodeList.get(0));// 前一个NN 是辅臣
 		}
 		// 开始洗白
 		NLPwhat nlpWhat = new NLPwhat();
-		nlpWhat = nlpWhat.parse(nlpWhat, node);
-		what.listWhat = what.listWhat == null ? new ArrayList() : what.listWhat;
-		what.listWhat.add(nlpWhat);
-		return what;
+		nlpWhat.parse(node);
+		this.listWhat = this.listWhat == null ? new ArrayList() : this.listWhat;
+		this.listWhat.add(nlpWhat);
 	}
 
 	/**
@@ -345,13 +380,12 @@ public class NLPwhat {
 	 * @param node
 	 * @return
 	 */
-	private NLPwhat parse太子(NLPwhat what, List<Node> sonNodeList) {
+	private void parse太子(List<Node> sonNodeList) {
 		for(Node node : sonNodeList) {
 			if(StringUtils.equals(node.sTYPE, "NN")) {
-				what = what.parse太子(what, node);
+				this.parse太子(node);
 			}
 		}
-		return what;
 	}
 
 	/**
@@ -390,12 +424,10 @@ public class NLPwhat {
 	 * @param node
 	 * @return
 	 */
-	private NLPwhat parse太子(NLPwhat what, Node node) {
+	private void parse太子(Node node) {
 		if (! StringUtils.isEmpty(node.sVar)) {
-			what.太子 = node.sVar;
-			return what;
+			this.set太子(node.sVar);
 		}
-		return what;
 	}
 
 	/**

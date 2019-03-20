@@ -30,8 +30,8 @@ public class NLPverb {
 		for(Node node : nodeParam.sonNodeList) {
 			if ( StringUtils.equals(node.sTYPE, "NP")) {
 				NLPwhat newWhat = new NLPwhat();
-				newWhat = newWhat.parse(newWhat, node);
-				newNLPverb.nlpWhat = newWhat;
+				newWhat.parse(node);
+				newNLPverb.setNlpWhat(newWhat);
 				return newNLPverb;
 			}
 		}
@@ -131,4 +131,23 @@ public class NLPverb {
                     .print(prefix + (isTail ?"    " : "│   "), true);
         }
     }
+
+    /**
+     *
+     * @return
+     */
+	public boolean isNLPVerbEmpty() {
+		boolean bResult = false;
+
+		if(nlpWhat == null || nlpWhat.isNLPwhatEmpty()) {}{
+			bResult = true;
+		}
+		if(CollectionUtils.isEmpty(this.brotherNLPverbList)) {
+			bResult = true;
+		}
+		if(StringUtils.isEmpty(this.太子)) {
+			bResult = true;
+		}
+		return bResult;
+	}
 }

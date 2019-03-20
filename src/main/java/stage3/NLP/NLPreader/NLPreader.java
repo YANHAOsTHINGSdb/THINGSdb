@@ -201,7 +201,7 @@ public class NLPreader extends NLPreaderBase {
 		nlpReader.nodeResult.print("", true);
 		//=============再语法分析========================
 		NLPwhat nlpWhat = new NLPwhat();
-		nlpWhat.parse(nlpWhat, nlpReader.nodeResult);
+		nlpWhat.parse(nlpReader.nodeResult);
 		nlpWhat.print("", true);
 
 		//=============再做成MAP========================
