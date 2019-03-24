@@ -83,7 +83,7 @@ public class NLPwhat {
 		this.findVp(nodeParam);    // findVP会在what中设置它的VP项，然后把结果返回给what
 		this.parseOther(nodeParam);// parseOther会在nodeParam中找非VP和NP项。然后把结果返回给what
 
-		if(! isParseAnyInThisNode(this)) {// isParseAnyInThisNode会在what中查找是否已经存在VP会NP
+		if(! this.isParseAnyInThisNode(this)) {// isParseAnyInThisNode会在what中查找是否已经存在VP会NP
 			// 如果该层Node不是有效的
 			// 就需要进入下一层
 			for(Node node : nodeParam.sonNodeList) {
@@ -130,6 +130,7 @@ public class NLPwhat {
 		if(CollectionUtils.isEmpty(nodeParam.sonNodeList)) {
 			return;
 		}
+
 		// 如果没有NN，说明需要发现NP，需要再次递归。
 		for(Node node : nodeParam.sonNodeList) {
 			// 在子集中发现了【NP】这样的node
@@ -168,10 +169,11 @@ public class NLPwhat {
 				case "NP":break;
 				case "VP":break;
 				case "AD":
+				case "CC":
 				case "NN":
 					// 所有的NN会被一次性处理掉，但上面却是在遍历，所以弄了个flag
 					if(!bNNisOver) {
-						findNN(nodeParam.sonNodeList);
+						this.findNN(nodeParam.sonNodeList);
 						bNNisOver = true;
 					}
 					break;
@@ -213,19 +215,19 @@ public class NLPwhat {
 	 * @return
 	 */
 	private void findNN(List<Node> sonNodeList) {
-		//
-		Integer countNN = getCountOfNN(sonNodeList);
+		// 目的是取得子集中NN节点的个数
+		Integer countNN = this.getCountOfNN(sonNodeList);
 		if(countNN == 1) {
-			parse太子( sonNodeList);
+			this.parse太子( sonNodeList);
 		}
 		// 取得子集中CC的位置
-		Integer iLocCC = getLocCC(sonNodeList);
+		Integer iLocCC = this.getLocCC(sonNodeList);
 
 		// 目的是处理第一个CC之前的部分
-		beforeCC(sonNodeList, iLocCC);
+		this.beforeCC(sonNodeList, iLocCC);
 
 		// 目的是处理第一个CC之后的部分
-		if(iLocCC != -1) afterCC(sonNodeList, iLocCC);
+		if(iLocCC != -1) this.afterCC(sonNodeList, iLocCC);
 
 	}
 
@@ -239,7 +241,7 @@ public class NLPwhat {
 	private void afterCC(List<Node> sonNodeList, Integer iLocCC) {
 		List<Node> anther_nodeList = new ArrayList();
 		// 如果CC为【与】，可以考虑共享辅臣
-		anther_nodeList = shareByCC(anther_nodeList, sonNodeList, iLocCC);
+		anther_nodeList = this.shareByCC(anther_nodeList, sonNodeList, iLocCC);
 
 		// 定向复制
 		for(int i=iLocCC +1; i<sonNodeList.size(); i++) {
@@ -249,7 +251,11 @@ public class NLPwhat {
 		// 【人类 交流-与-思维 和 记录 还有 学习】
 		// 这才是最难解析的
 		NLPwhat anther_newWhat = new NLPwhat();
-		anther_newWhat.findNN(anther_nodeList);
+		// 目的是在子集中处理 NN-NN-CC-NN的情况
+		// anther_newWhat.findNN(anther_nodeList);
+
+		// 目的是针对NN NN这样的作出变形处理，然后再交给what重新洗白
+		anther_newWhat.parseNN_NN(anther_nodeList);
 		this.listWhat = this.listWhat == null ? new ArrayList() : this.listWhat;
 		this.listWhat.add(anther_newWhat);
 	}
@@ -282,21 +288,28 @@ public class NLPwhat {
 	private void beforeCC(List<Node> sonNodeList, Integer iLocCC) {
 		List<Node> nodeList = new ArrayList();
 		// 以下不是【1】就是【2】
-		// 【1】
+		// 【1】iLocCC == -1
 		if(iLocCC == -1) {
+			// 如果CC不存在
 			nodeList = sonNodeList;
 		}
-		// 【2】
+		// 【2】iLocCC != -1
 		for(int i=0; i<iLocCC ; i++) {
+			// 如果CC存在，
 			nodeList.add(sonNodeList.get(i));
 		}
 
 		switch(nodeList.size()) {
 		case 1:
+			// 如果处理对象nodeList，只有一个节点，
+			// 那么这个肯定是【太子】
+			// 目的是取得子集中的NN节点，并将其作为太子
 			this.parse太子(sonNodeList.get(0));
 			break;
 		case 2:
+			// 如果处理对象nodeList，只有两个节点，
 			NLPwhat nlpWhat = new NLPwhat();
+			// 目的是针对NN NN这样的作出变形处理，然后再交给what重新洗白
 			nlpWhat.parseNN_NN( nodeList);
 		//	if( !nlpWhat.isNLPwhatEmpty() ) {
 				this.listWhat = this.listWhat == null ? new ArrayList() : this.listWhat;
@@ -331,12 +344,23 @@ public class NLPwhat {
 	 * 然后在交给what重新洗白
 	 * 具体方案是， 前一个NN 是辅臣
 	 *            后一个NN 是主上
+	 *
+	 * 就是两个并列的NN 也要分出一个主次。
+	 * 主为太子
+	 * 次为辅臣
+	 *   例 人类 交流
+	 *      NN0  NN1
+	 *   NN0 是修饰 NN1的
+	 *   所以 NN0 是辅臣
+	 *   所以 NN1 是太子
+	 *
 	 * @param nlpWhat
 	 * @param nodeList
 	 * @return
 	 */
 	private void parseNN_NN(List<Node> sonNodeList) {
-		Integer countNN = getCountOfNN(sonNodeList);
+		// 目的是取得子集中NN节点的个数
+		Integer countNN = this.getCountOfNN(sonNodeList);
 		if(countNN != 2) {
 			// 还没想好怎么处理三个以上的NN 一起来的。
 			// 真的来了，我也不知道咋办

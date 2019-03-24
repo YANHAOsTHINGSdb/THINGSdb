@@ -192,6 +192,7 @@ public class NLPreader extends NLPreaderBase {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		//=============sParse对象是斯坦福NLP解析出来的结果========================
 		String sParse对象 = "(ROOT (IP (ADVP (AD 自然)) (NP (NN 语言)) (VP (VP (VC 是) (NP(DNP(NP (NN 人类) (NN 思维) (CC 与) (NN 交流)) (DEG 的))(ADJP (JJ 主要)) (NP (NN 工具))))(PU ，) (VP (VC 是) (NP (DNP (NP (NN 人类) (NN 智慧)) (DEG 的)) (NP (NN 结晶))))) (PU 。)))";
 		//=============先词法分析========================
 		sParse对象 = sParse对象.replace(" (", "(");
