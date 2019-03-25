@@ -1,7 +1,6 @@
 package stage3.NLP.NLPreader;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -194,25 +193,25 @@ public class NLPreader extends NLPreaderBase {
 	public static void main(String[] args) {
 		//=============sParse对象是斯坦福NLP解析出来的结果========================
 		String sParse对象 = "(ROOT (IP (ADVP (AD 自然)) (NP (NN 语言)) (VP (VP (VC 是) (NP(DNP(NP (NN 人类) (NN 思维) (CC 与) (NN 交流)) (DEG 的))(ADJP (JJ 主要)) (NP (NN 工具))))(PU ，) (VP (VC 是) (NP (DNP (NP (NN 人类) (NN 智慧)) (DEG 的)) (NP (NN 结晶))))) (PU 。)))";
-		//=============先词法分析========================
+		//=============词法分析========================
 		sParse对象 = sParse对象.replace(" (", "(");
 		NLPreader nlpReader = new NLPreader(sParse对象); // 这么写是为了防止使用者忘记设置解析对象
 		nlpReader.nodeResult = new Node();
 		nlpReader.parse(nlpReader.nodeResult, null);
 		nlpReader.nodeResult.print("", true);
-		//=============再语法分析========================
+		//=============语法分析========================
 		NLPwhat nlpWhat = new NLPwhat();
 		nlpWhat.parse(nlpReader.nodeResult);
 		nlpWhat.print("", true);
 
-		//=============再做成MAP========================
+		//=============做成MAP========================
 		Map nlp解析结果Json = new HashMap();
 		Map CRUDmap = new HashMap();
 		CRUDmap.put("操作", "追加");
 		CRUDmap.put("目标", "什么");
 		//----------前面有两层是不可用的----------
-		List<NLPwhat> nlpWhatList1 = nlpWhat.getListWhat();//ROOT
-		List<NLPwhat> nlpWhatList2 = nlpWhatList1.get(0).getListWhat();//IP
+	//	List<NLPwhat> nlpWhatList1 = nlpWhat.getListWhat();//ROOT
+	//	List<NLPwhat> nlpWhatList2 = nlpWhatList1.get(0).getListWhat();//IP
 		//----------要把Bean 转成后 Map----------
 //		ObjectMapper m = new ObjectMapper();
 //		Map<String,Object> nlpWhatMap = m.convertValue(nlpWhatList1.get(0), Map.class);
@@ -227,7 +226,8 @@ public class NLPreader extends NLPreaderBase {
 			---------------------------------------------------
 		 */
 		Map 什么map = new HashMap();
-		什么map.put("什么", nlpWhatList1.get(0));
+	//	什么map.put("什么", nlpWhatList1.get(0));
+		什么map.put("什么", nlpWhat);
 		CRUDmap.put("条件", 什么map);
 		nlp解析结果Json.put("CRUD", CRUDmap);
 
