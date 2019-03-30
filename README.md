@@ -135,3 +135,5 @@
       
       关于Redis
       参考https://redis.io/topics/quickstart
+      
+      暂时不要了，因为我觉得他也比较费时 2019-3-31
