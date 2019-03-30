@@ -107,6 +107,8 @@
     
       （略，回头追加预定）
        stanford-chinese-corenlp-2018-10-05-models.jar 的Jar太大，也不在maven上，要自己下载加到项目里。 2019-1-27 
+       
+       https://github.com/sergey-tihon/Stanford.NLP.NET/issues/76  2019-3-31
     
     2,SDP解释器 的安装手顺
     
