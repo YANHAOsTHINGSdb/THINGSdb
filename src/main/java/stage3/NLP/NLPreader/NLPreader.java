@@ -1,10 +1,23 @@
 package stage3.NLP.NLPreader;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
 
+import edu.stanford.nlp.io.IOUtils;
+import edu.stanford.nlp.ling.CoreAnnotations;
+import edu.stanford.nlp.pipeline.Annotation;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import edu.stanford.nlp.semgraph.SemanticGraph;
+import edu.stanford.nlp.semgraph.SemanticGraphCoreAnnotations;
+import edu.stanford.nlp.trees.Tree;
+import edu.stanford.nlp.trees.TreeCoreAnnotations.TreeAnnotation;
+import edu.stanford.nlp.util.CoreMap;
 import lombok.Data;
 import stage3.things.multiConditionCalc.CRUDer;
 
@@ -190,9 +203,88 @@ public class NLPreader extends NLPreaderBase {
 	 * 入库代码的测试代码
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+		PrintWriter out;
+		if (args.length > 1) {
+			out = new PrintWriter(args[1]);
+		} else {
+			out = new PrintWriter(System.out);
+		}
+		Properties props = new Properties();
+		// /Users/haoyan/Desktop/history/20190110/SpringRestfulWebServicesCRUDExample/src/main/resources/stanfordnlp/StanfordCoreNLP-chinese.properties
+		//InputStream inputSream = PublicName.class.getResourceAsStream("/stanfordnlp/StanfordCoreNLP-chinese.properties");
+		//InputStreamReader inputStreamReader = new InputStreamReader(inputSream, "UTF8");
+		props.load(IOUtils.readerFromString("StanfordCoreNLP-chinese.properties"));
+		//props.load(inputStreamReader);
+		StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+
+		Annotation document;
+		if (args.length > 0) {
+			document = new Annotation(IOUtils.slurpFileNoExceptions(args[0]));
+		} else {
+//			document = new Annotation("克林顿说，华盛顿将逐步落实对韩国的经济援助。金大中对克林顿的讲话报以掌声：克林顿总统在会谈中重申，他坚定地支持韩国摆脱经济危机。");
+//			document = new Annotation("自然语言是人类思维与交流的主要工具，是人类智慧的结晶。");
+			document = new Annotation("钱塘江浩浩江水，日日夜夜无穷无尽的从临安牛家村边绕过，东流入海。");
+		}
+
+		pipeline.annotate(document);
+		List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
+
+		Tree tree = null ;
+		int sentNo = 1;
+		for (CoreMap sentence : sentences) {
+			out.println("Sentence #" + sentNo + " tokens are:");
+			for (CoreMap token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
+				out.println(token.toShorterString("Text", "CharacterOffsetBegin", "CharacterOffsetEnd", "Index",
+						"PartOfSpeech", "NamedEntityTag"));
+			}
+
+			out.println("Sentence #" + sentNo + " basic dependencies are:");
+			out.println(sentence.get(SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class)
+					.toString(SemanticGraph.OutputFormat.LIST));
+			sentNo++;
+
+	        // 句子的解析树
+	        tree = sentence.get(TreeAnnotation.class);
+	        /**
+				(ROOT
+				  (IP
+				    (NP
+				      (NP
+				        (NP (NR 钱塘江))
+				        (NP (NR 浩浩))
+				        (NP (NN 江水)))
+				      (PU ，)
+				      (NP
+				        (CP
+				          (IP
+				            (NP (NN 日日夜夜))
+				            (VP (VV 无穷无尽)))
+				          (DEC 的))
+				        (IP
+				          (IP
+				            (VP
+				              (PP (P 从)
+				                (NP
+				                  (NP (NR 临安))
+				                  (NP (NN 牛) (NN 家) (NN 村边))))
+				              (VP (VV 绕过))))
+				          (PU ，)
+				          (IP
+				            (VP
+				              (NP (NN 东流) (NN 入海)))))))
+				    (PU 。)))
+	         */
+	        tree.pennPrint();
+
+            // 句子的依赖图
+            SemanticGraph graph = sentence.get(SemanticGraphCoreAnnotations.CollapsedCCProcessedDependenciesAnnotation.class);
+            System.out.println(graph.toString(SemanticGraph.OutputFormat.LIST));
+		}
 		//=============sParse对象是斯坦福NLP解析出来的结果========================
-		String sParse对象 = "(ROOT (IP (ADVP (AD 自然)) (NP (NN 语言)) (VP (VP (VC 是) (NP(DNP(NP (NN 人类) (NN 思维) (CC 与) (NN 交流)) (DEG 的))(ADJP (JJ 主要)) (NP (NN 工具))))(PU ，) (VP (VC 是) (NP (DNP (NP (NN 人类) (NN 智慧)) (DEG 的)) (NP (NN 结晶))))) (PU 。)))";
+		//String sParse对象 = "(ROOT (IP (ADVP (AD 自然)) (NP (NN 语言)) (VP (VP (VC 是) (NP(DNP(NP (NN 人类) (NN 思维) (CC 与) (NN 交流)) (DEG 的))(ADJP (JJ 主要)) (NP (NN 工具))))(PU ，) (VP (VC 是) (NP (DNP (NP (NN 人类) (NN 智慧)) (DEG 的)) (NP (NN 结晶))))) (PU 。)))";
+		String sParse对象 = tree.toString();
+
 		//=============词法分析========================
 		sParse对象 = sParse对象.replace(" (", "(");
 		NLPreader nlpReader = new NLPreader(sParse对象); // 这么写是为了防止使用者忘记设置解析对象
