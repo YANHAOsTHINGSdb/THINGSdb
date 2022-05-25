@@ -11,7 +11,7 @@
 	<url>http://maven.apache.org</url>
 	<description>THINGSdb java framework</description>
 	<properties>
-		<spring.version>5.0.7.RELEASE</spring.version>
+		<spring.version>5.2.22.RELEASE</spring.version>
 		<jdk.version>1.8</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring-boot.version>1.5.7.RELEASE</spring-boot.version>
